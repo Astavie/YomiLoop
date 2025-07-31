@@ -4,11 +4,15 @@ using System.Diagnostics.CodeAnalysis;
 
 public partial class Thing : CharacterBody2D
 {
-    [Export] public float Drag = 4f;
+    [Export] public float GroundDrag = 8f;
+    [Export] public float FrozenDrag = 4f;
+    [Export] public float AirDrag = 0.67f;
     
     public const float Gravity = 9.8f;
 
-    public Transform2D Initial;
+    private Transform2D _initialTransform;
+    private Color _initialModulate;
+    
     public Thing Preview;
     public bool IsPreview = false;
     public bool IsFrozen = false;
@@ -33,7 +37,8 @@ public partial class Thing : CharacterBody2D
             ZIndex = 10;
             Modulate = new Color(0.8f, 0.8f, 1, 0.5f);
         }
-        Initial = Transform;
+        _initialTransform = Transform;
+        _initialModulate = Modulate;
         Physics.RegisterObject(this);
     }
 
@@ -43,22 +48,21 @@ public partial class Thing : CharacterBody2D
         if (IsPaused)
         {
             IsPaused = false;
+            AfterFrame();
             return;
         }
 
-        Velocity = new Vector2(Velocity.X * (float)(1 - Drag * delta), Velocity.Y);
+        var drag = IsFrozen ? FrozenDrag : (IsOnFloor() ? GroundDrag : AirDrag);
+        Velocity = new Vector2(Velocity.X * (float)(1 - drag * delta), IsFrozen ? 0 : Velocity.Y);
         if (IsFrozen)
         {
             MoveAndSlide();
         }
         else
         {
-            
             OnFrame(delta);
-
             Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
             MoveAndSlide();
-
             AfterFrame();
         }
     }
@@ -70,7 +74,8 @@ public partial class Thing : CharacterBody2D
 
     public virtual void Reset([MaybeNull] Thing parent)
     {
-        Transform = Initial;
+        Transform = _initialTransform;
+        Modulate = _initialModulate;
         Velocity = parent?.Velocity ?? Vector2.Zero;
         IsPaused = parent?.IsPaused ?? false;
         IsFrozen = parent?.IsFrozen ?? false;
@@ -79,18 +84,19 @@ public partial class Thing : CharacterBody2D
     public override void _MouseEnter()
     {
         if (Physics.OnClick == null) return;
-        Modulate = Colors.LightYellow;
+        Modulate *= Colors.LightYellow;
     }
 
     public override void _MouseExit()
     {
-        Modulate = Colors.White;
+        Modulate /= Colors.LightYellow;
     }
 
     public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
     {
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
         {
+            Modulate /= Colors.LightYellow;
             Physics.OnClick?.Invoke(this);
         }
     }

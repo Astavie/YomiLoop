@@ -14,6 +14,7 @@ public partial class Robo : Thing
 	public int MoveIndex = 0;
 	public int MoveFrame = 0;
 	public Thing Grabbed;
+	public bool PastSelf = false;
 
     public override void _Ready()
     {
@@ -32,11 +33,13 @@ public partial class Robo : Thing
     {
 	    animationTree.Advance(delta);
 	    
+	    // Advance to next frame
         if (MoveIndex >= Moves.Count) return;
         var move = Moves[MoveIndex];
         move.OnFrame(this, MoveFrame);
         MoveFrame++;
         
+        // Advance to next move
         if (MoveFrame < move.Frames) return;
         MoveFrame = 0;
         MoveIndex++;
@@ -44,10 +47,20 @@ public partial class Robo : Thing
 
     public override void AfterFrame()
     {
-	    if (Grabbed == null) return;
-	    Grabbed.Velocity = Vector2.Zero;
-	    Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
-	    Grabbed.IsPaused = true;
+	    if (Grabbed != null)
+	    {
+		    Grabbed.Velocity = Vector2.Zero;
+		    Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
+		    Grabbed.IsPaused = true;
+	    }
+
+	    if (MoveIndex >= Moves.Count && PastSelf)
+	    {
+		    Velocity = Vector2.Zero;
+		    Grabbed = null;
+		    IsFrozen = true;
+		    Modulate = new Color(1, 0.2f, 0.2f, IsPreview ? 0.5f : 1f);
+	    }
     }
 
     public override void Reset([MaybeNull] Thing parent)
@@ -62,8 +75,7 @@ public partial class Robo : Thing
         }
         else
         {
-	        playAnimation.Travel("RESET");
-	        animationTree.Advance(1);
+	        playAnimation.Travel("idle");
         }
     }
 
@@ -93,12 +105,12 @@ public partial class Robo : Thing
 	public static Move Ungrab = Move("Ungrab", 30, o => o.Grabbed = null);
 	public static Move ThrowLeft = Move("ThrowLeft", 30, o =>
 	{
-		o.Grabbed.Velocity = new Vector2(-512, -64);
+		o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? -512 : -256, o.Grabbed.IsFrozen ? 0 : -128);
 		o.Grabbed = null;
 	});
 	public static Move ThrowRight = Move("ThrowRight", 30, o =>
 	{
-		o.Grabbed.Velocity = new Vector2(512, -64);
+		o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? 512 : 256, o.Grabbed.IsFrozen ? 0 : -128);
 		o.Grabbed = null;
 	});
 	

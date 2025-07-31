@@ -103,8 +103,10 @@ public partial class Player : Node2D
 	public void HandleDie()
 	{
 		// Create new past self
-		Queued = die;
+		Queued = null;
 		Physics.ResetMovement();
+		Me.PastSelf = true;
+		Preview.PastSelf = true;
 		_pastSelves.Add(Me);
 		
 		// Create new Me
@@ -127,7 +129,6 @@ public partial class Player : Node2D
 		Physics.OnClick = null;
 		
 		_playState = PlayState.Preview;
-		thing.Modulate = Colors.White;
 
 		if (Me.CanGrab(thing))
 		{
@@ -135,12 +136,6 @@ public partial class Player : Node2D
 		}
 	}
 
-	private static Move die = new Move("Die", 1, (o, _) =>
-    {
-	    o.Velocity = Vector2.Zero;
-	    o.Grabbed = null;
-	    o.IsFrozen = true;
-    });
 	private static Move[] moves = new[]
 	{
 		Robo.MoveLeft,
