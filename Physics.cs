@@ -4,10 +4,10 @@ using System.Linq;
 
 public partial class Physics : Node
 {
-    private List<Object> _objects = new List<Object>();
-    private List<Object> _previews = new List<Object>();
+    private List<Thing> _objects = new List<Thing>();
+    private List<Thing> _previews = new List<Thing>();
     
-    public void RegisterObject(Object obj)
+    public void RegisterObject(Thing obj)
     {
         if (obj.IsPreview)
         {
@@ -21,7 +21,7 @@ public partial class Physics : Node
 
     public void StepMovement()
     {
-        foreach (Object obj in _objects.AsEnumerable().Reverse())
+        foreach (Thing obj in _objects.AsEnumerable().Reverse())
         {
             obj.StepMovement();
         }
@@ -29,16 +29,16 @@ public partial class Physics : Node
 
     public void ResetPreview()
     {
-        foreach (Object obj in _previews.AsEnumerable().Reverse())
+        foreach (Thing obj in _previews.AsEnumerable().Reverse())
         {
-            obj.Reset(obj.GetParent<Object>());
+            obj.Reset(obj.GetParent<Thing>());
             obj.Visible = false;
         }
     }
 
     public void ResetMovement()
     {
-        foreach (Object obj in _objects.AsEnumerable().Reverse())
+        foreach (Thing obj in _objects.AsEnumerable().Reverse())
         {
             obj.Reset(null);
         }
@@ -47,7 +47,7 @@ public partial class Physics : Node
     
     public void StepPreview()
     {
-        foreach (Object obj in _previews.AsEnumerable().Reverse())
+        foreach (Thing obj in _previews.AsEnumerable().Reverse())
         {
             obj.StepMovement();
         }

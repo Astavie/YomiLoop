@@ -1,20 +1,18 @@
 using Godot;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-public partial class Object : CharacterBody2D
+public partial class Thing : CharacterBody2D
 {
     public static float Gravity = 9.8f;
 
     public Transform2D Initial;
-    public Object Preview;
+    public Thing Preview;
     public bool IsPreview = false;
     public bool IsDead = false;
     public bool IsPaused = false;
 
-    public List<Move> Moves = new List<Move>();
+    public List<Move> Moves = [];
     public int MoveIndex = 0;
     public int MoveFrame = 0;
 
@@ -25,7 +23,7 @@ public partial class Object : CharacterBody2D
         
         if (MoveIndex < Moves.Count)
         {
-            var move = Moves[MoveIndex];
+            Move move = Moves[MoveIndex];
             move.OnFrame(this, MoveFrame);
             MoveFrame++;
             if (MoveFrame >= move.Frames)
@@ -46,7 +44,7 @@ public partial class Object : CharacterBody2D
         MoveAndSlide();
     }
 
-    public virtual void Reset([MaybeNull] Object parent)
+    public virtual void Reset([MaybeNull] Thing parent)
     {
         Transform = Initial;
         Velocity = parent?.Velocity ?? Vector2.Zero;
@@ -58,7 +56,7 @@ public partial class Object : CharacterBody2D
     {
         if (!IsPreview)
         {
-            Preview = (Object)this.Duplicate();
+            Preview = (Thing)this.Duplicate();
             Preview.IsPreview = true;
             Preview.Moves = this.Moves;
             this.AddChild(Preview);
@@ -76,7 +74,7 @@ public partial class Object : CharacterBody2D
         physics.RegisterObject(this);
     }
 
-    public static Move Move(String name, int frames, float? xspeed = null, float? yspeed = null)
+    public static Move Move(string name, int frames, float? xspeed = null, float? yspeed = null)
     {
         return new Move(
             name,

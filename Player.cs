@@ -1,56 +1,55 @@
 using System;
 using Godot;
-using System.Collections;
 using System.Collections.Generic;
 
-public struct Move(String name, int frames, Action<Object, int> onFrame)
+public struct Move(String name, int frames, Action<Thing, int> onFrame)
 {
-    public String Name = name;
+	public String Name = name;
     public int Frames = frames;
-    public Action<Object, int> OnFrame = onFrame;
+    public Action<Thing, int> OnFrame = onFrame;
 }
 
 public partial class Player : Node2D
 {
-    private PackedScene PlayerScene { get => GD.Load<PackedScene>("res://object.tscn"); }
+	private static PackedScene PlayerScene => GD.Load<PackedScene>("res://object.tscn");
 
-    private List<Object> _pastSelves = new List<Object>();
+	private List<Thing> _pastSelves = [];
 
-    private bool Running = false;
-    private Object Me;
-    private Object Preview { get => Me.Preview; }
-    private Physics Physics { get => GetNode<Physics>("/root/Physics"); }
+	private bool Running = false;
+	private Thing Me;
+	private Thing Preview => Me.Preview;
+	private Physics Physics => GetNode<Physics>("/root/Physics");
     private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
 
-    private Move? Queued
-    {
-        get
-        {
-            if (Me.MoveIndex < Me.Moves.Count)
-                return Me.Moves[Me.MoveIndex];
-            return null;
-        }
-        set
-        {
-            Physics.ResetPreview();
-            if (Me.MoveIndex < Me.Moves.Count)
-            {
-                if (value.HasValue)
-                    Me.Moves[Me.MoveIndex] = value.Value;
-                else
-                    Me.Moves.RemoveAt(Me.MoveIndex);
-            }
-            else if (value.HasValue)
-            {
-                Me.Moves.Add(value.Value);
-            }
-        }
-    }
+	private Move? Queued
+	{
+		get
+		{
+			if (Me.MoveIndex < Me.Moves.Count)
+				return Me.Moves[Me.MoveIndex];
+			return null;
+		}
+		set
+		{
+			Physics.ResetPreview();
+			if (Me.MoveIndex < Me.Moves.Count)
+			{
+				if (value.HasValue)
+					Me.Moves[Me.MoveIndex] = value.Value;
+				else
+					Me.Moves.RemoveAt(Me.MoveIndex);
+			}
+			else if (value.HasValue)
+			{
+				Me.Moves.Add(value.Value);
+			}
+		}
+	}
 
-    public override void _Ready()
-    {
-        // Create player character
-        Me = PlayerScene.Instantiate<Object>();
+	public override void _Ready()
+	{
+		// Create player character
+        Me = PlayerScene.Instantiate<Thing>();
         AddChild(Me);
         
         // Create movement buttons
@@ -90,23 +89,23 @@ public partial class Player : Node2D
         }
     }
 
-    public void HandleDie()
-    {
-        // Create new past self
-        Queued = die;
-        Physics.ResetMovement();
-        _pastSelves.Add(Me);
+	public void HandleDie()
+	{
+		// Create new past self
+		Queued = die;
+		Physics.ResetMovement();
+		_pastSelves.Add(Me);
         
         // Create new Me
-        Me = PlayerScene.Instantiate<Object>();
-        AddChild(Me);
-    }
+        Me = PlayerScene.Instantiate<Thing>();
+		AddChild(Me);
+	}
 
     private static Move die = new Move("Die", 1, (o, _) => o.IsDead = true);
     private static Move[] moves = new[]
     {
-        Object.Move("Left", 60, xspeed:-64),
-        Object.Move("Right", 60, xspeed: 64),
-        Object.Move("Wait", 60, xspeed: 0),
+        Thing.Move("Left", 60, xspeed:-64),
+        Thing.Move("Right", 60, xspeed: 64),
+        Thing.Move("Wait", 60, xspeed: 0),
     };
 }
