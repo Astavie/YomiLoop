@@ -11,27 +11,18 @@ public partial class Thing : CharacterBody2D
     public bool IsPreview = false;
     public bool IsDead = false;
     public bool IsPaused = false;
-
-    public List<Move> Moves = [];
-    public int MoveIndex = 0;
-    public int MoveFrame = 0;
+    
+    private Physics Physics => GetNode<Physics>("/root/Physics");
 
     public void StepMovement()
     {
         if (IsPaused)
-            return;
-        
-        if (MoveIndex < Moves.Count)
         {
-            Move move = Moves[MoveIndex];
-            move.OnFrame(this, MoveFrame);
-            MoveFrame++;
-            if (MoveFrame >= move.Frames)
-            {
-                MoveFrame = 0;
-                MoveIndex++;
-            }
+            IsPaused = false;
+            return;
         }
+        
+        OnFrame();
         
         if (IsDead)
         {
@@ -43,13 +34,19 @@ public partial class Thing : CharacterBody2D
         Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
         MoveAndSlide();
     }
+    
+    public virtual void OnFrame() {}
+
+    public Thing OrPreview(Thing player)
+    {
+        if (player.IsPreview) return this.Preview;
+        return this;
+    }
 
     public virtual void Reset([MaybeNull] Thing parent)
     {
         Transform = Initial;
         Velocity = parent?.Velocity ?? Vector2.Zero;
-        MoveIndex = parent?.MoveIndex ?? 0;
-        MoveFrame = parent?.MoveFrame ?? 0;
     }
 
     public override void _Ready()
@@ -58,8 +55,8 @@ public partial class Thing : CharacterBody2D
         {
             Preview = (Thing)this.Duplicate();
             Preview.IsPreview = true;
-            Preview.Moves = this.Moves;
             this.AddChild(Preview);
+            InputPickable = true;
         }
         else
         {
@@ -74,13 +71,22 @@ public partial class Thing : CharacterBody2D
         physics.RegisterObject(this);
     }
 
-    public static Move Move(string name, int frames, float? xspeed = null, float? yspeed = null)
+    public override void _MouseEnter()
     {
-        return new Move(
-            name,
-            frames, 
-            (o, _) =>
-                o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y)
-            );
+        if (Physics.OnClick == null) return;
+        Modulate = Colors.LightYellow;
+    }
+
+    public override void _MouseExit()
+    {
+        Modulate = Colors.White;
+    }
+
+    public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
+    {
+        if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+        {
+            Physics.OnClick?.Invoke(this);
+        }
     }
 }

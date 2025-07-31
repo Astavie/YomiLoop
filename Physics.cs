@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,17 +7,16 @@ public partial class Physics : Node
 {
     private List<Thing> _objects = new List<Thing>();
     private List<Thing> _previews = new List<Thing>();
+    public Action<Thing> OnClick = null;
+    
+    public IEnumerable<Thing> Objects => _objects;
     
     public void RegisterObject(Thing obj)
     {
         if (obj.IsPreview)
-        {
             _previews.Add(obj);
-        }
         else
-        {
             _objects.Add(obj);
-        }
     }
 
     public void StepMovement()

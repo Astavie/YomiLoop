@@ -2,22 +2,29 @@ using System;
 using Godot;
 using System.Collections.Generic;
 
-public struct Move(String name, int frames, Action<Thing, int> onFrame)
+public struct Move(string name, int frames, Action<Robo, int> onFrame)
 {
-	public String Name = name;
-    public int Frames = frames;
-    public Action<Thing, int> OnFrame = onFrame;
+	public readonly string Name = name;
+    public readonly int Frames = frames;
+    public readonly Action<Robo, int> OnFrame = onFrame;
+}
+
+public enum PlayState
+{
+	Preview,
+	Running,
+	Grab,
 }
 
 public partial class Player : Node2D
 {
-	private static PackedScene PlayerScene => GD.Load<PackedScene>("res://object.tscn");
+	private static PackedScene PlayerScene => GD.Load<PackedScene>("res://objectrobo.tscn");
 
 	private List<Thing> _pastSelves = [];
 
-	private bool Running = false;
-	private Thing Me;
-	private Thing Preview => Me.Preview;
+	private PlayState _playState = PlayState.Preview;
+	private Robo Me;
+	private Robo Preview => (Robo)Me.Preview;
 	private Physics Physics => GetNode<Physics>("/root/Physics");
     private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
 
@@ -49,7 +56,7 @@ public partial class Player : Node2D
 	public override void _Ready()
 	{
 		// Create player character
-        Me = PlayerScene.Instantiate<Thing>();
+        Me = PlayerScene.Instantiate<Robo>();
         AddChild(Me);
         
         // Create movement buttons
@@ -65,14 +72,14 @@ public partial class Player : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Running)
+        if (_playState == PlayState.Running)
         {
             if (Me.MoveIndex >= Me.Moves.Count)
-                Running = false;
+                _playState = PlayState.Preview;
             else
                 Physics.StepMovement();
         }
-        else if (Queued.HasValue)
+        else if (_playState == PlayState.Preview && Queued.HasValue)
         {
             if (Preview.MoveIndex >= Preview.Moves.Count)
                 Physics.ResetPreview();
@@ -84,7 +91,7 @@ public partial class Player : Node2D
     {
         if (Queued.HasValue)
         {
-            Running = true;
+	        _playState = PlayState.Running;
             Physics.ResetPreview();
         }
     }
@@ -97,15 +104,35 @@ public partial class Player : Node2D
 		_pastSelves.Add(Me);
         
         // Create new Me
-        Me = PlayerScene.Instantiate<Thing>();
+        Me = PlayerScene.Instantiate<Robo>();
 		AddChild(Me);
+	}
+
+	public void HandleGrab()
+	{
+		Queued = null;
+		_playState = PlayState.Grab;
+		
+		Physics.OnClick = HandleClick;
+		Me.InputPickable = false;
+	}
+
+	public void HandleClick(Thing thing)
+	{
+		Me.InputPickable = true;
+		Physics.OnClick = null;
+		
+		_playState = PlayState.Preview;
+		thing.Modulate = Colors.White;
+		Queued = Robo.Grab(thing);
 	}
 
     private static Move die = new Move("Die", 1, (o, _) => o.IsDead = true);
     private static Move[] moves = new[]
     {
-        Thing.Move("Left", 60, xspeed:-64),
-        Thing.Move("Right", 60, xspeed: 64),
-        Thing.Move("Wait", 60, xspeed: 0),
+        Robo.Move("Left", 60, xspeed:-64),
+        Robo.Move("Right", 60, xspeed: 64),
+        Robo.Move("Wait", 30, xspeed: 0),
+        Robo.Action("Ungrab", 30, o => o.Grabbed = null),
     };
 }

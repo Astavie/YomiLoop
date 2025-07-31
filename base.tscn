@@ -53,5 +53,10 @@ text = "Perform"
 layout_mode = 2
 text = "Die"
 
+[node name="Button" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Grab"
+
 [connection signal="pressed" from="Buttons/Perform" to="Door" method="HandlePerform"]
 [connection signal="pressed" from="Buttons/Die" to="Door" method="HandleDie"]
+[connection signal="pressed" from="Buttons/Button" to="Door" method="HandleGrab"]
