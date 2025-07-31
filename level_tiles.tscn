@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3gapqcjoivkn"]
+
+[ext_resource type="TileSet" uid="uid://cp0gsljqt2qt3" path="res://level_tiles.tres" id="1_synhc"]
+
+[node name="LevelTiles" type="TileMapLayer"]
+tile_set = ExtResource("1_synhc")
