@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://4034aehate3n"]
+[gd_scene load_steps=60 format=3 uid="uid://4034aehate3n"]
 
 [ext_resource type="Texture2D" uid="uid://3pywb0o6n6vy" path="res://assets/robo/robo_directions.png" id="1_mid84"]
 [ext_resource type="Script" uid="uid://74go3kcb6ayl" path="res://Robo.cs" id="1_o68hb"]
@@ -992,23 +992,31 @@ region = Rect2(0, 0, 20, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i8247"]
 atlas = ExtResource("4_45lv5")
-region = Rect2(21, 0, 20, 30)
+region = Rect2(20, 0, 20, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nkha6"]
 atlas = ExtResource("4_45lv5")
-region = Rect2(42, 0, 20, 30)
+region = Rect2(40, 0, 20, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3a7vp"]
 atlas = ExtResource("4_45lv5")
-region = Rect2(63, 0, 20, 30)
+region = Rect2(60, 0, 20, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2d4xm"]
 atlas = ExtResource("4_45lv5")
-region = Rect2(84, 0, 20, 30)
+region = Rect2(80, 0, 20, 30)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ifjwq"]
 atlas = ExtResource("4_45lv5")
-region = Rect2(105, 0, 20, 30)
+region = Rect2(100, 0, 20, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k475n"]
+atlas = ExtResource("4_45lv5")
+region = Rect2(120, 0, 20, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cohhw"]
+atlas = ExtResource("3_k0gj0")
+region = Rect2(0, 0, 20, 30)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_cghb5"]
 animations = [{
@@ -1070,6 +1078,12 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ifjwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k475n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cohhw")
 }],
 "loop": true,
 "name": &"transform",
@@ -1174,12 +1188,13 @@ libraries = {
 position = Vector2(0, -26)
 
 [node name="Body" type="AnimatedSprite2D" parent="Sprites"]
-position = Vector2(0, 0.770905)
 sprite_frames = SubResource("SpriteFrames_cghb5")
+animation = &"transform"
 
 [node name="Face" type="AnimatedSprite2D" parent="Sprites/Body"]
 position = Vector2(0, 5)
 sprite_frames = SubResource("SpriteFrames_u1tim")
+frame = 1
 
 [node name="Wheel" type="AnimatedSprite2D" parent="Sprites"]
 z_index = -1
@@ -1188,12 +1203,12 @@ sprite_frames = SubResource("SpriteFrames_ywes8")
 
 [node name="RightHand" type="AnimatedSprite2D" parent="Sprites"]
 z_index = -1
-position = Vector2(11, 14.6145)
+position = Vector2(11, 15)
 rotation = -0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
 [node name="LeftHand" type="AnimatedSprite2D" parent="Sprites"]
 z_index = -1
-position = Vector2(-12, 14.6145)
+position = Vector2(-12, 15)
 rotation = 0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
