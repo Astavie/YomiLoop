@@ -21,12 +21,6 @@ public partial class Robo : Thing
 
     public override void OnFrame()
     {
-        if (Grabbed != null)
-        {
-            // TODO: make grabbed follow us
-            Grabbed.IsPaused = true;
-        }
-
         if (MoveIndex >= Moves.Count) return;
         var move = Moves[MoveIndex];
         move.OnFrame(this, MoveFrame);
@@ -37,12 +31,26 @@ public partial class Robo : Thing
         MoveIndex++;
     }
 
+    public override void AfterFrame()
+    {
+        if (Grabbed == null) return;
+        Grabbed.Velocity = Vector2.Zero;
+        Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
+        Grabbed.IsPaused = true;
+    }
+
     public override void Reset([MaybeNull] Thing parent)
     {
         base.Reset(parent);
         var robo = (Robo)parent;
         MoveIndex = robo?.MoveIndex ?? 0;
         MoveFrame = robo?.MoveFrame ?? 0;
+        Grabbed = robo?.Grabbed?.Preview;
+    }
+
+    public bool CanGrab(Thing thing)
+    {
+        return thing.GlobalPosition.DistanceSquaredTo(GlobalPosition) < GrabDistance * GrabDistance;
     }
 
     public static Move Move(string name, int frames, float? xspeed = null, float? yspeed = null)
@@ -73,7 +81,7 @@ public partial class Robo : Thing
         return Action("Grab", 30, o =>
         {
             var grabbed = thing.OrPreview(o);
-            if (grabbed.GlobalPosition.DistanceSquaredTo(o.GlobalPosition) < o.GrabDistance * o.GrabDistance)
+            if (o.CanGrab(grabbed))
             {
                 o.Grabbed = grabbed;
             }

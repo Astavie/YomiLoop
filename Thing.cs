@@ -36,22 +36,24 @@ public partial class Thing : CharacterBody2D
 
     public void StepMovement()
     {
+        Visible = true;
         if (IsPaused)
         {
             IsPaused = false;
             return;
         }
+        if (IsFrozen) return;
         
         OnFrame();
         
-        if (IsFrozen) return;
-        
-        Visible = true;
         Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
         MoveAndSlide();
+        
+        AfterFrame();
     }
     
     public virtual void OnFrame() {}
+    public virtual void AfterFrame() {}
 
     public Thing OrPreview(Thing player)
     {
@@ -63,6 +65,8 @@ public partial class Thing : CharacterBody2D
     {
         Transform = Initial;
         Velocity = parent?.Velocity ?? Vector2.Zero;
+        IsPaused = false;
+        IsFrozen = false;
     }
 
     public override void _MouseEnter()

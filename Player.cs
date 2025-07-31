@@ -127,10 +127,18 @@ public partial class Player : Node2D
 		
 		_playState = PlayState.Preview;
 		thing.Modulate = Colors.White;
-		Queued = Robo.Grab(thing);
+
+		if (Me.CanGrab(thing))
+		{
+			Queued = Robo.Grab(thing);
+		}
 	}
 
-    private static Move die = new Move("Die", 1, (o, _) => o.IsFrozen = true);
+    private static Move die = new Move("Die", 1, (o, _) =>
+    {
+	    o.Grabbed = null;
+	    o.IsFrozen = true;
+    });
     private static Move[] moves = new[]
     {
         Robo.Move("Left", 60, xspeed:-64),
