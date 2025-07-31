@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public struct Move(string name, int frames, Action<Robo, int> onFrame)
 {
 	public readonly string Name = name;
-    public readonly int Frames = frames;
-    public readonly Action<Robo, int> OnFrame = onFrame;
+	public readonly int Frames = frames;
+	public readonly Action<Robo, int> OnFrame = onFrame;
 }
 
 public enum PlayState
@@ -18,7 +18,8 @@ public enum PlayState
 
 public partial class Player : Node2D
 {
-	private static PackedScene PlayerScene => GD.Load<PackedScene>("res://objectrobo.tscn");
+	[Export]
+	public PackedScene PlayerScene { get; set; }
 
 	private List<Thing> _pastSelves = [];
 
@@ -26,7 +27,7 @@ public partial class Player : Node2D
 	private Robo Me;
 	private Robo Preview => (Robo)Me.Preview;
 	private Physics Physics => GetNode<Physics>("/root/Physics");
-    private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
+	private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
 
 	private Move? Queued
 	{
@@ -56,19 +57,19 @@ public partial class Player : Node2D
 	public override void _Ready()
 	{
 		// Create player character
-        Me = PlayerScene.Instantiate<Robo>();
-        AddChild(Me);
-        
-        // Create movement buttons
-        var buttons = Buttons;
-        foreach (var move in moves)
-        {
-            var button = new Button();
-            button.Text = move.Name;
-            button.Pressed += () => Queued = move;
-            buttons.AddChild(button);
-        }
-    }
+		Me = PlayerScene.Instantiate<Robo>();
+		AddChild(Me);
+		
+		// Create movement buttons
+		var buttons = Buttons;
+		foreach (var move in moves)
+		{
+			var button = new Button();
+			button.Text = move.Name;
+			button.Pressed += () => Queued = move;
+			buttons.AddChild(button);
+		}
+	}
 
     public override void _PhysicsProcess(double delta)
     {
@@ -105,9 +106,9 @@ public partial class Player : Node2D
 		Queued = die;
 		Physics.ResetMovement();
 		_pastSelves.Add(Me);
-        
-        // Create new Me
-        Me = PlayerScene.Instantiate<Robo>();
+		
+		// Create new Me
+		Me = PlayerScene.Instantiate<Robo>();
 		AddChild(Me);
 	}
 
@@ -134,16 +135,16 @@ public partial class Player : Node2D
 		}
 	}
 
-    private static Move die = new Move("Die", 1, (o, _) =>
+	private static Move die = new Move("Die", 1, (o, _) =>
     {
 	    o.Grabbed = null;
 	    o.IsFrozen = true;
     });
-    private static Move[] moves = new[]
-    {
-        Robo.Move("Left", 60, xspeed:-64),
-        Robo.Move("Right", 60, xspeed: 64),
-        Robo.Move("Wait", 30, xspeed: 0),
-        Robo.Action("Ungrab", 30, o => o.Grabbed = null),
-    };
+	private static Move[] moves = new[]
+	{
+		Robo.MoveLeft,
+		Robo.MoveRight,
+		Robo.Wait,
+		Robo.Move("Ungrab", 30, o => o.Grabbed = null),
+	};
 }

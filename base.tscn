@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8ag00buo1yic"]
+[gd_scene load_steps=6 format=3 uid="uid://c8ag00buo1yic"]
 
 [ext_resource type="Script" uid="uid://cakhcgpswd660" path="res://Player.cs" id="1_3vi8l"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://object.tscn" id="1_rpg24"]
+[ext_resource type="PackedScene" uid="uid://4034aehate3n" path="res://robo.tscn" id="2_ohhpf"]
 [ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="3_8rhti"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpg24"]
@@ -12,6 +13,7 @@ size = Vector2(128, 128)
 [node name="Door" type="Node2D" parent="."]
 position = Vector2(145, 176)
 script = ExtResource("1_3vi8l")
+PlayerScene = ExtResource("2_ohhpf")
 
 [node name="Sprite2D" type="Sprite2D" parent="Door"]
 position = Vector2(0, -32)

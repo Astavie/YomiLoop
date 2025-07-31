@@ -5,16 +5,21 @@ using System.Diagnostics.CodeAnalysis;
 
 public partial class Robo : Thing
 {
-    [Export] public float GrabDistance = 48;
+	[Export] public float GrabDistance = 48;
 
-    public List<Move> Moves = [];
-    public int MoveIndex = 0;
-    public int MoveFrame = 0;
-    public Thing Grabbed;
+	private AnimationTree animationTree;
+	private AnimationNodeStateMachinePlayback playAnimation;
+	
+	public List<Move> Moves = [];
+	public int MoveIndex = 0;
+	public int MoveFrame = 0;
+	public Thing Grabbed;
 
     public override void _Ready()
     {
         base._Ready();
+        animationTree = GetNode<AnimationTree>("AnimationTree");
+        playAnimation = (AnimationNodeStateMachinePlayback)animationTree.Get("parameters/playback");
         if (IsPreview)
             Moves = GetParent<Robo>().Moves;
     }
@@ -33,10 +38,10 @@ public partial class Robo : Thing
 
     public override void AfterFrame()
     {
-        if (Grabbed == null) return;
-        Grabbed.Velocity = Vector2.Zero;
-        Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
-        Grabbed.IsPaused = true;
+	    if (Grabbed == null) return;
+	    Grabbed.Velocity = Vector2.Zero;
+	    Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
+	    Grabbed.IsPaused = true;
     }
 
     public override void Reset([MaybeNull] Thing parent)
@@ -46,46 +51,41 @@ public partial class Robo : Thing
         MoveIndex = robo?.MoveIndex ?? 0;
         MoveFrame = robo?.MoveFrame ?? 0;
         Grabbed = robo?.Grabbed?.Preview;
+        if (robo is not null) {
+	        playAnimation.Start(robo.playAnimation.GetCurrentNode(), false);
+        }
     }
 
     public bool CanGrab(Thing thing)
     {
-        return thing.GlobalPosition.DistanceSquaredTo(GlobalPosition) < GrabDistance * GrabDistance;
+	    return thing.GlobalPosition.DistanceSquaredTo(GlobalPosition) < GrabDistance * GrabDistance;
     }
 
-    public static Move Move(string name, int frames, float? xspeed = null, float? yspeed = null)
-    {
-        return new Move(
-            name,
-            frames, 
-            (o, _) =>
-                o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y)
-        );
-    }
+	public static Move Move(string name, int frames, Action<Robo> action = null, float? xspeed = null, float? yspeed = null) {
+		return new Move(
+			name,
+			frames, 
+			(o, frame) => {
+				if (frame == 0) action?.Invoke(o);
+				o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
+			}
+		);
+	}
 
-    public static Move Action(string name, int frames, Action<Robo> action)
-    {
-        return new Move(
-            name,
-            frames,
-            (o, frame) =>
-            {
-                if (frame == 0) action(o);
-                o.Velocity = new Vector2(0, o.Velocity.Y);
-            }
-        );
-    }
+	public static Move MoveLeft = Move("MoveLeft", 60, o => o.playAnimation.Travel("moving_left"), -64);
+	public static Move MoveRight = Move("MoveRight", 60, o => o.playAnimation.Travel("moving_right"), 64);
+	public static Move Wait = Move("Wait", 30, o => o.playAnimation.Travel("idle"), 0);
 
-    public static Move Grab(Thing thing)
-    {
-        return Action("Grab", 30, o =>
-        {
-            var grabbed = thing.OrPreview(o);
-            if (o.CanGrab(grabbed))
-            {
-                o.Grabbed = grabbed;
-            }
-        });
-    }
+	public static Move Grab(Thing thing)
+	{
+		return Move("Grab", 30, xspeed: 0, action: o =>
+		{
+			Thing grabbed = thing.OrPreview(o);
+			if (o.CanGrab(grabbed))
+			{
+				o.Grabbed = grabbed;
+			}
+		});
+	}
 
 }
