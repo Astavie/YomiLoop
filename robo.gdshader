@@ -1,7 +1,7 @@
 shader_type canvas_item;
 render_mode unshaded;
 
-uniform float abberation = 0.0;
+uniform float aberration = 0.0;
 uniform vec2 redDir = vec2(1, 0);
 uniform vec2 greenDir = vec2(0, 1);
 uniform vec2 blueDir = vec2(-1, 0);
@@ -20,9 +20,9 @@ void fragment() {
 	vec2 greenDirRot = rotate(greenDir, -TIME * 3.0);
 	vec2 blueDirRot = rotate(blueDir, TIME * 5.0);
 	
-	vec2 redUv = SCREEN_UV + abberation * redDirRot / vec2(640, 360);
-	vec2 greenUv = SCREEN_UV + abberation * greenDirRot / vec2(640, 360);
-	vec2 blueUv = SCREEN_UV + abberation * blueDirRot / vec2(640, 360);
+	vec2 redUv = SCREEN_UV + aberration * redDirRot / vec2(640, 360);
+	vec2 greenUv = SCREEN_UV + aberration * greenDirRot / vec2(640, 360);
+	vec2 blueUv = SCREEN_UV + aberration * blueDirRot / vec2(640, 360);
 	
 	vec4 red = textureLod(screen_texture, redUv, 0.0);
 	vec4 green = textureLod(screen_texture, greenUv, 0.0);

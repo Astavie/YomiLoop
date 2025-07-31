@@ -9,6 +9,7 @@ public partial class Robo : Thing
 
 	private AnimationTree animationTree;
 	private AnimationNodeStateMachinePlayback playAnimation;
+	private CanvasGroup[] BodyGroups;
 	
 	public List<Move> Moves = [];
 	public int MoveIndex = 0;
@@ -16,11 +17,30 @@ public partial class Robo : Thing
 	public Thing Grabbed;
 	public bool PastSelf = false;
 
+	public float Aberration
+	{
+		get => BodyGroups[0].Material.Get("shader_parameter/aberration").AsSingle();
+		set
+		{
+			foreach (var group in BodyGroups)
+			{
+				group.Material.Set("shader_parameter/aberration", value);
+			}
+		}
+	}
+
     public override void _Ready()
     {
         base._Ready();
         animationTree = GetNode<AnimationTree>("AnimationTree");
         playAnimation = (AnimationNodeStateMachinePlayback)animationTree.Get("parameters/playback");
+        BodyGroups = new[]
+        {
+	        GetNode<CanvasGroup>("Sprites/BodyGroup"),
+	        GetNode<CanvasGroup>("Sprites/WheelGroup"),
+	        GetNode<CanvasGroup>("Sprites/RightHandGroup"),
+	        GetNode<CanvasGroup>("Sprites/LeftHandGroup"),
+        };
         
         animationTree.CallbackModeProcess = AnimationMixer.AnimationCallbackModeProcess.Manual;
         playAnimation.Travel("idle");
@@ -60,8 +80,8 @@ public partial class Robo : Thing
 		    Velocity = Vector2.Zero;
 		    Grabbed = null;
 		    IsFrozen = true;
-		    Modulate = new Color(1, 0.2f, 0.2f, IsPreview ? 0.5f : 1f);
-	    }
+		    Aberration = 1.5f;
+		}
     }
 
     public override void Reset([MaybeNull] Thing parent)
@@ -71,6 +91,7 @@ public partial class Robo : Thing
         MoveIndex = robo?.MoveIndex ?? 0;
         MoveFrame = robo?.MoveFrame ?? 0;
         Grabbed = robo?.Grabbed?.Preview;
+        Aberration = robo?.Aberration ?? 0;
         if (robo is not null) {
 	        playAnimation.Start(robo.playAnimation.GetCurrentNode(), false);
         }

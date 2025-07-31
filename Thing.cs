@@ -89,6 +89,7 @@ public partial class Thing : CharacterBody2D
 
     public override void _MouseExit()
     {
+        if (Physics.OnClick == null) return;
         Modulate /= Colors.LightYellow;
     }
 

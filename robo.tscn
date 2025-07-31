@@ -1,8 +1,8 @@
-[gd_scene load_steps=59 format=3 uid="uid://4034aehate3n"]
+[gd_scene load_steps=63 format=3 uid="uid://4034aehate3n"]
 
 [ext_resource type="Texture2D" uid="uid://3pywb0o6n6vy" path="res://assets/robo/robo_directions.png" id="1_mid84"]
 [ext_resource type="Script" uid="uid://74go3kcb6ayl" path="res://Robo.cs" id="1_o68hb"]
-[ext_resource type="Material" uid="uid://cu261k4o1sryu" path="res://robo_material.tres" id="2_k0gj0"]
+[ext_resource type="Shader" uid="uid://ccax67xr74503" path="res://robo.gdshader" id="2_k0gj0"]
 [ext_resource type="Texture2D" uid="uid://b88q3j7n2fq6k" path="res://assets/robo/robo_hurt.png" id="2_o68hb"]
 [ext_resource type="Texture2D" uid="uid://cyce2jtur20vq" path="res://assets/robo/robo_hover.png" id="3_k0gj0"]
 [ext_resource type="Texture2D" uid="uid://oq2530uxky7i" path="res://assets/robo/robo_transform.png" id="4_45lv5"]
@@ -951,6 +951,14 @@ _data = {
 &"moving_right": SubResource("Animation_xi0du")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k0gj0"]
+resource_local_to_scene = true
+shader = ExtResource("2_k0gj0")
+shader_parameter/aberration = 0.0
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_o68hb"]
 atlas = ExtResource("1_mid84")
 region = Rect2(0, 0, 20, 30)
@@ -1100,6 +1108,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_45lv5"]
+resource_local_to_scene = true
+shader = ExtResource("2_k0gj0")
+shader_parameter/aberration = 0.0
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ya7cs"]
 atlas = ExtResource("10_08be0")
 region = Rect2(0, 0, 12, 12)
@@ -1129,6 +1145,14 @@ animations = [{
 "speed": 12.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s7t8c"]
+resource_local_to_scene = true
+shader = ExtResource("2_k0gj0")
+shader_parameter/aberration = 0.0
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6unwb"]
 atlas = ExtResource("11_cs0dw")
 region = Rect2(0, 0, 11, 18)
@@ -1150,6 +1174,14 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aevwq"]
+resource_local_to_scene = true
+shader = ExtResource("2_k0gj0")
+shader_parameter/aberration = 0.0
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
 
 [node name="Robo" type="CharacterBody2D"]
 z_index = 20
@@ -1175,43 +1207,41 @@ libraries = {
 position = Vector2(0, -26)
 
 [node name="BodyGroup" type="CanvasGroup" parent="Sprites"]
-material = ExtResource("2_k0gj0")
+material = SubResource("ShaderMaterial_k0gj0")
 
 [node name="Body" type="AnimatedSprite2D" parent="Sprites/BodyGroup"]
-position = Vector2(3, 1.24398)
-rotation = 0.148143
+position = Vector2(0, 1.53484)
 sprite_frames = SubResource("SpriteFrames_cghb5")
-frame = 1
 
 [node name="Face" type="AnimatedSprite2D" parent="Sprites/BodyGroup/Body"]
 position = Vector2(0, 5)
 sprite_frames = SubResource("SpriteFrames_u1tim")
-frame = 1
 
 [node name="WheelGroup" type="CanvasGroup" parent="Sprites"]
 z_index = -1
-material = ExtResource("2_k0gj0")
+material = SubResource("ShaderMaterial_45lv5")
+use_parent_material = true
 
 [node name="Wheel" type="AnimatedSprite2D" parent="Sprites/WheelGroup"]
 position = Vector2(0, 21)
-rotation = 0.139626
 sprite_frames = SubResource("SpriteFrames_ywes8")
-frame = 1
 
 [node name="RightHandGroup" type="CanvasGroup" parent="Sprites"]
-z_index = -2
-material = ExtResource("2_k0gj0")
+z_index = -1
+material = SubResource("ShaderMaterial_s7t8c")
+use_parent_material = true
 
 [node name="RightHand" type="AnimatedSprite2D" parent="Sprites/RightHandGroup"]
-position = Vector2(-5, 15)
-rotation = 0.54489
+position = Vector2(11, 14.2326)
+rotation = -0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
 [node name="LeftHandGroup" type="CanvasGroup" parent="Sprites"]
-z_index = 1
-material = ExtResource("2_k0gj0")
+z_index = -1
+material = SubResource("ShaderMaterial_aevwq")
+use_parent_material = true
 
 [node name="LeftHand" type="AnimatedSprite2D" parent="Sprites/LeftHandGroup"]
-position = Vector2(-12, 15)
-rotation = 0.632156
+position = Vector2(-12, 14.2326)
+rotation = 0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
