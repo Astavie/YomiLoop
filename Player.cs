@@ -3,8 +3,9 @@ using Godot;
 using System.Collections;
 using System.Collections.Generic;
 
-public struct Move(int frames, Action<Object, int> onFrame)
+public struct Move(String name, int frames, Action<Object, int> onFrame)
 {
+    public String Name = name;
     public int Frames = frames;
     public Action<Object, int> OnFrame = onFrame;
 }
@@ -19,6 +20,7 @@ public partial class Player : Node2D
     private Object Me;
     private Object Preview { get => Me.Preview; }
     private Physics Physics { get => GetNode<Physics>("/root/Physics"); }
+    private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
 
     private Move? Queued
     {
@@ -47,8 +49,19 @@ public partial class Player : Node2D
 
     public override void _Ready()
     {
+        // Create player character
         Me = PlayerScene.Instantiate<Object>();
         AddChild(Me);
+        
+        // Create movement buttons
+        var buttons = Buttons;
+        foreach (var move in moves)
+        {
+            var button = new Button();
+            button.Text = move.Name;
+            button.Pressed += () => Queued = move;
+            buttons.AddChild(button);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -67,16 +80,6 @@ public partial class Player : Node2D
             Physics.StepPreview();
         }
     }
-
-    public void HandleLeftPress()
-    {
-        Queued = moveLeft;
-    }
-    
-    public void HandleRightPress()
-    {
-        Queued = moveRight;
-    }
     
     public void HandlePerform()
     {
@@ -92,13 +95,18 @@ public partial class Player : Node2D
         // Create new past self
         Queued = die;
         Physics.ResetMovement();
+        _pastSelves.Add(Me);
         
         // Create new Me
         Me = PlayerScene.Instantiate<Object>();
         AddChild(Me);
     }
 
-    private static Move moveRight = Object.Move(60, xspeed: 64);
-    private static Move moveLeft = Object.Move(60, xspeed:-64);
-    private static Move die = new Move(1, (o, _) => o.IsDead = true);
+    private static Move die = new Move("Die", 1, (o, _) => o.IsDead = true);
+    private static Move[] moves = new[]
+    {
+        Object.Move("Left", 60, xspeed:-64),
+        Object.Move("Right", 60, xspeed: 64),
+        Object.Move("Wait", 60, xspeed: 0),
+    };
 }

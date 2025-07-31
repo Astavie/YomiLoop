@@ -37,30 +37,21 @@ position = Vector2(388, 29)
 [node name="Object3" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(318, -23)
 
-[node name="HFlowContainer" type="HFlowContainer" parent="."]
-offset_left = 168.0
+[node name="Buttons" type="HFlowContainer" parent="."]
+unique_name_in_owner = true
+offset_left = -43.0
 offset_top = 303.0
-offset_right = 393.0
+offset_right = 623.0
 offset_bottom = 369.0
 alignment = 1
 
-[node name="Left" type="Button" parent="HFlowContainer"]
-layout_mode = 2
-text = "Left"
-
-[node name="Right" type="Button" parent="HFlowContainer"]
-layout_mode = 2
-text = "Right"
-
-[node name="Perform" type="Button" parent="HFlowContainer"]
+[node name="Perform" type="Button" parent="Buttons"]
 layout_mode = 2
 text = "Perform"
 
-[node name="Die" type="Button" parent="HFlowContainer"]
+[node name="Die" type="Button" parent="Buttons"]
 layout_mode = 2
 text = "Die"
 
-[connection signal="pressed" from="HFlowContainer/Left" to="Door" method="HandleLeftPress"]
-[connection signal="pressed" from="HFlowContainer/Right" to="Door" method="HandleRightPress"]
-[connection signal="pressed" from="HFlowContainer/Perform" to="Door" method="HandlePerform"]
-[connection signal="pressed" from="HFlowContainer/Die" to="Door" method="HandleDie"]
+[connection signal="pressed" from="Buttons/Perform" to="Door" method="HandlePerform"]
+[connection signal="pressed" from="Buttons/Die" to="Door" method="HandleDie"]

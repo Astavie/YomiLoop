@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 public partial class Object : CharacterBody2D
 {
@@ -45,23 +46,12 @@ public partial class Object : CharacterBody2D
         MoveAndSlide();
     }
 
-    public virtual void ResetPreview()
+    public virtual void Reset([MaybeNull] Object parent)
     {
         Transform = Initial;
-        Visible = false;
-        
-        var parent = GetParent<Object>();
-        Velocity = parent.Velocity;
-        MoveIndex = parent.MoveIndex;
-        MoveFrame = parent.MoveFrame;
-    }
-
-    public virtual void Reset()
-    {
-        Transform = Initial;
-        Velocity = Vector2.Zero;
-        MoveIndex = 0;
-        MoveFrame = 0;
+        Velocity = parent?.Velocity ?? Vector2.Zero;
+        MoveIndex = parent?.MoveIndex ?? 0;
+        MoveFrame = parent?.MoveFrame ?? 0;
     }
 
     public override void _Ready()
@@ -86,9 +76,10 @@ public partial class Object : CharacterBody2D
         physics.RegisterObject(this);
     }
 
-    public static Move Move(int frames, float? xspeed = null, float? yspeed = null)
+    public static Move Move(String name, int frames, float? xspeed = null, float? yspeed = null)
     {
         return new Move(
+            name,
             frames, 
             (o, _) =>
                 o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y)

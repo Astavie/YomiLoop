@@ -31,7 +31,8 @@ public partial class Physics : Node
     {
         foreach (Object obj in _previews.AsEnumerable().Reverse())
         {
-            obj.ResetPreview();
+            obj.Reset(obj.GetParent<Object>());
+            obj.Visible = false;
         }
     }
 
@@ -39,7 +40,7 @@ public partial class Physics : Node
     {
         foreach (Object obj in _objects.AsEnumerable().Reverse())
         {
-            obj.Reset();
+            obj.Reset(null);
         }
         ResetPreview();
     }
