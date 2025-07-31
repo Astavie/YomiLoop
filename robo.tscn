@@ -1181,12 +1181,10 @@ material = ExtResource("2_k0gj0")
 position = Vector2(3, 1.24398)
 rotation = 0.148143
 sprite_frames = SubResource("SpriteFrames_cghb5")
-frame = 1
 
 [node name="Face" type="AnimatedSprite2D" parent="Sprites/BodyGroup/Body"]
 position = Vector2(0, 5)
 sprite_frames = SubResource("SpriteFrames_u1tim")
-frame = 1
 
 [node name="WheelGroup" type="CanvasGroup" parent="Sprites"]
 z_index = -1
@@ -1203,7 +1201,7 @@ z_index = -2
 material = ExtResource("2_k0gj0")
 
 [node name="RightHand" type="AnimatedSprite2D" parent="Sprites/RightHandGroup"]
-position = Vector2(-5, 15)
+position = Vector2(-5, 14.0772)
 rotation = 0.54489
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
@@ -1212,6 +1210,6 @@ z_index = 1
 material = ExtResource("2_k0gj0")
 
 [node name="LeftHand" type="AnimatedSprite2D" parent="Sprites/LeftHandGroup"]
-position = Vector2(-12, 15)
+position = Vector2(-12, 14.0772)
 rotation = 0.632156
 sprite_frames = SubResource("SpriteFrames_6yfi1")
