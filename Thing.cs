@@ -13,14 +13,14 @@ public partial class Thing : CharacterBody2D
     public bool IsPaused = false;
     
     private Physics Physics => GetNode<Physics>("/root/Physics");
-
+    
     public override void _Ready()
     {
         if (!IsPreview)
         {
-            Preview = (Thing)this.Duplicate();
+            Preview = (Thing)Duplicate();
             Preview.IsPreview = true;
-            this.AddChild(Preview);
+            AddChild(Preview);
             InputPickable = true;
         }
         else
@@ -53,11 +53,7 @@ public partial class Thing : CharacterBody2D
     
     public virtual void OnFrame() {}
 
-    public Thing OrPreview(Thing player)
-    {
-        if (player.IsPreview) return this.Preview;
-        return this;
-    }
+    public Thing OrPreview(Thing player) => player.IsPreview ? Preview : this;
 
     public virtual void Reset([MaybeNull] Thing parent)
     {
