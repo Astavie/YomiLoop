@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 
 public partial class Robo : Thing
 {
+    [Export] public float GrabDistance = 48;
 
     public List<Move> Moves = [];
     public int MoveIndex = 0;
@@ -71,8 +72,11 @@ public partial class Robo : Thing
     {
         return Action("Grab", 30, o =>
         {
-            // TODO: check for distance
-            o.Grabbed = thing.OrPreview(o);
+            var grabbed = thing.OrPreview(o);
+            if (grabbed.GlobalPosition.DistanceSquaredTo(o.GlobalPosition) < o.GrabDistance * o.GrabDistance)
+            {
+                o.Grabbed = grabbed;
+            }
         });
     }
 

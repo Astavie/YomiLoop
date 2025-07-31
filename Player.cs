@@ -72,19 +72,22 @@ public partial class Player : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_playState == PlayState.Running)
-        {
-            if (Me.MoveIndex >= Me.Moves.Count)
-                _playState = PlayState.Preview;
-            else
-                Physics.StepMovement();
-        }
-        else if (_playState == PlayState.Preview && Queued.HasValue)
-        {
-            if (Preview.MoveIndex >= Preview.Moves.Count)
-                Physics.ResetPreview();
-            Physics.StepPreview();
-        }
+	    switch (_playState)
+	    {
+		    case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
+			    _playState = PlayState.Preview;
+			    break;
+		    case PlayState.Running:
+			    Physics.StepMovement();
+			    break;
+		    case PlayState.Preview when Queued.HasValue:
+		    {
+			    if (Preview.MoveIndex >= Preview.Moves.Count)
+				    Physics.ResetPreview();
+			    Physics.StepPreview();
+			    break;
+		    }
+	    }
     }
     
     public void HandlePerform()
@@ -127,7 +130,7 @@ public partial class Player : Node2D
 		Queued = Robo.Grab(thing);
 	}
 
-    private static Move die = new Move("Die", 1, (o, _) => o.IsDead = true);
+    private static Move die = new Move("Die", 1, (o, _) => o.IsFrozen = true);
     private static Move[] moves = new[]
     {
         Robo.Move("Left", 60, xspeed:-64),

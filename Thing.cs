@@ -4,50 +4,15 @@ using System.Diagnostics.CodeAnalysis;
 
 public partial class Thing : CharacterBody2D
 {
-    public static float Gravity = 9.8f;
+    public const float Gravity = 9.8f;
 
     public Transform2D Initial;
     public Thing Preview;
     public bool IsPreview = false;
-    public bool IsDead = false;
+    public bool IsFrozen = false;
     public bool IsPaused = false;
     
     private Physics Physics => GetNode<Physics>("/root/Physics");
-
-    public void StepMovement()
-    {
-        if (IsPaused)
-        {
-            IsPaused = false;
-            return;
-        }
-        
-        OnFrame();
-        
-        if (IsDead)
-        {
-            Visible = false;
-            return;
-        }
-        
-        Visible = true;
-        Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
-        MoveAndSlide();
-    }
-    
-    public virtual void OnFrame() {}
-
-    public Thing OrPreview(Thing player)
-    {
-        if (player.IsPreview) return this.Preview;
-        return this;
-    }
-
-    public virtual void Reset([MaybeNull] Thing parent)
-    {
-        Transform = Initial;
-        Velocity = parent?.Velocity ?? Vector2.Zero;
-    }
 
     public override void _Ready()
     {
@@ -66,9 +31,38 @@ public partial class Thing : CharacterBody2D
             Modulate = new Color(0.8f, 0.8f, 1, 0.5f);
         }
         Initial = Transform;
+        Physics.RegisterObject(this);
+    }
 
-        var physics = GetNode<Physics>("/root/Physics");
-        physics.RegisterObject(this);
+    public void StepMovement()
+    {
+        if (IsPaused)
+        {
+            IsPaused = false;
+            return;
+        }
+        
+        OnFrame();
+        
+        if (IsFrozen) return;
+        
+        Visible = true;
+        Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
+        MoveAndSlide();
+    }
+    
+    public virtual void OnFrame() {}
+
+    public Thing OrPreview(Thing player)
+    {
+        if (player.IsPreview) return this.Preview;
+        return this;
+    }
+
+    public virtual void Reset([MaybeNull] Thing parent)
+    {
+        Transform = Initial;
+        Velocity = parent?.Velocity ?? Vector2.Zero;
     }
 
     public override void _MouseEnter()
