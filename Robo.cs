@@ -54,6 +54,7 @@ public partial class Robo : Thing
 		    Grabbed.IsPaused = true;
 	    }
 
+	    // Death logic
 	    if (MoveIndex >= Moves.Count && PastSelf)
 	    {
 		    Velocity = Vector2.Zero;
@@ -75,7 +76,7 @@ public partial class Robo : Thing
         }
         else
         {
-	        playAnimation.Travel("idle");
+	        animationTree.GetNode<AnimationPlayer>(animationTree.AnimPlayer).Play("RESET");
         }
     }
 

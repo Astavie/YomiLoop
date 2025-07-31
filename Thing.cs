@@ -53,7 +53,7 @@ public partial class Thing : CharacterBody2D
         }
 
         var drag = IsFrozen ? FrozenDrag : (IsOnFloor() ? GroundDrag : AirDrag);
-        Velocity = new Vector2(Velocity.X * (float)(1 - drag * delta), IsFrozen ? 0 : Velocity.Y);
+        Velocity *= (float)(1 - drag * delta);
         if (IsFrozen)
         {
             MoveAndSlide();
