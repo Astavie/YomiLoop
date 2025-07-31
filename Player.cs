@@ -137,6 +137,7 @@ public partial class Player : Node2D
 
 	private static Move die = new Move("Die", 1, (o, _) =>
     {
+	    o.Velocity = Vector2.Zero;
 	    o.Grabbed = null;
 	    o.IsFrozen = true;
     });
@@ -145,6 +146,8 @@ public partial class Player : Node2D
 		Robo.MoveLeft,
 		Robo.MoveRight,
 		Robo.Wait,
-		Robo.Move("Ungrab", 30, o => o.Grabbed = null),
+		Robo.Ungrab,
+		Robo.ThrowLeft,
+		Robo.ThrowRight,
 	};
 }

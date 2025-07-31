@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 
 public partial class Thing : CharacterBody2D
 {
+    [Export] public float Drag = 4f;
+    
     public const float Gravity = 9.8f;
 
     public Transform2D Initial;
@@ -43,18 +45,26 @@ public partial class Thing : CharacterBody2D
             IsPaused = false;
             return;
         }
-        if (IsFrozen) return;
-        
-        OnFrame(delta);
-        
-        Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
-        MoveAndSlide();
-        
-        AfterFrame(delta);
+
+        Velocity = new Vector2(Velocity.X * (float)(1 - Drag * delta), Velocity.Y);
+        if (IsFrozen)
+        {
+            MoveAndSlide();
+        }
+        else
+        {
+            
+            OnFrame(delta);
+
+            Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
+            MoveAndSlide();
+
+            AfterFrame();
+        }
     }
     
     public virtual void OnFrame(double delta) {}
-    public virtual void AfterFrame(double delta) {}
+    public virtual void AfterFrame() {}
 
     public Thing OrPreview(Thing player) => player.IsPreview ? Preview : this;
 

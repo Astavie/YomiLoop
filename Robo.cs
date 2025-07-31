@@ -30,6 +30,8 @@ public partial class Robo : Thing
 
     public override void OnFrame(double delta)
     {
+	    animationTree.Advance(delta);
+	    
         if (MoveIndex >= Moves.Count) return;
         var move = Moves[MoveIndex];
         move.OnFrame(this, MoveFrame);
@@ -40,10 +42,8 @@ public partial class Robo : Thing
         MoveIndex++;
     }
 
-    public override void AfterFrame(double delta)
+    public override void AfterFrame()
     {
-	    animationTree.Advance(delta);
-
 	    if (Grabbed == null) return;
 	    Grabbed.Velocity = Vector2.Zero;
 	    Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
@@ -72,30 +72,43 @@ public partial class Robo : Thing
 	    return thing.GlobalPosition.DistanceSquaredTo(GlobalPosition) < GrabDistance * GrabDistance;
     }
 
-	public static Move Move(string name, int frames, Action<Robo> action = null, float? xspeed = null, float? yspeed = null) {
+	public static Move Move(string name, int frames, Action<Robo> action = null, string animation = "idle", float? xspeed = 0, float? yspeed = null) {
 		return new Move(
 			name,
 			frames, 
 			(o, frame) => {
-				if (frame == 0) action?.Invoke(o);
+				if (frame == 0)
+				{
+					if (animation != null) o.playAnimation.Travel(animation);
+					action?.Invoke(o);
+				}
 				o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
 			}
 		);
 	}
 
-	public static Move MoveLeft = Move("MoveLeft", 60, o => o.playAnimation.Travel("moving_left"), -64);
-	public static Move MoveRight = Move("MoveRight", 60, o => o.playAnimation.Travel("moving_right"), 64);
-	public static Move Wait = Move("Wait", 30, o => o.playAnimation.Travel("idle"), 0);
-
+	public static Move MoveLeft = Move("MoveLeft", 60, animation:"moving_left", xspeed: -64);
+	public static Move MoveRight = Move("MoveRight", 60, animation:"moving_right", xspeed: 64);
+	public static Move Wait = Move("Wait", 30, animation:"idle");
+	public static Move Ungrab = Move("Ungrab", 30, o => o.Grabbed = null);
+	public static Move ThrowLeft = Move("ThrowLeft", 30, o =>
+	{
+		o.Grabbed.Velocity = new Vector2(-512, -64);
+		o.Grabbed = null;
+	});
+	public static Move ThrowRight = Move("ThrowRight", 30, o =>
+	{
+		o.Grabbed.Velocity = new Vector2(512, -64);
+		o.Grabbed = null;
+	});
+	
 	public static Move Grab(Thing thing)
 	{
-		return Move("Grab", 30, xspeed: 0, action: o =>
+		return Move("Grab", 30, action: o =>
 		{
 			Thing grabbed = thing.OrPreview(o);
 			if (o.CanGrab(grabbed))
-			{
 				o.Grabbed = grabbed;
-			}
 		});
 	}
 
