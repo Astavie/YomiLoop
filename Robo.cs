@@ -44,9 +44,15 @@ public partial class Robo : Thing
         
         animationTree.CallbackModeProcess = AnimationMixer.AnimationCallbackModeProcess.Manual;
         playAnimation.Travel("idle");
-        
+
         if (IsPreview)
-            Moves = GetParent<Robo>().Moves;
+        {
+	        Moves = GetParent<Robo>().Moves;
+	        foreach (var group in BodyGroups)
+	        {
+		        group.Material = (Material)group.Material.Duplicate();
+	        }
+        }
     }
 
     public override void OnFrame(double delta)
@@ -92,7 +98,10 @@ public partial class Robo : Thing
         MoveFrame = robo?.MoveFrame ?? 0;
         Grabbed = robo?.Grabbed?.Preview;
         Aberration = robo?.Aberration ?? 0;
-        if (robo is not null) {
+        if (robo is not null)
+        {
+	        playAnimation.Stop();
+	        animationTree.Advance(0);
 	        playAnimation.Start(robo.playAnimation.GetCurrentNode(), false);
         }
         else
@@ -113,7 +122,8 @@ public partial class Robo : Thing
 			(o, frame) => {
 				if (frame == 0)
 				{
-					if (animation != null) o.playAnimation.Travel(animation);
+					if (animation != null)
+						o.playAnimation.Travel(animation);
 					action?.Invoke(o);
 				}
 				o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
