@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class Physics : Node
 {
@@ -20,7 +21,7 @@ public partial class Physics : Node
 
     public void StepMovement()
     {
-        foreach (Object obj in _objects)
+        foreach (Object obj in _objects.AsEnumerable().Reverse())
         {
             obj.StepMovement();
         }
@@ -28,17 +29,24 @@ public partial class Physics : Node
 
     public void ResetPreview()
     {
-        foreach (Object obj in _previews)
+        foreach (Object obj in _previews.AsEnumerable().Reverse())
         {
-            obj.Visible = false;
-            obj.Transform = Transform2D.Identity;
-            obj.Velocity = obj.GetParent<Object>().Velocity;
+            obj.ResetPreview();
         }
+    }
+
+    public void ResetMovement()
+    {
+        foreach (Object obj in _objects.AsEnumerable().Reverse())
+        {
+            obj.Reset();
+        }
+        ResetPreview();
     }
     
     public void StepPreview()
     {
-        foreach (Object obj in _previews)
+        foreach (Object obj in _previews.AsEnumerable().Reverse())
         {
             obj.StepMovement();
         }

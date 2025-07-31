@@ -1,53 +1,66 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8ag00buo1yic"]
+[gd_scene load_steps=5 format=3 uid="uid://c8ag00buo1yic"]
 
 [ext_resource type="Script" uid="uid://cakhcgpswd660" path="res://Player.cs" id="1_3vi8l"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://object.tscn" id="1_rpg24"]
+[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="3_8rhti"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rpg24"]
-size = Vector2(363, 118)
+size = Vector2(128, 128)
 
 [node name="Base" type="Node2D"]
+
+[node name="Door" type="Node2D" parent="."]
+position = Vector2(145, 176)
 script = ExtResource("1_3vi8l")
 
-[node name="Player" parent="." instance=ExtResource("1_rpg24")]
-unique_name_in_owner = true
+[node name="Sprite2D" type="Sprite2D" parent="Door"]
+position = Vector2(0, -32)
+scale = Vector2(0.25, 0.5)
+texture = ExtResource("3_8rhti")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(289, 241.2)
+scale = Vector2(4.475, 1)
 
-[node name="HFlowContainer" type="HFlowContainer" parent="Camera2D"]
-offset_left = -111.0
-offset_top = -310.0
-offset_right = 114.0
-offset_bottom = -244.0
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("RectangleShape2D_rpg24")
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor"]
+texture = ExtResource("3_8rhti")
+
+[node name="Object" parent="." instance=ExtResource("1_rpg24")]
+position = Vector2(353, 69)
+
+[node name="Object2" parent="." instance=ExtResource("1_rpg24")]
+position = Vector2(388, 29)
+
+[node name="Object3" parent="." instance=ExtResource("1_rpg24")]
+position = Vector2(318, -23)
+
+[node name="HFlowContainer" type="HFlowContainer" parent="."]
+offset_left = 168.0
+offset_top = 303.0
+offset_right = 393.0
+offset_bottom = 369.0
 alignment = 1
 
-[node name="Button" type="Button" parent="Camera2D/HFlowContainer"]
+[node name="Left" type="Button" parent="HFlowContainer"]
 layout_mode = 2
 text = "Left"
 
-[node name="Button2" type="Button" parent="Camera2D/HFlowContainer"]
+[node name="Right" type="Button" parent="HFlowContainer"]
 layout_mode = 2
 text = "Right"
 
-[node name="Button3" type="Button" parent="Camera2D/HFlowContainer"]
+[node name="Perform" type="Button" parent="HFlowContainer"]
 layout_mode = 2
 text = "Perform"
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Die" type="Button" parent="HFlowContainer"]
+layout_mode = 2
+text = "Die"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-position = Vector2(-7.5, 76)
-shape = SubResource("RectangleShape2D_rpg24")
-
-[node name="Object" parent="." instance=ExtResource("1_rpg24")]
-position = Vector2(64, -91)
-
-[node name="Object2" parent="." instance=ExtResource("1_rpg24")]
-position = Vector2(99, -131)
-
-[node name="Object3" parent="." instance=ExtResource("1_rpg24")]
-position = Vector2(29, -183)
-
-[connection signal="pressed" from="Camera2D/HFlowContainer/Button" to="." method="HandleLeftPress"]
-[connection signal="pressed" from="Camera2D/HFlowContainer/Button2" to="." method="HandleRightPress"]
-[connection signal="pressed" from="Camera2D/HFlowContainer/Button3" to="." method="HandlePerform"]
+[connection signal="pressed" from="HFlowContainer/Left" to="Door" method="HandleLeftPress"]
+[connection signal="pressed" from="HFlowContainer/Right" to="Door" method="HandleRightPress"]
+[connection signal="pressed" from="HFlowContainer/Perform" to="Door" method="HandlePerform"]
+[connection signal="pressed" from="HFlowContainer/Die" to="Door" method="HandleDie"]

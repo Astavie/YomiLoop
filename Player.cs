@@ -1,41 +1,69 @@
 using System;
 using Godot;
 using System.Collections;
+using System.Collections.Generic;
 
-using Move = System.Func<Object, System.Collections.IEnumerable>;
+public struct Move(int frames, Action<Object, int> onFrame)
+{
+    public int Frames = frames;
+    public Action<Object, int> OnFrame = onFrame;
+}
 
 public partial class Player : Node2D
 {
-    private Object Me { get => GetNode<Object>("%Player"); }
+    private PackedScene PlayerScene { get => GD.Load<PackedScene>("res://object.tscn"); }
+
+    private List<Object> _pastSelves = new List<Object>();
+
+    private bool Running = false;
+    private Object Me;
     private Object Preview { get => Me.Preview; }
     private Physics Physics { get => GetNode<Physics>("/root/Physics"); }
 
-    private Move _queued = null;
-    public Move Queued
+    private Move? Queued
     {
-        get => _queued;
+        get
+        {
+            if (Me.MoveIndex < Me.Moves.Count)
+                return Me.Moves[Me.MoveIndex];
+            return null;
+        }
         set
         {
             Physics.ResetPreview();
-            Preview.Anim = value?.Invoke(Preview).GetEnumerator();
-            _queued = value;
+            if (Me.MoveIndex < Me.Moves.Count)
+            {
+                if (value.HasValue)
+                    Me.Moves[Me.MoveIndex] = value.Value;
+                else
+                    Me.Moves.RemoveAt(Me.MoveIndex);
+            }
+            else if (value.HasValue)
+            {
+                Me.Moves.Add(value.Value);
+            }
         }
+    }
+
+    public override void _Ready()
+    {
+        Me = PlayerScene.Instantiate<Object>();
+        AddChild(Me);
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Me.Anim != null)
+        if (Running)
         {
-            Physics.StepMovement();
+            if (Me.MoveIndex >= Me.Moves.Count)
+                Running = false;
+            else
+                Physics.StepMovement();
         }
-
-        if (Queued != null)
+        else if (Queued.HasValue)
         {
-            if (Preview.Anim == null)
-            {
+            if (Preview.MoveIndex >= Preview.Moves.Count)
                 Physics.ResetPreview();
-                Preview.Anim = Queued(Preview).GetEnumerator();
-            }
             Physics.StepPreview();
         }
     }
@@ -52,10 +80,25 @@ public partial class Player : Node2D
     
     public void HandlePerform()
     {
-        Me.Anim = Queued(Me).GetEnumerator();
-        Queued = null;
+        if (Queued.HasValue)
+        {
+            Running = true;
+            Physics.ResetPreview();
+        }
     }
-    
-    private static Move moveRight = c => c.Move(60, xspeed:64);
-    private static Move moveLeft = c => c.Move(60, xspeed:-64);
+
+    public void HandleDie()
+    {
+        // Create new past self
+        Queued = die;
+        Physics.ResetMovement();
+        
+        // Create new Me
+        Me = PlayerScene.Instantiate<Object>();
+        AddChild(Me);
+    }
+
+    private static Move moveRight = Object.Move(60, xspeed: 64);
+    private static Move moveLeft = Object.Move(60, xspeed:-64);
+    private static Move die = new Move(1, (o, _) => o.IsDead = true);
 }
