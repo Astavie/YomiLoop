@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dhbbb70qkilhm"]
+
+[ext_resource type="Script" uid="uid://74go3kcb6ayl" path="res://Robo.cs" id="1_qfof3"]
+[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="2_btko1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hs0m"]
+size = Vector2(32, 32)
+
+[node name="Object" type="CharacterBody2D"]
+collision_layer = 2
+script = ExtResource("1_qfof3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -16)
+shape = SubResource("RectangleShape2D_2hs0m")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_btko1")
