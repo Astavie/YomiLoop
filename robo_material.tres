@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cu261k4o1sryu"]
+
+[ext_resource type="Shader" uid="uid://ccax67xr74503" path="res://robo.gdshader" id="1_2ksyj"]
+
+[resource]
+shader = ExtResource("1_2ksyj")
+shader_parameter/abberation = 1.5
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
