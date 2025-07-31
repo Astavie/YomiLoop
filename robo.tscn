@@ -1188,13 +1188,12 @@ libraries = {
 position = Vector2(0, -26)
 
 [node name="Body" type="AnimatedSprite2D" parent="Sprites"]
+position = Vector2(0, 0.439661)
 sprite_frames = SubResource("SpriteFrames_cghb5")
-animation = &"transform"
 
 [node name="Face" type="AnimatedSprite2D" parent="Sprites/Body"]
 position = Vector2(0, 5)
 sprite_frames = SubResource("SpriteFrames_u1tim")
-frame = 1
 
 [node name="Wheel" type="AnimatedSprite2D" parent="Sprites"]
 z_index = -1
@@ -1203,12 +1202,12 @@ sprite_frames = SubResource("SpriteFrames_ywes8")
 
 [node name="RightHand" type="AnimatedSprite2D" parent="Sprites"]
 z_index = -1
-position = Vector2(11, 15)
+position = Vector2(11, 14.7802)
 rotation = -0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
 [node name="LeftHand" type="AnimatedSprite2D" parent="Sprites"]
 z_index = -1
-position = Vector2(-12, 15)
+position = Vector2(-12, 14.7802)
 rotation = 0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")

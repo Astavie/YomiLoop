@@ -1,34 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://c8ag00buo1yic"]
+[gd_scene load_steps=4 format=4 uid="uid://c8ag00buo1yic"]
 
-[ext_resource type="Script" uid="uid://cakhcgpswd660" path="res://Player.cs" id="1_3vi8l"]
-[ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://object.tscn" id="1_rpg24"]
-[ext_resource type="PackedScene" uid="uid://4034aehate3n" path="res://robo.tscn" id="2_ohhpf"]
-[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="3_8rhti"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_rpg24"]
-size = Vector2(128, 128)
+[ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_8rhti"]
+[ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="1_rpg24"]
+[ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="5_21bcp"]
 
 [node name="Base" type="Node2D"]
 
-[node name="Door" type="Node2D" parent="."]
-position = Vector2(145, 176)
-script = ExtResource("1_3vi8l")
-PlayerScene = ExtResource("2_ohhpf")
-
-[node name="Sprite2D" type="Sprite2D" parent="Door"]
-position = Vector2(0, -32)
-scale = Vector2(0.25, 0.5)
-texture = ExtResource("3_8rhti")
-
-[node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(289, 241.2)
-scale = Vector2(4.475, 1)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-shape = SubResource("RectangleShape2D_rpg24")
-
-[node name="Sprite2D" type="Sprite2D" parent="Floor"]
-texture = ExtResource("3_8rhti")
+[node name="Door" parent="." instance=ExtResource("1_8rhti")]
+position = Vector2(145, 180)
 
 [node name="Object" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(353, 69)
@@ -59,6 +38,5 @@ text = "Die"
 layout_mode = 2
 text = "Grab"
 
-[connection signal="pressed" from="Buttons/Perform" to="Door" method="HandlePerform"]
-[connection signal="pressed" from="Buttons/Die" to="Door" method="HandleDie"]
-[connection signal="pressed" from="Buttons/Button" to="Door" method="HandleGrab"]
+[node name="LevelTiles" parent="." instance=ExtResource("5_21bcp")]
+tile_map_data = PackedByteArray("AAAAAAoAAwADAAYAAAABAAoAAwAEAAYAAAACAAoAAwAEAAYAAAADAAoAAwAEAAYAAAAEAAoAAwAEAAYAAAAFAAoAAwAEAAYAAAAGAAoAAwAEAAYAAAAHAAoAAwAEAAYAAAAIAAoAAwAEAAYAAAAJAAoAAwAEAAYAAAAKAAoAAwAEAAYAAAALAAoAAwAEAAYAAAAMAAoAAwAEAAYAAAANAAoAAwAEAAYAAAAOAAoAAwAEAAYAAAAPAAoAAwAEAAYAAAAQAAoAAwAEAAYAAAARAAoAAwAEAAYAAAASAAoAAwAEAAYAAAATAAoAAwAEAAYAAAAUAAoAAwAEAAYAAAAVAAoAAwAEAAYAAAAWAAoAAwAEAAYAAAAXAAoAAwAEAAYAAAAYAAoAAwAEAAYAAAAZAAoAAwAEAAYAAAAaAAoAAwAEAAYAAAAbAAoAAwAEAAYAAAAcAAoAAwAEAAYAAAAdAAoAAwAEAAYAAAAeAAoAAwAEAAYAAAAfAAoAAwAFAAYAAAAfAAsAAwAFAAcAAAAeAAsAAwAEAAcAAAAdAAsAAwAEAAcAAAAcAAsAAwAEAAcAAAAbAAsAAwAEAAcAAAAaAAsAAwAEAAcAAAAZAAsAAwAEAAcAAAAYAAsAAwAEAAcAAAAXAAsAAwAEAAcAAAAWAAsAAwAEAAcAAAAVAAsAAwAEAAcAAAAUAAsAAwAEAAcAAAATAAsAAwAEAAcAAAASAAsAAwAEAAcAAAARAAsAAwAEAAcAAAAQAAsAAwAEAAcAAAAPAAsAAwAEAAcAAAAOAAsAAwAEAAcAAAANAAsAAwAEAAcAAAAMAAsAAwAEAAcAAAALAAsAAwAEAAcAAAAKAAsAAwAEAAcAAAAJAAsAAwAEAAcAAAAIAAsAAwAEAAcAAAAHAAsAAwAEAAcAAAAGAAsAAwAEAAcAAAAFAAsAAwAEAAcAAAAEAAsAAwAEAAcAAAADAAsAAwAEAAcAAAACAAsAAwAEAAcAAAABAAsAAwAEAAcAAAAAAAsAAwADAAcAAAAAAAwAAwADAAgAAAABAAwAAwAEAAgAAAACAAwAAwAEAAgAAAADAAwAAwAEAAgAAAAEAAwAAwAEAAgAAAAFAAwAAwAEAAgAAAAGAAwAAwAEAAgAAAAHAAwAAwAEAAgAAAAIAAwAAwAEAAgAAAAJAAwAAwAEAAgAAAAKAAwAAwAEAAgAAAALAAwAAwAEAAgAAAAMAAwAAwAEAAgAAAANAAwAAwAEAAgAAAARAAwAAwAEAAgAAAASAAwAAwAEAAgAAAATAAwAAwAEAAgAAAAUAAwAAwAEAAgAAAAVAAwAAwAEAAgAAAAWAAwAAwAEAAgAAAAXAAwAAwAEAAgAAAAYAAwAAwAEAAgAAAAZAAwAAwAEAAgAAAAaAAwAAwAEAAgAAAAbAAwAAwAEAAgAAAAcAAwAAwAEAAgAAAAdAAwAAwAEAAgAAAAeAAwAAwAEAAgAAAAfAAwAAwAFAAgAAAAQAAwAAwAEAAgAAAAPAAwAAwAEAAgAAAAOAAwAAwAEAAgAAAA=")
