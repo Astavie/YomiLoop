@@ -19,11 +19,11 @@ public partial class Physics : Node
             _objects.Add(obj);
     }
 
-    public void StepMovement()
+    public void StepMovement(double delta)
     {
         foreach (Thing obj in _objects.AsEnumerable().Reverse())
         {
-            obj.StepMovement();
+            obj.StepMovement(delta);
         }
     }
 
@@ -45,11 +45,11 @@ public partial class Physics : Node
         ResetPreview();
     }
     
-    public void StepPreview()
+    public void StepPreview(double delta)
     {
         foreach (Thing obj in _previews.AsEnumerable().Reverse())
         {
-            obj.StepMovement();
+            obj.StepMovement(delta);
         }
     }
 }

@@ -28,13 +28,14 @@ public partial class Thing : CharacterBody2D
             Preview = this;
             Visible = false;
             Transform = Transform2D.Identity;
+            ZIndex = 10;
             Modulate = new Color(0.8f, 0.8f, 1, 0.5f);
         }
         Initial = Transform;
         Physics.RegisterObject(this);
     }
 
-    public void StepMovement()
+    public void StepMovement(double delta)
     {
         Visible = true;
         if (IsPaused)
@@ -44,16 +45,16 @@ public partial class Thing : CharacterBody2D
         }
         if (IsFrozen) return;
         
-        OnFrame();
+        OnFrame(delta);
         
         Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
         MoveAndSlide();
         
-        AfterFrame();
+        AfterFrame(delta);
     }
     
-    public virtual void OnFrame() {}
-    public virtual void AfterFrame() {}
+    public virtual void OnFrame(double delta) {}
+    public virtual void AfterFrame(double delta) {}
 
     public Thing OrPreview(Thing player) => player.IsPreview ? Preview : this;
 
@@ -61,8 +62,8 @@ public partial class Thing : CharacterBody2D
     {
         Transform = Initial;
         Velocity = parent?.Velocity ?? Vector2.Zero;
-        IsPaused = false;
-        IsFrozen = false;
+        IsPaused = parent?.IsPaused ?? false;
+        IsFrozen = parent?.IsFrozen ?? false;
     }
 
     public override void _MouseEnter()

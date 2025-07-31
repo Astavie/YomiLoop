@@ -20,11 +20,15 @@ public partial class Robo : Thing
         base._Ready();
         animationTree = GetNode<AnimationTree>("AnimationTree");
         playAnimation = (AnimationNodeStateMachinePlayback)animationTree.Get("parameters/playback");
+        
+        animationTree.CallbackModeProcess = AnimationMixer.AnimationCallbackModeProcess.Manual;
+        playAnimation.Travel("idle");
+        
         if (IsPreview)
             Moves = GetParent<Robo>().Moves;
     }
 
-    public override void OnFrame()
+    public override void OnFrame(double delta)
     {
         if (MoveIndex >= Moves.Count) return;
         var move = Moves[MoveIndex];
@@ -36,8 +40,10 @@ public partial class Robo : Thing
         MoveIndex++;
     }
 
-    public override void AfterFrame()
+    public override void AfterFrame(double delta)
     {
+	    animationTree.Advance(delta);
+
 	    if (Grabbed == null) return;
 	    Grabbed.Velocity = Vector2.Zero;
 	    Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
@@ -53,6 +59,11 @@ public partial class Robo : Thing
         Grabbed = robo?.Grabbed?.Preview;
         if (robo is not null) {
 	        playAnimation.Start(robo.playAnimation.GetCurrentNode(), false);
+        }
+        else
+        {
+	        playAnimation.Travel("RESET");
+	        animationTree.Advance(1);
         }
     }
 

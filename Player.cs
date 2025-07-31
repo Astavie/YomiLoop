@@ -79,13 +79,13 @@ public partial class Player : Node2D
 			    _playState = PlayState.Preview;
 			    break;
 		    case PlayState.Running:
-			    Physics.StepMovement();
+			    Physics.StepMovement(delta);
 			    break;
 		    case PlayState.Preview when Queued.HasValue:
 		    {
 			    if (Preview.MoveIndex >= Preview.Moves.Count)
 				    Physics.ResetPreview();
-			    Physics.StepPreview();
+			    Physics.StepPreview(delta);
 			    break;
 		    }
 	    }
