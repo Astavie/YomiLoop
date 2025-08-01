@@ -981,6 +981,7 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xi0du"]
 switch_mode = 2
+advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_2buan"]
 
@@ -2250,7 +2251,6 @@ tracks/8/keys = {
 [sub_resource type="Animation" id="Animation_y5xtt"]
 resource_name = "hover_right"
 length = 0.5
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -2499,7 +2499,6 @@ tracks/9/keys = {
 [sub_resource type="Animation" id="Animation_5o032"]
 resource_name = "hover_left"
 length = 0.5
-loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
