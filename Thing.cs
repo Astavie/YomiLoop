@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 public partial class Thing : CharacterBody2D

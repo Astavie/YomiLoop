@@ -60,16 +60,12 @@ public partial class Player : Node2D
 		// Create player character
 		Me = PlayerScene.Instantiate<Robo>();
 		AddChild(Me);
-		
-		// Create movement buttons
-		var buttons = Buttons;
-		foreach (var move in moves)
-		{
-			var button = new Button();
-			button.Text = move.Name;
-			button.Pressed += () => Queued = move;
-			buttons.AddChild(button);
-		}
+
+		GetNode<BaseButton>("%Buttons/Wait").Pressed += () => Queued = Robo.Wait;
+		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Left").Pressed += () => Queued = Robo.MoveLeft;
+		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Right").Pressed += () => Queued = Robo.MoveRight;
+		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Left").Pressed += () => Queued = Robo.ThrowLeft;
+		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Right").Pressed += () => Queued = Robo.ThrowRight;
 	}
 
     public override void _PhysicsProcess(double delta)
@@ -119,6 +115,10 @@ public partial class Player : Node2D
 
 	public void HandleGrab()
 	{
+		if (((Robo)Me.OrPreview(Preview)).Grabbed is not null) {
+			Queued = Robo.Ungrab;
+			return;
+		}
 		Queued = null;
 		_playState = PlayState.Grab;
 		
