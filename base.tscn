@@ -1,65 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://c8ag00buo1yic"]
+[gd_scene load_steps=6 format=4 uid="uid://c8ag00buo1yic"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_8rhti"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="1_rpg24"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_tpea4"]
-[ext_resource type="AudioStream" uid="uid://bms12wtivuq3d" path="res://yomiloop.ogg" id="4_ohhpf"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="5_21bcp"]
-[ext_resource type="Script" uid="uid://dvjwdkm1b52o5" path="res://audio_stream_player.gd" id="5_tpea4"]
-
-[sub_resource type="Animation" id="Animation_tpea4"]
-resource_name = "CLEAR"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Music:filter_cutoff")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.31864, 1),
-"update": 0,
-"values": [1200.0, 10000.0]
-}
-
-[sub_resource type="Animation" id="Animation_ohhpf"]
-resource_name = "EQ"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Music:filter_cutoff")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(0.31864, 1),
-"update": 0,
-"values": [10000.0, 1200.0]
-}
-
-[sub_resource type="Animation" id="Animation_21bcp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Music:filter_cutoff")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [1200.0]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_21bcp"]
-_data = {
-&"CLEAR": SubResource("Animation_tpea4"),
-&"EQ": SubResource("Animation_ohhpf"),
-&"RESET": SubResource("Animation_21bcp")
-}
+[ext_resource type="PackedScene" uid="uid://ckswapis0dte6" path="res://music.tscn" id="5_tpea4"]
 
 [node name="Base" type="Node2D"]
 
@@ -85,18 +30,5 @@ unique_name_in_owner = true
 position = Vector2(1, 70)
 tile_map_data = PackedByteArray("AAAAAAoAAwADAAYAAAABAAoAAwAEAAYAAAACAAoAAwAEAAYAAAADAAoAAwAEAAYAAAAEAAoAAwAEAAYAAAAFAAoAAwAEAAYAAAAGAAoAAwAEAAYAAAAHAAoAAwAEAAYAAAAIAAoAAwAEAAYAAAAJAAoAAwAEAAYAAAAKAAoAAwAEAAYAAAALAAoAAwAEAAYAAAAMAAoAAwAEAAYAAAANAAoAAwAEAAYAAAAOAAoAAwAEAAYAAAAPAAoAAwAEAAYAAAAQAAoAAwAEAAYAAAARAAoAAwAEAAYAAAASAAoAAwAEAAYAAAATAAoAAwAEAAYAAAAUAAoAAwAEAAYAAAAVAAoAAwAEAAYAAAAWAAoAAwAEAAYAAAAXAAoAAwAEAAYAAAAYAAoAAwAEAAYAAAAZAAoAAwAEAAYAAAAaAAoAAwAEAAYAAAAbAAoAAwAEAAYAAAAcAAoAAwAEAAYAAAAdAAoAAwAEAAYAAAAeAAoAAwAEAAYAAAAfAAoAAwAFAAYAAAAfAAsAAwAFAAcAAAAeAAsAAwAEAAcAAAAdAAsAAwAEAAcAAAAcAAsAAwAEAAcAAAAbAAsAAwAEAAcAAAAaAAsAAwAEAAcAAAAZAAsAAwAEAAcAAAAYAAsAAwAEAAcAAAAXAAsAAwAEAAcAAAAWAAsAAwAEAAcAAAAVAAsAAwAEAAcAAAAUAAsAAwAEAAcAAAATAAsAAwAEAAcAAAASAAsAAwAEAAcAAAARAAsAAwAEAAcAAAAQAAsAAwAEAAcAAAAPAAsAAwAEAAcAAAAOAAsAAwAEAAcAAAANAAsAAwAEAAcAAAAMAAsAAwAEAAcAAAALAAsAAwAEAAcAAAAKAAsAAwAEAAcAAAAJAAsAAwAEAAcAAAAIAAsAAwAEAAcAAAAHAAsAAwAEAAcAAAAGAAsAAwAEAAcAAAAFAAsAAwAEAAcAAAAEAAsAAwAEAAcAAAADAAsAAwAEAAcAAAACAAsAAwAEAAcAAAABAAsAAwAEAAcAAAAAAAsAAwADAAcAAAAAAAwAAwADAAgAAAABAAwAAwAEAAgAAAACAAwAAwAEAAgAAAADAAwAAwAEAAgAAAAEAAwAAwAEAAgAAAAFAAwAAwAEAAgAAAAGAAwAAwAEAAgAAAAHAAwAAwAEAAgAAAAIAAwAAwAEAAgAAAAJAAwAAwAEAAgAAAAKAAwAAwAEAAgAAAALAAwAAwAEAAgAAAAMAAwAAwAEAAgAAAANAAwAAwAEAAgAAAARAAwAAwAEAAgAAAASAAwAAwAEAAgAAAATAAwAAwAEAAgAAAAUAAwAAwAEAAgAAAAVAAwAAwAEAAgAAAAWAAwAAwAEAAgAAAAXAAwAAwAEAAgAAAAYAAwAAwAEAAgAAAAZAAwAAwAEAAgAAAAaAAwAAwAEAAgAAAAbAAwAAwAEAAgAAAAcAAwAAwAEAAgAAAAdAAwAAwAEAAgAAAAeAAwAAwAEAAgAAAAfAAwAAwAFAAgAAAAQAAwAAwAEAAgAAAAPAAwAAwAEAAgAAAAOAAwAAwAEAAgAAAA=")
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
+[node name="Music" parent="." instance=ExtResource("5_tpea4")]
 unique_name_in_owner = true
-stream = ExtResource("4_ohhpf")
-autoplay = true
-bus = &"Music"
-parameters/looping = true
-script = ExtResource("5_tpea4")
-filter_cutoff = 1200.0
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Music"]
-root_node = NodePath("../..")
-libraries = {
-&"": SubResource("AnimationLibrary_21bcp")
-}
-speed_scale = 2.0
