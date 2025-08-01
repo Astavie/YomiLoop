@@ -27,7 +27,7 @@ public partial class Player : Node2D
 	private Robo Preview => (Robo)Me.Preview;
 	private Physics Physics => GetNode<Physics>("/root/Physics");
 	private AnimationPlayer Music => GetNode<AnimationPlayer>("%Music/AnimationPlayer");
-	private HFlowContainer Buttons => GetNode<HFlowContainer>("%Buttons");
+	private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
 
 	private Move? Queued
 	{
@@ -63,11 +63,13 @@ public partial class Player : Node2D
 		Physics.GrabAction = HandleGrabClicked;
 		
 		// Connect button signals
-		GetNode<BaseButton>("%Buttons/Wait").Pressed += () => Queued = Robo.Wait;
-		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Left").Pressed   += QueueMove(Robo.MoveLeft);
-		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Right").Pressed  += QueueMove(Robo.MoveRight);
-		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Left").Pressed  += QueueMove(Robo.ThrowLeft);
-		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Right").Pressed += QueueMove(Robo.ThrowRight);
+		Buttons.GetNode<BaseButton>("Perform").Pressed += HandlePerform;
+		Buttons.GetNode<BaseButton>("Grab").Pressed += HandleGrab;
+		Buttons.GetNode<BaseButton>("Wait").Pressed += () => Queued = Robo.Wait;
+		Buttons.GetNode<BaseButton>("Move/PopupPanel/HBoxContainer/Left").Pressed   += QueueMove(Robo.MoveLeft);
+		Buttons.GetNode<BaseButton>("Move/PopupPanel/HBoxContainer/Right").Pressed  += QueueMove(Robo.MoveRight);
+		Buttons.GetNode<BaseButton>("Throw/PopupPanel/HBoxContainer/Left").Pressed  += QueueMove(Robo.ThrowLeft);
+		Buttons.GetNode<BaseButton>("Throw/PopupPanel/HBoxContainer/Right").Pressed += QueueMove(Robo.ThrowRight);
 	}
 
 	private Action QueueMove(Move move) {
