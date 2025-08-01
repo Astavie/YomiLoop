@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 public partial class Robo : Thing
 {
     [Export] public float GrabDistance = 48;
+    private Line2D _grabLine;
 
     public AnimationTree BodyTree { get; private set; }
     public AnimationNodeStateMachinePlayback PlayBody { get; private set; }
@@ -65,6 +66,8 @@ public partial class Robo : Thing
             {
                 group.Material = (Material)group.Material.Duplicate();
             }
+        } else {
+            _grabLine = GetNode<Line2D>("GrabLine");
         }
     }
 
@@ -126,6 +129,17 @@ public partial class Robo : Thing
         {
             Travel("RESET");
         }
+    }
+
+    public void LineTo(Thing thing) {
+        if (thing is null) {
+            _grabLine.Points = [];
+            return;
+        }
+
+        _grabLine.Points = [
+            Vector2.Zero, ToLocal(thing.GlobalPosition)
+        ];
     }
 
     public bool CanGrab(Thing thing)

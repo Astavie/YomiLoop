@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cysa1s75obbmq" path="res://assets/ui/grab/grab1.png" id="5_k3d1t"]
 [ext_resource type="Script" uid="uid://dvjwdkm1b52o5" path="res://audio_stream_player.gd" id="5_tpea4"]
 [ext_resource type="Texture2D" uid="uid://bgd8cx5xkt4s7" path="res://assets/ui/directions/left.png" id="6_dlkme"]
-[ext_resource type="Script" path="res://button_popup.gd" id="6_im64q"]
+[ext_resource type="Script" uid="uid://ctlm0n43cmmin" path="res://button_popup.gd" id="6_im64q"]
 [ext_resource type="Texture2D" uid="uid://ba7ctxqwkh1ge" path="res://assets/ui/grab/grab2.png" id="6_sgv64"]
 [ext_resource type="Texture2D" uid="uid://c7s3l3yscexln" path="res://assets/ui/directions/right.png" id="7_im64q"]
 [ext_resource type="Texture2D" uid="uid://ryvmqsy8oiad" path="res://assets/ui/close.png" id="8_dlkme"]
@@ -90,6 +90,9 @@ position = Vector2(389, 99)
 
 [node name="Object3" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(319, 47)
+
+[node name="Object4" parent="." instance=ExtResource("1_rpg24")]
+position = Vector2(189, 246)
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 offset_top = 344.0

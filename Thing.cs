@@ -7,6 +7,7 @@ public partial class Thing : CharacterBody2D
     [Export] public float FrozenDrag = 4f;
     [Export] public float AirDrag = 0.67f;
     
+    
     public const float Gravity = 9.8f;
 
     private Transform2D _initialTransform;
@@ -17,7 +18,7 @@ public partial class Thing : CharacterBody2D
     public bool IsFrozen = false;
     public bool IsPaused = false;
     
-    private Physics Physics => GetNode<Physics>("/root/Physics");
+    protected Physics Physics => GetNode<Physics>("/root/Physics");
     
     public override void _Ready()
     {
@@ -82,22 +83,25 @@ public partial class Thing : CharacterBody2D
 
     public override void _MouseEnter()
     {
-        if (Physics.OnClick == null) return;
-        Modulate *= Colors.LightYellow;
+        var physicsMe = Physics.Me;
+        if (Physics.State is not PlayState.Grab || physicsMe is null) return;
+        if (physicsMe.CanGrab(this)) physicsMe.LineTo(this);
     }
 
     public override void _MouseExit()
     {
-        if (Physics.OnClick == null) return;
-        Modulate /= Colors.LightYellow;
+        if (Physics.State is not PlayState.Grab || Physics.Me is null) return;
+        Physics.Me.LineTo(null);
     }
 
     public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
     {
-        if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+        if (Physics.State is PlayState.Grab && @event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
         {
-            Modulate /= Colors.LightYellow;
-            Physics.OnClick?.Invoke(this);
+            // clear line
+            Physics.Me.LineTo(null);
+
+            Physics.GrabAction?.Invoke(this);
         }
     }
 }

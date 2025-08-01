@@ -21,14 +21,13 @@ public partial class Player : Node2D
 	[Export]
 	public PackedScene PlayerScene { get; set; }
 
-	private List<Thing> _pastSelves = [];
+	private readonly List<Thing> _pastSelves = [];
 
-	private PlayState _playState = PlayState.Preview;
 	private Robo Me;
 	private Robo Preview => (Robo)Me.Preview;
 	private Physics Physics => GetNode<Physics>("/root/Physics");
 	private AnimationPlayer Music => GetNode<AnimationPlayer>("%Music/AnimationPlayer");
-	private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
+	private HFlowContainer Buttons => GetNode<HFlowContainer>("%Buttons");
 
 	private Move? Queued
 	{
@@ -61,6 +60,9 @@ public partial class Player : Node2D
 		Me = PlayerScene.Instantiate<Robo>();
 		AddChild(Me);
 
+		Physics.GrabAction = HandleGrabClicked;
+		
+		// Connect button signals
 		GetNode<BaseButton>("%Buttons/Wait").Pressed += () => Queued = Robo.Wait;
 		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Left").Pressed += () => Queued = Robo.MoveLeft;
 		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Right").Pressed += () => Queued = Robo.MoveRight;
@@ -70,10 +72,10 @@ public partial class Player : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-	    switch (_playState)
+	    switch (Physics.State)
 	    {
 		    case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
-			    _playState = PlayState.Preview;
+			    Physics.State = PlayState.Preview;
 			    Music.Play("EQ");
 			    break;
 		    case PlayState.Running:
@@ -93,7 +95,7 @@ public partial class Player : Node2D
     {
         if (Queued.HasValue)
         {
-	        _playState = PlayState.Running;
+	        Physics.State = PlayState.Running;
 	        Music.Play("CLEAR");
             Physics.ResetPreview();
         }
@@ -115,37 +117,19 @@ public partial class Player : Node2D
 
 	public void HandleGrab()
 	{
-		if (((Robo)Me.OrPreview(Preview)).Grabbed is not null) {
-			Queued = Robo.Ungrab;
-			return;
-		}
 		Queued = null;
-		_playState = PlayState.Grab;
+		Physics.State = PlayState.Grab;
 		
-		Physics.OnClick = HandleClick;
+		Physics.Me = Me;
 		Me.InputPickable = false;
 	}
 
-	public void HandleClick(Thing thing)
+	public void HandleGrabClicked(Thing thing)
 	{
 		Me.InputPickable = true;
-		Physics.OnClick = null;
 		
-		_playState = PlayState.Preview;
-
-		if (Me.CanGrab(thing))
-		{
-			Queued = Robo.Grab(thing);
-		}
+		Physics.State = PlayState.Preview;
+		
+		Queued = Robo.Grab(thing);
 	}
-
-	private static Move[] moves = new[]
-	{
-		Robo.MoveLeft,
-		Robo.MoveRight,
-		Robo.Wait,
-		Robo.Ungrab,
-		Robo.ThrowLeft,
-		Robo.ThrowRight,
-	};
 }

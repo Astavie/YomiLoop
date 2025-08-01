@@ -3,14 +3,14 @@ using Godot;
 using System.Collections.Generic;
 using System.Linq;
 
-public partial class Physics : Node
-{
-    private List<Thing> _objects = new List<Thing>();
-    private List<Thing> _previews = new List<Thing>();
-    public Action<Thing> OnClick = null;
+public partial class Physics : Node {
     
-    public IEnumerable<Thing> Objects => _objects;
-    
+    private readonly List<Thing> _objects =  [];
+    private readonly List<Thing> _previews = [];
+    public Robo Me = null;
+    public Action<Thing> GrabAction = null;
+    public PlayState State = PlayState.Preview;
+
     public void RegisterObject(Thing obj)
     {
         if (obj.IsPreview)
