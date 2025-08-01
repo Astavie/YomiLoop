@@ -8,6 +8,7 @@ size = Vector2(18, 18)
 
 [node name="Crate" type="CharacterBody2D"]
 collision_layer = 2
+platform_floor_layers = 4294967040
 script = ExtResource("1_mo0jf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

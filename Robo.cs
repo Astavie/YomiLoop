@@ -69,6 +69,15 @@ public partial class Robo : Thing
         } else {
             _grabLine = GetNode<Line2D>("GrabLine");
         }
+
+        if (IsPreview)
+        {
+            CollisionMask |= 16;
+        }
+        else
+        {
+            CollisionMask |= 32;
+        }
     }
 
     public override void OnFrame(double delta)

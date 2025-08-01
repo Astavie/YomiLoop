@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8tqii1cqvxkq"]
+
+[ext_resource type="Script" uid="uid://drvdbdkydh5hc" path="res://Crate.cs" id="1_v7ypp"]
+[ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_v7ypp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2hs0m"]
+size = Vector2(54, 18)
+
+[node name="Girder" type="CharacterBody2D"]
+collision_layer = 0
+platform_floor_layers = 4278190080
+script = ExtResource("1_v7ypp")
+CollidesPlayer = true
+Grabbable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9, -9)
+shape = SubResource("RectangleShape2D_2hs0m")
+
+[node name="LevelTiles" parent="." instance=ExtResource("2_v7ypp")]
+tile_map_data = PackedByteArray(0, 0, 255, 255, 255, 255, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 2, 0, 1, 0, 0, 0, 0, 0, 1, 0, 255, 255, 2, 0, 2, 0, 0, 0, 0, 0)
+collision_enabled = false

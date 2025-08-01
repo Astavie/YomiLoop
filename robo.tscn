@@ -1944,6 +1944,7 @@ shader_parameter/blueDir = Vector2(-1, 0)
 [node name="Robo" type="CharacterBody2D"]
 z_index = 20
 collision_layer = 2
+platform_floor_layers = 4294967040
 script = ExtResource("1_o68hb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

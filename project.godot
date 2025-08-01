@@ -32,6 +32,15 @@ window/stretch/scale_mode="integer"
 
 project/assembly_name="yomiloop"
 
+[layer_names]
+
+2d_physics/layer_1="Terrain"
+2d_physics/layer_2="Clickable"
+2d_physics/layer_3="Preview Objects"
+2d_physics/layer_4="Objects"
+2d_physics/layer_5="Preview Object with Player"
+2d_physics/layer_6="Object with Player"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

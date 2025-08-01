@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 public partial class Thing : CharacterBody2D
 {
+    [Export] public bool Grabbable = true;
     [Export] public float GroundDrag = 8f;
     [Export] public float FrozenDrag = 4f;
     [Export] public float AirDrag = 0.67f;
@@ -27,7 +28,7 @@ public partial class Thing : CharacterBody2D
             Preview = (Thing)Duplicate();
             Preview.IsPreview = true;
             AddChild(Preview);
-            InputPickable = true;
+            if (Grabbable) InputPickable = true;
         }
         else
         {

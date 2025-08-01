@@ -21,14 +21,17 @@ public partial class Player : Node2D
 	[Export]
 	public PackedScene PlayerScene { get; set; }
 
-	private readonly List<Thing> _pastSelves = [];
+	[Export] public bool MeFirst = false;
+
+	private readonly List<Robo> _pastSelves = [];
 
 	private Robo Me;
 	private Robo Preview => (Robo)Me.Preview;
 	private Physics Physics => GetNode<Physics>("/root/Physics");
 	private AnimationPlayer Music => GetNode<AnimationPlayer>("%Music/AnimationPlayer");
 	private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
-
+	private bool _shouldDie = false;
+	
 	private Move? Queued
 	{
 		get
@@ -56,10 +59,7 @@ public partial class Player : Node2D
 
 	public override void _Ready()
 	{
-		// Create player character
-		Me = PlayerScene.Instantiate<Robo>();
-		AddChild(Me);
-
+		SpawnPlayer();
 		Physics.GrabAction = HandleGrabClicked;
 		
 		// Connect button signals
@@ -72,6 +72,32 @@ public partial class Player : Node2D
 		Buttons.GetNode<BaseButton>("Throw/PopupPanel/HBoxContainer/Right").Pressed += QueueMove(Robo.ThrowRight);
 	}
 
+	private void SpawnPlayer()
+	{
+		if (MeFirst)
+		{
+			foreach (var pastSelf in _pastSelves)
+			{
+				pastSelf.Moves.Insert(0, Robo.Wait);
+			}
+		}
+		
+		Me = PlayerScene.Instantiate<Robo>();
+		AddChild(Me);
+
+		if (!MeFirst)
+		{
+			foreach (var pastSelf in _pastSelves)
+			{
+				Me.Moves.Add(Robo.Wait);
+			}
+		}
+		Me.Moves.Add(Robo.MoveRight);
+		
+		Physics.State = PlayState.Running;
+		Music.Play("CLEAR");
+	}
+
 	private Action QueueMove(Move move) {
 		return () => {
 			Physics.State = PlayState.Preview;
@@ -81,6 +107,21 @@ public partial class Player : Node2D
 	
     public override void _PhysicsProcess(double delta)
     {
+	    if (_shouldDie)
+	    {
+		    _shouldDie = false;
+		    // Create new past self
+		    Queued = null;
+		    Physics.ResetMovement();
+		    Me.PastSelf = true;
+		    Preview.PastSelf = true;
+		    _pastSelves.Add(Me);
+		
+		    // Create new Me
+		    SpawnPlayer();
+		    return;
+	    }
+	    
 	    switch (Physics.State)
 	    {
 		    case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
@@ -92,9 +133,9 @@ public partial class Player : Node2D
 			    break;
 		    case PlayState.Preview when Queued.HasValue:
 		    {
+			    Physics.StepPreview(delta);
 			    if (Preview.MoveIndex >= Preview.Moves.Count)
 				    Physics.ResetPreview();
-			    Physics.StepPreview(delta);
 			    break;
 		    }
 	    }
@@ -112,16 +153,7 @@ public partial class Player : Node2D
 
 	public void HandleDie()
 	{
-		// Create new past self
-		Queued = null;
-		Physics.ResetMovement();
-		Me.PastSelf = true;
-		Preview.PastSelf = true;
-		_pastSelves.Add(Me);
-		
-		// Create new Me
-		Me = PlayerScene.Instantiate<Robo>();
-		AddChild(Me);
+		_shouldDie = true;
 	}
 
 	public void HandleGrab()
