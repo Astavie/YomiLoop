@@ -27,6 +27,7 @@ public partial class Player : Node2D
 	private Robo Me;
 	private Robo Preview => (Robo)Me.Preview;
 	private Physics Physics => GetNode<Physics>("/root/Physics");
+	private AnimationPlayer Music => GetNode<AnimationPlayer>("%Music/AnimationPlayer");
 	private HFlowContainer Buttons { get => GetNode<HFlowContainer>("%Buttons"); }
 
 	private Move? Queued
@@ -77,6 +78,7 @@ public partial class Player : Node2D
 	    {
 		    case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
 			    _playState = PlayState.Preview;
+			    Music.Play("EQ");
 			    break;
 		    case PlayState.Running:
 			    Physics.StepMovement(delta);
@@ -96,6 +98,7 @@ public partial class Player : Node2D
         if (Queued.HasValue)
         {
 	        _playState = PlayState.Running;
+	        Music.Play("CLEAR");
             Physics.ResetPreview();
         }
     }
