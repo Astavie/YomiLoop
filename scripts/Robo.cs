@@ -101,6 +101,10 @@ public partial class Robo : Thing
     public override void OnFrame(double delta)
     {
         Advance(delta);
+        if (IsOnFloor())
+        {
+            Velocity = new Vector2(0, Velocity.Y);
+        }
         
         // Advance to next frame
         if (MoveIndex >= Moves.Count) return;
