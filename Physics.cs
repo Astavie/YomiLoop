@@ -4,12 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 
 public partial class Physics : Node {
+    [Signal]
+    public delegate void StateChangedEventHandler(PlayState current, PlayState next);
     
     private readonly List<Thing> _objects =  [];
     private readonly List<Thing> _previews = [];
     public Robo Me = null;
     public Action<Thing> GrabAction = null;
-    public PlayState State = PlayState.Preview;
+
+    private PlayState _state = PlayState.Preview;
+    public PlayState State {
+        get => _state;
+        set {
+            EmitSignalStateChanged(_state, value);
+            _state = value;
+        }
+    }
 
     public void RegisterObject(Thing obj)
     {

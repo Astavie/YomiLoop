@@ -1,7 +1,9 @@
-[gd_scene load_steps=24 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=26 format=3 uid="uid://bfj45ghbmpx4l"]
 
+[ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
 [ext_resource type="Texture2D" uid="uid://dw61vsso6bbtu" path="res://assets/ui/wait.png" id="2_bd2vw"]
+[ext_resource type="Script" uid="uid://cr7tdgmetkq4w" path="res://ControlButton.cs" id="3_8uxlj"]
 [ext_resource type="Texture2D" uid="uid://cysa1s75obbmq" path="res://assets/ui/grab/grab1.png" id="3_occbk"]
 [ext_resource type="Texture2D" uid="uid://ba7ctxqwkh1ge" path="res://assets/ui/grab/grab2.png" id="4_8uxlj"]
 [ext_resource type="Texture2D" uid="uid://bg70lvoh4knwl" path="res://assets/ui/move.png" id="5_vh257"]
@@ -45,6 +47,9 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_bd2vw")
+EnableHover = false
+EnableRocket = false
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -60,20 +65,24 @@ alignment = 1
 [node name="Perform" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("1_w7rrd")
+script = ExtResource("3_8uxlj")
 
 [node name="Wait" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("2_bd2vw")
+script = ExtResource("3_8uxlj")
 
 [node name="Grab" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("3_occbk")
 texture_pressed = ExtResource("4_8uxlj")
 texture_hover = SubResource("AnimatedTexture_gaoim")
+script = ExtResource("3_8uxlj")
 
 [node name="Move" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("5_vh257")
+script = ExtResource("3_8uxlj")
 
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Move"]
 auto_translate_mode = 1
@@ -90,18 +99,22 @@ offset_bottom = 20.0
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Move/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("7_s6naa")
+script = ExtResource("3_8uxlj")
 
 [node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Move/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("8_lmmbu")
+script = ExtResource("3_8uxlj")
 
 [node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Move/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
+script = ExtResource("3_8uxlj")
 
 [node name="Throw" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("10_thkbl")
+script = ExtResource("3_8uxlj")
 
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Throw"]
 auto_translate_mode = 1
@@ -118,18 +131,22 @@ offset_bottom = 20.0
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("7_s6naa")
+script = ExtResource("3_8uxlj")
 
 [node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("8_lmmbu")
+script = ExtResource("3_8uxlj")
 
 [node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
+script = ExtResource("3_8uxlj")
 
 [node name="Rocket" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("11_jebi8")
+script = ExtResource("3_8uxlj")
 
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Rocket"]
 auto_translate_mode = 1
@@ -147,43 +164,53 @@ columns = 3
 [node name="UpLeft" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("12_n2rdi")
+script = ExtResource("3_8uxlj")
 
 [node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("13_11uq4")
+script = ExtResource("3_8uxlj")
 
 [node name="UpRight" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("14_1q3sf")
+script = ExtResource("3_8uxlj")
 
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("7_s6naa")
+script = ExtResource("3_8uxlj")
 
 [node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("8_lmmbu")
+script = ExtResource("3_8uxlj")
 
 [node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
+script = ExtResource("3_8uxlj")
 
 [node name="DownLeft" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("15_5j60u")
+script = ExtResource("3_8uxlj")
 
 [node name="Down" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("16_w8ai5")
+script = ExtResource("3_8uxlj")
 
 [node name="DownRight" type="TextureButton" parent="PanelContainer/Buttons/Rocket/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("17_add7k")
+script = ExtResource("3_8uxlj")
 
 [node name="Hover" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("18_4cpmv")
 texture_hover = SubResource("AnimatedTexture_uvlxr")
+script = ExtResource("3_8uxlj")
 
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Hover"]
 auto_translate_mode = 1
@@ -200,18 +227,22 @@ offset_bottom = 20.0
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("7_s6naa")
+script = ExtResource("3_8uxlj")
 
 [node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("13_11uq4")
+script = ExtResource("3_8uxlj")
 
 [node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("8_lmmbu")
+script = ExtResource("3_8uxlj")
 
 [node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
+script = ExtResource("3_8uxlj")
 
 [connection signal="pressed" from="PanelContainer/Buttons/Move" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Move/PopupPanel/Container/Close" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_close_pressed"]

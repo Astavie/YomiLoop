@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="1_b3oru"]
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_ua5ty"]
-[ext_resource type="PackedScene" uid="uid://co3ih68ht0j7m" path="res://music.tscn" id="3_61w3m"]
-[ext_resource type="PackedScene" path="res://control_ui.tscn" id="4_ua5ty"]
+[ext_resource type="PackedScene" uid="uid://ckswapis0dte6" path="res://music.tscn" id="3_61w3m"]
+[ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="4_ua5ty"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="5_61w3m"]
 [ext_resource type="PackedScene" uid="uid://c8tqii1cqvxkq" path="res://girder.tscn" id="6_pdpul"]
 
@@ -11,7 +11,6 @@
 
 [node name="Door" parent="." instance=ExtResource("1_ua5ty")]
 position = Vector2(-30, 162)
-MeFirst = true
 
 [node name="Music" parent="." instance=ExtResource("3_61w3m")]
 unique_name_in_owner = true
@@ -33,5 +32,7 @@ position = Vector2(159, 198)
 
 [node name="Girder" parent="." instance=ExtResource("6_pdpul")]
 position = Vector2(150, 180)
+CollidesPlayer = false
+Grabbable = true
 
 [connection signal="pressed" from="Button" to="Door" method="HandleDie"]

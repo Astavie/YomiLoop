@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c31c45atmsj6b"]
 
-[ext_resource type="Script" uid="uid://cakhcgpswd660" path="res://Player.cs" id="1_0phs7"]
+[ext_resource type="Script" uid="uid://cakhcgpswd660" path="res://Door.cs" id="1_0phs7"]
 [ext_resource type="PackedScene" uid="uid://4034aehate3n" path="res://robo.tscn" id="2_50cdl"]
 [ext_resource type="Texture2D" uid="uid://dqssragd5jsrc" path="res://assets/door.png" id="3_0phs7"]
 
