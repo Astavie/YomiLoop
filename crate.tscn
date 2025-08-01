@@ -1,15 +1,14 @@
 [gd_scene load_steps=4 format=3 uid="uid://d01caaj6mstmd"]
 
-[ext_resource type="Script" uid="uid://7y82jh46huxd" path="res://Thing.cs" id="1_3xuqs"]
+[ext_resource type="Script" uid="uid://drvdbdkydh5hc" path="res://Crate.cs" id="1_mo0jf"]
 [ext_resource type="Texture2D" uid="uid://dfa5jmen02ikp" path="res://assets/crate.png" id="2_ggnq6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hs0m"]
 size = Vector2(18, 18)
 
 [node name="Crate" type="CharacterBody2D"]
-collision_layer = 6
-collision_mask = 5
-script = ExtResource("1_3xuqs")
+collision_layer = 2
+script = ExtResource("1_mo0jf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
