@@ -7,13 +7,27 @@ public partial class Robo : Thing
 {
     [Export] public float GrabDistance = 48;
 
-    private Animations animations;
+    public AnimationTree BodyTree { get; private set; }
+    public AnimationNodeStateMachinePlayback PlayBody { get; private set; }
+    public AnimationTree HandTree { get; private set; }
+    public AnimationNodeStateMachinePlayback PlayHand { get; private set; }
     private CanvasGroup[] BodyGroups;
     
     public List<Move> Moves = [];
     public int MoveIndex = 0;
     public int MoveFrame = 0;
-    public Thing Grabbed;
+
+    private Thing _grabbed;
+    public Thing Grabbed {
+        get => _grabbed;
+        set {
+            if (value is null) {
+                PlayHand.Travel(PlayBody.GetCurrentNode());
+            }
+
+            _grabbed = value;
+        }
+    }
     public bool PastSelf = false;
 
     public float Aberration
@@ -31,7 +45,10 @@ public partial class Robo : Thing
     public override void _Ready()
     {
         base._Ready();
-        animations = new(GetNode<AnimationTree>("BodyTree"), GetNode<AnimationTree>("HandTree"));
+        BodyTree = GetNode<AnimationTree>("BodyTree");
+        PlayBody = (AnimationNodeStateMachinePlayback)BodyTree.Get("parameters/playback");
+        HandTree = GetNode<AnimationTree>("HandTree");
+        PlayHand = (AnimationNodeStateMachinePlayback)HandTree.Get("parameters/playback");
         BodyGroups = [
             GetNode<CanvasGroup>("Sprites/BodyGroup"),
             GetNode<CanvasGroup>("Sprites/WheelGroup"),
@@ -39,7 +56,7 @@ public partial class Robo : Thing
             GetNode<CanvasGroup>("Sprites/LeftHandGroup"),
         ];
         
-        animations.Travel("idle");
+        Travel("idle");
 
         if (IsPreview)
         {
@@ -53,7 +70,7 @@ public partial class Robo : Thing
 
     public override void OnFrame(double delta)
     {
-        animations.Advance(delta);
+        Advance(delta);
         
         // Advance to next frame
         if (MoveIndex >= Moves.Count) return;
@@ -83,9 +100,9 @@ public partial class Robo : Thing
             Grabbed = null;
             IsFrozen = true;
             Aberration = 1.5f;
-            animations.PlayBody.Travel("hurt");
-            animations.PlayHand.Travel("RESET");
-            animations.Advance(0.001);
+            PlayBody.Travel("hurt");
+            PlayHand.Travel("RESET");
+            Advance(0.001);
         }
     }
 
@@ -99,15 +116,15 @@ public partial class Robo : Thing
         Aberration = robo?.Aberration ?? 0;
         if (robo is not null)
         {
-            animations.PlayBody.Stop();
-            animations.PlayHand.Stop();
-            animations.Advance(0);
-            animations.PlayBody.Start(robo.animations.PlayBody.GetCurrentNode(), false);
-            animations.PlayHand.Start(robo.animations.PlayHand.GetCurrentNode(), false);
+            PlayBody.Stop();
+            PlayHand.Stop();
+            Advance(0);
+            PlayBody.Start(robo.PlayBody.GetCurrentNode(), false);
+            PlayHand.Start(robo.PlayHand.GetCurrentNode(), false);
         }
         else
         {
-            animations.Travel("RESET");
+            Travel("RESET");
         }
     }
 
@@ -124,7 +141,7 @@ public partial class Robo : Thing
                 if (frame == 0)
                 {
                     if (animation != null)
-                        o.animations.Travel(animation);
+                        o.Travel(animation);
                     action?.Invoke(o);
                 }
                 o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
@@ -152,32 +169,20 @@ public partial class Robo : Thing
         return Move("Grab", 30, action: o =>
         {
             Thing grabbed = thing.OrPreview(o);
-            if (o.CanGrab(grabbed))
+            if (o.CanGrab(grabbed)) {
                 o.Grabbed = grabbed;
+                o.PlayHand.Travel("grab");
+            }
         });
     }
 
-    private class Animations {
-        public AnimationTree BodyTree { get; }
-        public AnimationNodeStateMachinePlayback PlayBody { get; }
-        public AnimationTree HandTree { get; }
-        public AnimationNodeStateMachinePlayback PlayHand { get; }
+    private void Travel(string name) {
+        PlayBody.Travel(name);
+        if (Grabbed is null) PlayHand.Travel(name);
+    }
 
-        public Animations(AnimationTree bodyTree, AnimationTree handTree) {
-            BodyTree = bodyTree;
-            PlayBody = (AnimationNodeStateMachinePlayback)BodyTree.Get("parameters/playback");
-            HandTree = handTree;
-            PlayHand = (AnimationNodeStateMachinePlayback)HandTree.Get("parameters/playback");
-        }
-
-        public void Travel(string name) {
-            PlayBody.Travel(name);
-            PlayHand.Travel(name);
-        }
-
-        public void Advance(double delta) {
-            BodyTree.Advance(delta);
-            HandTree.Advance(delta);
-        }
+    private void Advance(double delta) {
+        BodyTree.Advance(delta);
+        HandTree.Advance(delta);
     }
 }
