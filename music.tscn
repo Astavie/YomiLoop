@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://ckswapis0dte6"]
 
-[ext_resource type="AudioStream" uid="uid://bms12wtivuq3d" path="res://yomiloop.ogg" id="1_5vxup"]
-[ext_resource type="Script" uid="uid://dvjwdkm1b52o5" path="res://audio_stream_player.gd" id="2_w5q55"]
+[ext_resource type="AudioStream" uid="uid://bms12wtivuq3d" path="res://assets/sound/yomiloop.ogg" id="1_5vxup"]
+[ext_resource type="Script" uid="uid://dvjwdkm1b52o5" path="res://scripts/audio_stream_player.gd" id="2_w5q55"]
 
 [sub_resource type="Animation" id="Animation_tpea4"]
 resource_name = "CLEAR"

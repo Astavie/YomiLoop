@@ -1,7 +1,7 @@
 [gd_scene load_steps=130 format=3 uid="uid://4034aehate3n"]
 
 [ext_resource type="Texture2D" uid="uid://3pywb0o6n6vy" path="res://assets/robo/robo_directions.png" id="1_mid84"]
-[ext_resource type="Script" uid="uid://74go3kcb6ayl" path="res://Robo.cs" id="1_o68hb"]
+[ext_resource type="Script" uid="uid://74go3kcb6ayl" path="res://scripts/Robo.cs" id="1_o68hb"]
 [ext_resource type="Shader" uid="uid://ccax67xr74503" path="res://robo.gdshader" id="2_k0gj0"]
 [ext_resource type="Texture2D" uid="uid://b88q3j7n2fq6k" path="res://assets/robo/robo_hurt.png" id="2_o68hb"]
 [ext_resource type="Texture2D" uid="uid://cyce2jtur20vq" path="res://assets/robo/robo_hover.png" id="3_k0gj0"]
