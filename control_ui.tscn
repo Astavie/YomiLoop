@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=32 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -6,9 +6,13 @@
 [ext_resource type="Script" uid="uid://cr7tdgmetkq4w" path="res://scripts/ControlButton.cs" id="3_8uxlj"]
 [ext_resource type="Texture2D" uid="uid://cysa1s75obbmq" path="res://assets/ui/grab/grab1.png" id="3_occbk"]
 [ext_resource type="Texture2D" uid="uid://ba7ctxqwkh1ge" path="res://assets/ui/grab/grab2.png" id="4_8uxlj"]
-[ext_resource type="Texture2D" uid="uid://bg70lvoh4knwl" path="res://assets/ui/move.png" id="5_vh257"]
+[ext_resource type="Texture2D" uid="uid://bii3xgoi3wnpy" path="res://assets/ui/wait/wait1.png" id="5_s6naa"]
+[ext_resource type="Texture2D" uid="uid://bg70lvoh4knwl" path="res://assets/ui/move/move1.png" id="5_vh257"]
 [ext_resource type="Script" uid="uid://ctlm0n43cmmin" path="res://scripts/button_popup.gd" id="6_llrar"]
+[ext_resource type="Texture2D" uid="uid://cupeb0iycfmvc" path="res://assets/ui/wait/wait2.png" id="6_lmmbu"]
+[ext_resource type="Texture2D" uid="uid://dv6sgucg6ufqc" path="res://assets/ui/wait/wait3.png" id="7_ncl7v"]
 [ext_resource type="Texture2D" uid="uid://bgd8cx5xkt4s7" path="res://assets/ui/directions/left.png" id="7_s6naa"]
+[ext_resource type="Texture2D" uid="uid://dx0mlx371s1nv" path="res://assets/ui/move/move2.png" id="8_8uxlj"]
 [ext_resource type="Texture2D" uid="uid://ryvmqsy8oiad" path="res://assets/ui/close.png" id="8_lmmbu"]
 [ext_resource type="Texture2D" uid="uid://c7s3l3yscexln" path="res://assets/ui/directions/right.png" id="9_ncl7v"]
 [ext_resource type="Texture2D" uid="uid://jytkcegvbrtk" path="res://assets/ui/throw.png" id="10_thkbl"]
@@ -24,12 +28,28 @@
 [ext_resource type="Texture2D" uid="uid://d15i5gd5ecupb" path="res://assets/ui/hover/hover3.png" id="20_jihhr"]
 [ext_resource type="Texture2D" uid="uid://cd7csjqit7m8t" path="res://assets/ui/hover/hover4.png" id="21_kui8s"]
 
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_thkbl"]
+frames = 3
+frame_0/texture = ExtResource("5_s6naa")
+frame_0/duration = 0.3
+frame_1/texture = ExtResource("6_lmmbu")
+frame_1/duration = 0.3
+frame_2/texture = ExtResource("7_ncl7v")
+frame_2/duration = 0.3
+
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_gaoim"]
 frames = 2
 frame_0/texture = ExtResource("3_occbk")
 frame_0/duration = 0.2
 frame_1/texture = ExtResource("4_8uxlj")
 frame_1/duration = 0.2
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_vh257"]
+frames = 2
+frame_0/texture = ExtResource("5_vh257")
+frame_0/duration = 0.25
+frame_1/texture = ExtResource("8_8uxlj")
+frame_1/duration = 0.25
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_uvlxr"]
 frames = 4
@@ -70,6 +90,7 @@ script = ExtResource("3_8uxlj")
 [node name="Wait" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("2_bd2vw")
+texture_hover = SubResource("AnimatedTexture_thkbl")
 script = ExtResource("3_8uxlj")
 
 [node name="Grab" type="TextureButton" parent="PanelContainer/Buttons"]
@@ -82,6 +103,7 @@ script = ExtResource("3_8uxlj")
 [node name="Move" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("5_vh257")
+texture_hover = SubResource("AnimatedTexture_vh257")
 script = ExtResource("3_8uxlj")
 
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Move"]
@@ -221,7 +243,7 @@ script = ExtResource("6_llrar")
 [node name="Container" type="HBoxContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 80.0
+offset_right = 60.0
 offset_bottom = 20.0
 
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]

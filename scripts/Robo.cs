@@ -251,13 +251,13 @@ public partial class Robo : Thing
         return new Move("Hover" + direction, 60, (o, frame) => {
             if (frame == 0) {
                 o.PlayBody.Travel(bodyAnim);
-                o.PlayHand.Travel(o.Grabbed is null ? handAnim : "grab_hover");
+                o.PlayHand.Travel(handAnim);
             } else if (o.PlayBody.GetCurrentNode() == "transform") {
                 o.Velocity = new(o.Velocity.X, o.Velocity.Y);
             } else {
                 o.Velocity = new(xspeed, -Gravity);
             }
-        });
+        }, o => o.Grabbed is null);
     }
 
     private const float diagonal = 169.71f; 

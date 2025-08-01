@@ -3125,17 +3125,23 @@ position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_ywes8")
 
 [node name="RightHandGroup" type="CanvasGroup" parent="Sprites"]
+z_index = -1
 material = SubResource("ShaderMaterial_s7t8c")
 use_parent_material = true
 
 [node name="RightHand" type="AnimatedSprite2D" parent="Sprites/RightHandGroup"]
+position = Vector2(11, 15)
+rotation = -0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
 [node name="LeftHandGroup" type="CanvasGroup" parent="Sprites"]
+z_index = -1
 material = SubResource("ShaderMaterial_aevwq")
 use_parent_material = true
 
 [node name="LeftHand" type="AnimatedSprite2D" parent="Sprites/LeftHandGroup"]
+position = Vector2(-12, 15)
+rotation = 0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
 [node name="RocketGroup" type="CanvasGroup" parent="Sprites"]

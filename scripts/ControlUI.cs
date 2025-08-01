@@ -21,8 +21,10 @@ public partial class ControlUI : Control
                 Buttons.GetChild<ControlButton>(i).Disable();
             }
         } else {
+            Robo me = GetNode<Physics>("/root/Physics").Me;
             for (int i = 0; i < Buttons.GetChildCount(); i++) {
-                Buttons.GetChild<ControlButton>(i).Enable();
+                ControlButton controlButton = Buttons.GetChild<ControlButton>(i);
+                if (controlButton.Move.IsLegal?.Invoke(me) ?? true) controlButton.Enable();
             }
         }
     }
