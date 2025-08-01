@@ -23,7 +23,7 @@ public partial class Robo : Thing
         get => _grabbed;
         set {
             if (value is null) {
-                PlayHand.Travel(PlayBody.GetCurrentNode());
+                PlayHand.Travel("idle");
             }
 
             _grabbed = value;
@@ -169,11 +169,13 @@ public partial class Robo : Thing
     public static Move Ungrab = Move("Ungrab", 30, o => o.Grabbed = null);
     public static Move ThrowLeft = Move("ThrowLeft", 30, o =>
     {
+        if (o.Grabbed is null) return;
         o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? -512 : -256, o.Grabbed.IsFrozen ? 0 : -128);
         o.Grabbed = null;
     });
     public static Move ThrowRight = Move("ThrowRight", 30, o =>
     {
+        if (o.Grabbed is null) return;
         o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? 512 : 256, o.Grabbed.IsFrozen ? 0 : -128);
         o.Grabbed = null;
     });

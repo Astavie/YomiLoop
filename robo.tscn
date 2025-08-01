@@ -2001,7 +2001,7 @@ material = SubResource("ShaderMaterial_s7t8c")
 use_parent_material = true
 
 [node name="RightHand" type="AnimatedSprite2D" parent="Sprites/RightHandGroup"]
-position = Vector2(11, 14.8918)
+position = Vector2(11, 14.3691)
 rotation = -0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 
@@ -2011,7 +2011,7 @@ material = SubResource("ShaderMaterial_aevwq")
 use_parent_material = true
 
 [node name="LeftHand" type="AnimatedSprite2D" parent="Sprites/LeftHandGroup"]
-position = Vector2(-12, 14.8918)
+position = Vector2(-12, 14.3691)
 rotation = 0.261799
 sprite_frames = SubResource("SpriteFrames_6yfi1")
 

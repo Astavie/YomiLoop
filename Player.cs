@@ -64,12 +64,19 @@ public partial class Player : Node2D
 		
 		// Connect button signals
 		GetNode<BaseButton>("%Buttons/Wait").Pressed += () => Queued = Robo.Wait;
-		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Left").Pressed += () => Queued = Robo.MoveLeft;
-		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Right").Pressed += () => Queued = Robo.MoveRight;
-		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Left").Pressed += () => Queued = Robo.ThrowLeft;
-		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Right").Pressed += () => Queued = Robo.ThrowRight;
+		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Left").Pressed   += QueueMove(Robo.MoveLeft);
+		GetNode<BaseButton>("%Buttons/Move/PopupPanel/HBoxContainer/Right").Pressed  += QueueMove(Robo.MoveRight);
+		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Left").Pressed  += QueueMove(Robo.ThrowLeft);
+		GetNode<BaseButton>("%Buttons/Throw/PopupPanel/HBoxContainer/Right").Pressed += QueueMove(Robo.ThrowRight);
 	}
 
+	private Action QueueMove(Move move) {
+		return () => {
+			Physics.State = PlayState.Preview;
+			Queued = move;
+		};
+	}
+	
     public override void _PhysicsProcess(double delta)
     {
 	    switch (Physics.State)
