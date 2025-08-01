@@ -9,12 +9,15 @@ public partial class Crate : Thing
     {
         base._Ready();
 
+        CollisionObject2D oneWay = GetNodeOrNull<CollisionObject2D>("OneWay");
         if (IsPreview)
         {
             CollisionLayer |= 4;
             CollisionMask |= 4;
             if (CollidesPlayer)
                 CollisionLayer |= 16;
+            if (oneWay is not null)
+                oneWay.CollisionLayer |= 16;
         }
         else
         {
@@ -22,6 +25,8 @@ public partial class Crate : Thing
             CollisionMask |= 8;
             if (CollidesPlayer)
                 CollisionLayer |= 32;
+            if (oneWay is not null)
+                oneWay.CollisionLayer |= 32;
         }
     }
 
