@@ -3,6 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+public enum Direction {
+    Right,
+    Left,
+    Up,
+    Down,
+    UpRight,
+    DownRight,
+    UpLeft,
+    DownLeft
+}
+
 public partial class Robo : Thing
 {
     [Export] public float GrabDistance = 48;
@@ -13,6 +24,8 @@ public partial class Robo : Thing
     public AnimationTree HandTree { get; private set; }
     public AnimationNodeStateMachinePlayback PlayHand { get; private set; }
     private CanvasGroup[] BodyGroups;
+    
+    public AnimatedSprite2D RocketSprite { get; private set; }
     
     public List<Move> Moves = [];
     public int MoveIndex = 0;
@@ -55,7 +68,9 @@ public partial class Robo : Thing
             GetNode<CanvasGroup>("Sprites/WheelGroup"),
             GetNode<CanvasGroup>("Sprites/RightHandGroup"),
             GetNode<CanvasGroup>("Sprites/LeftHandGroup"),
+            GetNode<CanvasGroup>("Sprites/RocketGroup")
         ];
+        RocketSprite = GetNode<AnimatedSprite2D>("Sprites/RocketGroup/Rocket");
         
         Travel("idle");
 
@@ -147,15 +162,20 @@ public partial class Robo : Thing
         return thing.GlobalPosition.DistanceSquaredTo(GlobalPosition) < GrabDistance * GrabDistance;
     }
 
-    public static Move Move(string name, int frames, Action<Robo> action = null, string animation = "idle", float? xspeed = 0, float? yspeed = null) {
+    public static Move Move(string name,
+                            int frames,
+                            Action<Robo> action = null,
+                            Predicate<Robo> isLegal = null,
+                            string animation = "idle",
+                            float? xspeed = null,
+                            float? yspeed = null) {
         return new Move(
             name,
             frames, 
             (o, frame) => {
                 if (frame == 0)
                 {
-                    if (animation != null)
-                        o.Travel(animation);
+                    if (animation != null) o.Travel(animation);
                     action?.Invoke(o);
                 }
                 o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
@@ -189,6 +209,45 @@ public partial class Robo : Thing
                 o.Grabbed = grabbed;
                 o.PlayHand.Travel("grab");
             }
+        });
+    }
+
+    public static Move Hover(Direction direction) {
+        (float xspeed, string bodyAnim, string handAnim) = direction switch {
+            Direction.Left => (-64, "hovering_left", "moving_left"),
+            Direction.Right => (64, "hovering_right", "moving_right"),
+            _ => (0, "hover", "idle"),
+        };
+        return new Move("Hover" + direction, 60, (o, frame) => {
+            if (frame == 0) {
+                o.PlayBody.Travel(bodyAnim);
+                o.PlayHand.Travel(o.Grabbed is null ? handAnim : "grab_hover");
+            } else if (o.PlayBody.GetCurrentNode() == "transform") {
+                o.Velocity = new(o.Velocity.X, o.Velocity.Y);
+            } else {
+                o.Velocity = new(xspeed, -Gravity);
+            }
+        });
+    }
+
+    private const float diagonal = 169.71f; 
+    public static Move Rocket(Direction direction) {
+        (float xspeed, float yspeed, Vector2 rocketPos, float rocketRot) = direction switch {
+            Direction.Right => (240f, 0, new Vector2(-15, 5), Mathf.Tau / 2),
+            Direction.Left => (-240f, 0, new Vector2(15, 5), 0),
+            Direction.Up => (0, -240f, new Vector2(0, 22), Mathf.Tau / 4),
+            Direction.Down => (0, 240f, new Vector2(0, -12), Mathf.Tau * 3/4),
+            Direction.UpLeft => (-diagonal, -diagonal, new Vector2(12, 17), Mathf.Tau / 8),
+            Direction.UpRight => (diagonal, -diagonal, new Vector2(-12, 17), Mathf.Tau *  3/8),
+            Direction.DownRight => (diagonal, diagonal, new Vector2(-10, -6), Mathf.Tau * 5/8),
+            Direction.DownLeft => (-diagonal, diagonal, new Vector2(10, -6), Mathf.Tau * 7/8),
+            _ => throw new Exception("WTF are you even doing???")
+        };
+        return Move("Rocket" + direction, 30, xspeed:xspeed, yspeed:yspeed, action: o => {
+            o.Grabbed = null;
+            o.Travel("rocket");
+            o.RocketSprite.Position = rocketPos;
+            o.RocketSprite.Rotation = rocketRot;
         });
     }
 

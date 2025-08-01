@@ -66,10 +66,21 @@ public partial class Player : Node2D
 		Buttons.GetNode<BaseButton>("Perform").Pressed += HandlePerform;
 		Buttons.GetNode<BaseButton>("Grab").Pressed += HandleGrab;
 		Buttons.GetNode<BaseButton>("Wait").Pressed += () => Queued = Robo.Wait;
-		Buttons.GetNode<BaseButton>("Move/PopupPanel/HBoxContainer/Left").Pressed   += QueueMove(Robo.MoveLeft);
-		Buttons.GetNode<BaseButton>("Move/PopupPanel/HBoxContainer/Right").Pressed  += QueueMove(Robo.MoveRight);
-		Buttons.GetNode<BaseButton>("Throw/PopupPanel/HBoxContainer/Left").Pressed  += QueueMove(Robo.ThrowLeft);
-		Buttons.GetNode<BaseButton>("Throw/PopupPanel/HBoxContainer/Right").Pressed += QueueMove(Robo.ThrowRight);
+		Buttons.GetNode<BaseButton>("Move/PopupPanel/Container/Left").Pressed   += QueueMove(Robo.MoveLeft);
+		Buttons.GetNode<BaseButton>("Move/PopupPanel/Container/Right").Pressed  += QueueMove(Robo.MoveRight);
+		Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Left").Pressed  += QueueMove(Robo.ThrowLeft);
+		Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Right").Pressed += QueueMove(Robo.ThrowRight);
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Right").Pressed += QueueMove(Robo.Rocket(Direction.Right));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Left").Pressed += QueueMove(Robo.Rocket(Direction.Left));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Rocket(Direction.Up));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Down").Pressed += QueueMove(Robo.Rocket(Direction.Down));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/UpRight").Pressed += QueueMove(Robo.Rocket(Direction.UpRight));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/DownRight").Pressed += QueueMove(Robo.Rocket(Direction.DownRight));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/UpLeft").Pressed += QueueMove(Robo.Rocket(Direction.UpLeft));
+		Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/DownLeft").Pressed += QueueMove(Robo.Rocket(Direction.DownLeft));
+		Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Left").Pressed += QueueMove(Robo.Hover(Direction.Left));
+		Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Right").Pressed += QueueMove(Robo.Hover(Direction.Right));
+		Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Hover(Direction.Up));
 	}
 
 	private Action QueueMove(Move move) {
