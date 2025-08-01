@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bg70lvoh4knwl"
-path="res://.godot/imported/move.png-80a455607b945e92849694285c52aba8.ctex"
+uid="uid://cupeb0iycfmvc"
+path="res://.godot/imported/wait2.png-09772b66e950b3be42409d6e024e37fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/ui/move.png"
-dest_files=["res://.godot/imported/move.png-80a455607b945e92849694285c52aba8.ctex"]
+source_file="res://assets/ui/wait/wait2.png"
+dest_files=["res://.godot/imported/wait2.png-09772b66e950b3be42409d6e024e37fa.ctex"]
 
 [params]
 
