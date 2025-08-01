@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 public enum Direction {
     Right,
@@ -26,6 +27,8 @@ public partial class Robo : Thing
     private CanvasGroup[] BodyGroups;
     
     public AnimatedSprite2D RocketSprite { get; private set; }
+
+    public bool CanRocket { get; private set; } = true;
     
     public List<Move> Moves = [];
     public int MoveIndex = 0;
@@ -111,8 +114,13 @@ public partial class Robo : Thing
         MoveIndex++;
     }
 
-    public override void AfterFrame()
-    {
+    public override void AfterFrame() {
+        if (IsOnFloor()) {
+            bool notRocketing = PlayBody.GetCurrentNode() != "rocket";
+            bool notGoingToRocket = PlayBody.GetTravelPath().Count == 0 || PlayBody.GetTravelPath().Last() != "rocket";
+            CanRocket = notRocketing && notGoingToRocket;
+        }
+        
         if (Grabbed != null)
         {
             Grabbed.Velocity = Vector2.Zero;
@@ -141,6 +149,12 @@ public partial class Robo : Thing
         MoveFrame = robo?.MoveFrame ?? 0;
         Grabbed = robo?.Grabbed?.Preview;
         Aberration = robo?.Aberration ?? 0;
+
+        var velocity = Velocity;
+        Velocity = Vector2.Zero;
+        MoveAndSlide();
+        Velocity = robo?.Velocity ?? velocity;
+        
         if (robo is not null)
         {
             PlayBody.Stop();
@@ -174,6 +188,7 @@ public partial class Robo : Thing
     public static Move Move(string name,
                             int frames,
                             Action<Robo> action = null,
+                            Predicate<Robo> doFrame = null,
                             Predicate<Robo> isLegal = null,
                             string animation = "idle",
                             float? xspeed = null,
@@ -182,18 +197,24 @@ public partial class Robo : Thing
             name,
             frames, 
             (o, frame) => {
-                if (frame == 0)
-                {
+                if (frame == 0) {
                     if (animation != null) o.Travel(animation);
                     action?.Invoke(o);
                 }
-                o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
-            }
+
+                if (doFrame?.Invoke(o) ?? true) {
+                    o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
+                }
+            },
+            isLegal
         );
     }
 
-    public static Move MoveLeft = Move("MoveLeft", 60, animation:"moving_left", xspeed: -64);
-    public static Move MoveRight = Move("MoveRight", 60, animation:"moving_right", xspeed: 64);
+    private static bool IsOnGround(Robo o) => o.IsOnFloor();
+    private static bool CanUseRocket(Robo o) => o.CanRocket;
+    
+    public static Move MoveLeft = Move("MoveLeft", 60, animation:"moving_left", xspeed: -64, doFrame:IsOnGround);
+    public static Move MoveRight = Move("MoveRight", 60, animation:"moving_right", xspeed: 64, doFrame:IsOnGround);
     public static Move Wait = Move("Wait", 30, animation:"idle");
     public static Move Ungrab = Move("Ungrab", 30, o => o.Grabbed = null);
     public static Move ThrowLeft = Move("ThrowLeft", 30, o =>
@@ -252,7 +273,8 @@ public partial class Robo : Thing
             Direction.DownLeft => (-diagonal, diagonal, new Vector2(10, -6), Mathf.Tau * 7/8),
             _ => throw new Exception("WTF are you even doing???")
         };
-        return Move("Rocket" + direction, 30, xspeed:xspeed, yspeed:yspeed, action: o => {
+        return Move("Rocket" + direction, 30, xspeed:xspeed, yspeed:yspeed, isLegal:CanUseRocket, action: o => {
+            o.CanRocket = false;
             o.Grabbed = null;
             o.Travel("rocket");
             o.RocketSprite.Position = rocketPos;
