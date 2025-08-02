@@ -327,7 +327,12 @@ public partial class Robo : Thing
     public static Move Loop = new("Loop", 30, (o, frame) => {
         if (frame > 0) return;
         o.Die();
-        if (!(o.IsPreview || o.PastSelf)) o.GetNode<Wipe>("/root/Wipe").DoWipe(() => {});
+        
+        if (!(o.IsPreview || o.PastSelf))
+        {
+            o.GetNode<Wipe>("/root/Wipe")
+                .DoWipe(() => o.physics.State = PlayState.Reset);
+        }
     });
 
     private void Travel(string name) {

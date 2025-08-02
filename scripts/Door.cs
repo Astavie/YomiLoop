@@ -16,6 +16,7 @@ public enum PlayState
     Preview,
     Running,
     Grab,
+    Reset,
 }
 
 public partial class Door : Node2D
@@ -143,24 +144,25 @@ public partial class Door : Node2D
             Queued = move;
         };
     }
+
+    public void OnDeath()
+    {
+    }
     
     public override void _PhysicsProcess(double delta)
     {
-        if (Me.IsFrozen)
-        {
-            // Create new past self
-            Physics.ResetMovement();
-            Me.PastSelf = true;
-            Preview.PastSelf = true;
-            _pastSelves.Add(Me);
-        
-            // Create new Me
-            SpawnPlayer();
-            return;
-        }
-        
         switch (Physics.State)
         {
+            case PlayState.Reset:
+                // Create new past self
+                Physics.ResetMovement();
+                Me.PastSelf = true;
+                Preview.PastSelf = true;
+                _pastSelves.Add(Me);
+        
+                // Create new Me
+                SpawnPlayer();
+                break;
             case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
                 Physics.State = PlayState.Preview;
                 Music.Play("EQ");
