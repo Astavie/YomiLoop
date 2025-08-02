@@ -89,6 +89,7 @@ public partial class Robo : Thing
         RocketSprite = GetNode<AnimatedSprite2D>("Sprites/RocketGroup/Rocket");
         
         Travel("idle");
+        Advance(0);
 
         if (IsPreview) {
             Robo parent = GetParent<Robo>();

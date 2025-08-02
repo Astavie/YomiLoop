@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=4 uid="uid://dowvtkiru5l4e"]
+
+[ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_2fskk"]
+[ext_resource type="PackedScene" uid="uid://4034aehate3n" path="res://robo.tscn" id="3_mae5d"]
+[ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="4_4hy44"]
+[ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_tbhb4"]
+[ext_resource type="Script" uid="uid://ccujk375qv77b" path="res://scripts/StartButton.cs" id="5_l48gv"]
+[ext_resource type="Theme" uid="uid://c5rg43posc4g6" path="res://theme.tres" id="5_ytr4m"]
+[ext_resource type="PackedScene" uid="uid://rvip1py4xe4u" path="res://levels/level1.tscn" id="6_ecwwl"]
+
+[node name="Level" type="Node2D"]
+
+[node name="LevelTiles" parent="." instance=ExtResource("2_2fskk")]
+position = Vector2(6, -72)
+tile_map_data = PackedByteArray("AAD//w0AAAACAAEAAAD//w4AAAACAAIAAAD//w8AAAABAAIAAAD//xAAAAABAAIAAAD//xEAAAABAAIAAAD//xIAAAABAAIAAAD//xMAAAABAAIAAAD//xQAAAABAAMAAAAAAA0AAAACAAEAAAAAAA4AAAACAAIAAAAAAA8AAAACAAIAAAAAABAAAAACAAIAAAAAABEAAAACAAIAAAAAABIAAAACAAIAAAAAABMAAAACAAIAAAAAABQAAAACAAMAAAABAA0AAAADAAEAAAABAA4AAAADAAIAAAABAA8AAAADAAIAAAABABAAAAADAAIAAAABABEAAAADAAIAAAABABIAAAADAAIAAAABABMAAAADAAIAAAABABQAAAADAAMAAAD9/w0AAAABAAEAAAD9/w4AAAABAAMAAAD+/w0AAAACAAEAAAD+/w4AAAACAAMAAAA=")
+
+[node name="Background" parent="." instance=ExtResource("4_tbhb4")]
+position = Vector2(320, 108)
+
+[node name="Robo" parent="." instance=ExtResource("3_mae5d")]
+position = Vector2(24, 162)
+
+[node name="Label" type="Label" parent="."]
+offset_left = 280.0
+offset_top = 79.0
+offset_right = 475.0
+offset_bottom = 102.0
+theme = ExtResource("4_4hy44")
+text = "your only move is"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 320.0
+offset_top = 93.0
+offset_right = 515.0
+offset_bottom = 129.0
+theme = ExtResource("4_4hy44")
+theme_override_font_sizes/font_size = 32
+text = "LOOP"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+offset_left = 393.0
+offset_top = 176.0
+offset_right = 474.0
+offset_bottom = 203.0
+theme = ExtResource("4_4hy44")
+text = "Start"
+script = ExtResource("5_l48gv")
+FirstLevel = ExtResource("6_ecwwl")
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 384.0
+offset_top = 252.0
+offset_right = 471.0
+offset_bottom = 275.0
+theme = ExtResource("5_ytr4m")
+theme_override_constants/shadow_outline_size = 0
+text = "Assets by Kenney"
+
+[node name="Label4" type="Label" parent="."]
+offset_left = 249.0
+offset_top = 234.0
+offset_right = 472.0
+offset_bottom = 257.0
+theme = ExtResource("5_ytr4m")
+theme_override_constants/shadow_outline_size = 0
+text = "Made in 96 hours for the 2025 GMTK Game Jam"
