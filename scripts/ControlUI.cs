@@ -11,6 +11,8 @@ public partial class ControlUI : Control
         GetNode<Physics>("/root/Physics").StateChanged += OnStateChanged;
         
         Buttons = GetNode<Control>("%Buttons");
+        foreach (Control button in Buttons.GetChildren())
+            if (button is ControlButton b) b.Disable();
         if (!EnableHover) GetNode<ControlButton>("%Buttons/Hover").Disable(forever:true);
         if (!EnableRocket) GetNode<ControlButton>("%Buttons/Rocket").Disable(forever:true);
     }

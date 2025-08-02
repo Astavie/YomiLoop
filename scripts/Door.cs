@@ -68,6 +68,7 @@ public partial class Door : Node2D
         Buttons.GetNode<BaseButton>("Wait").Pressed += () => Queued = Robo.Wait;
         Buttons.GetNode<ControlButton>("Rocket").Move = Robo.Rocket(Direction.Up);
         Buttons.GetNode<ControlButton>("Hover").Move = Robo.Hover(Direction.Up);
+        Buttons.GetNode<ControlButton>("Throw").Move = Robo.ThrowLeft;
         Buttons.GetNode<ControlButton>("Move/PopupPanel/Container/Left").Pressed += QueueMove(Robo.MoveLeft);
         Buttons.GetNode<ControlButton>("Move/PopupPanel/Container/Right").Pressed += QueueMove(Robo.MoveRight);
         Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/Left").Pressed += QueueMove(Robo.ThrowLeft);
