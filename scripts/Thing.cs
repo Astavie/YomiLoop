@@ -17,7 +17,8 @@ public partial class Thing : CharacterBody2D
     public Thing Preview;
     public bool IsPreview = false;
     public bool IsFrozen = false;
-    public bool IsPaused = false;
+    public bool IsGrabbed = false;
+    public bool WasGrabbed = false;
     
     protected Physics physics;
     
@@ -47,9 +48,8 @@ public partial class Thing : CharacterBody2D
     public void StepMovement(double delta)
     {
         Visible = true;
-        if (IsPaused)
-        {
-            IsPaused = false;
+        if (IsGrabbed) {
+            WasGrabbed = true;
             AfterFrame();
             return;
         }
@@ -67,6 +67,8 @@ public partial class Thing : CharacterBody2D
             MoveAndSlide();
             AfterFrame();
         }
+
+        WasGrabbed = false;
     }
     
     public virtual void OnFrame(double delta) {}
@@ -79,7 +81,7 @@ public partial class Thing : CharacterBody2D
         Transform = _initialTransform;
         Modulate = _initialModulate;
         Velocity = parent?.Velocity ?? Vector2.Zero;
-        IsPaused = parent?.IsPaused ?? false;
+        IsGrabbed = parent?.IsGrabbed ?? false;
         IsFrozen = parent?.IsFrozen ?? false;
     }
 

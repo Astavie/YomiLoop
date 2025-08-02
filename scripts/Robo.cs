@@ -40,7 +40,10 @@ public partial class Robo : Thing
         get => _grabbed;
         set {
             if (value is null) {
+                if (_grabbed is not null) _grabbed.IsGrabbed = false;
                 PlayHand.Travel("idle");
+            } else {
+                value.IsGrabbed = true;
             }
 
             _grabbed = value;
@@ -102,7 +105,7 @@ public partial class Robo : Thing
     public override void OnFrame(double delta)
     {
         Advance(delta);
-        if (IsOnFloor())
+        if (IsOnGround(this))
         {
             Velocity = new Vector2(0, Velocity.Y);
         }
@@ -123,7 +126,7 @@ public partial class Robo : Thing
     }
 
     public override void AfterFrame() {
-        if (IsOnFloor()) {
+        if (IsOnGround(this)) {
             bool notRocketing = PlayBody.GetCurrentNode() != "rocket";
             bool notGoingToRocket = PlayBody.GetTravelPath().Count == 0 || PlayBody.GetTravelPath().Last() != "rocket";
             CanRocket = notRocketing && notGoingToRocket;
@@ -133,7 +136,6 @@ public partial class Robo : Thing
         {
             Grabbed.Velocity = Vector2.Zero;
             Grabbed.GlobalPosition = GlobalPosition + Vector2.Up * 32;
-            Grabbed.IsPaused = true;
         }
 
         // Death logic
@@ -225,7 +227,7 @@ public partial class Robo : Thing
         );
     }
 
-    private static bool IsOnGround(Robo o) => o.IsOnFloor();
+    private static bool IsOnGround(Robo o) => o.IsOnFloor() && !o.IsGrabbed && !o.WasGrabbed;
     private static bool CanUseRocket(Robo o) => o.CanRocket;
     
     public static Move MoveLeft = Move("MoveLeft", 60, animation:"moving_left", xspeed: -64, doFrame:IsOnGround);
