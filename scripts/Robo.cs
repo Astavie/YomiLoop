@@ -226,13 +226,13 @@ public partial class Robo : Thing
         if (o.Grabbed is null) return;
         o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? -512 : -256, o.Grabbed.IsFrozen ? 0 : -128);
         o.Grabbed = null;
-    });
+    }, isLegal: robo => robo.Grabbed is not null);
     public static Move ThrowRight = Move("ThrowRight", 30, o =>
     {
         if (o.Grabbed is null) return;
         o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? 512 : 256, o.Grabbed.IsFrozen ? 0 : -128);
         o.Grabbed = null;
-    });
+    }, isLegal: robo => robo.Grabbed is not null);
     
     public static Move Grab(Thing thing)
     {
