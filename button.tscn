@@ -1,7 +1,29 @@
-[gd_scene load_steps=4 format=3 uid="uid://deqmiinqkvymo"]
+[gd_scene load_steps=7 format=3 uid="uid://deqmiinqkvymo"]
 
 [ext_resource type="Script" uid="uid://tsafbxrtdptp" path="res://scripts/Button.cs" id="1_n4tde"]
-[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="2_vxja4"]
+[ext_resource type="Texture2D" uid="uid://ddmel01d5vpuk" path="res://assets/button.png" id="2_n4tde"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxja4"]
+atlas = ExtResource("2_n4tde")
+region = Rect2(0, 0, 17, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lt4la"]
+atlas = ExtResource("2_n4tde")
+region = Rect2(18, 0, 17, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_4amfo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxja4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lt4la")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
 size = Vector2(18, 9)
@@ -11,10 +33,9 @@ collision_layer = 0
 collision_mask = 12
 script = ExtResource("1_n4tde")
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(0, -4.51)
-scale = Vector2(0.14, 0.07)
-texture = ExtResource("2_vxja4")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
+sprite_frames = SubResource("SpriteFrames_4amfo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4.5)
