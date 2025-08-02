@@ -64,14 +64,8 @@ public partial class Robo : Thing
 
     public float Aberration
     {
-        get => BodyGroups[0].Material.Get("shader_parameter/aberration").AsSingle();
-        set
-        {
-            foreach (var group in BodyGroups)
-            {
-                group.Material.Set("shader_parameter/aberration", value);
-            }
-        }
+        get => CanvasMaterial.Get("shader_parameter/aberration").AsSingle();
+        set => CanvasMaterial.Set("shader_parameter/aberration", value);
     }
 
     public override void _Ready()
@@ -89,6 +83,9 @@ public partial class Robo : Thing
             GetNode<CanvasGroup>("Sprites/LeftHandGroup"),
             GetNode<CanvasGroup>("Sprites/RocketGroup")
         ];
+        foreach (CanvasGroup canvasGroup in BodyGroups) {
+            canvasGroup.Material = CanvasMaterial;
+        }
         RocketSprite = GetNode<AnimatedSprite2D>("Sprites/RocketGroup/Rocket");
         
         Travel("idle");
@@ -97,10 +94,6 @@ public partial class Robo : Thing
             Robo parent = GetParent<Robo>();
             Moves = parent.Moves;
             LifeTime = parent.LifeTime;
-            foreach (var group in BodyGroups)
-            {
-                group.Material = (Material)group.Material.Duplicate();
-            }
         } else {
             _grabLine = GetNode<Line2D>("GrabLine");
         }

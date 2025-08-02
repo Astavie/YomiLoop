@@ -1,10 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm6dmsfr1kg5i"]
+[gd_scene load_steps=8 format=3 uid="uid://cm6dmsfr1kg5i"]
 
 [ext_resource type="Script" uid="uid://dda1wgyvjj20x" path="res://scripts/Goal.cs" id="1_0qle8"]
 [ext_resource type="Texture2D" uid="uid://1o6u70fyv6xq" path="res://assets/goal.png" id="2_0qle8"]
+[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="2_p20yd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p20yd"]
+shader = ExtResource("2_p20yd")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0qle8"]
 size = Vector2(18, 18)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gcynx"]
+shader = ExtResource("2_p20yd")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
 size = Vector2(14, 14)
@@ -12,15 +23,19 @@ size = Vector2(14, 14)
 [node name="Goal" type="CharacterBody2D"]
 z_index = 100
 z_as_relative = false
-collision_layer = 0
+collision_layer = 2
 platform_floor_layers = 4294967040
 script = ExtResource("1_0qle8")
+CanvasMaterial = SubResource("ShaderMaterial_p20yd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_0qle8")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_gcynx")
+
+[node name="Sprite" type="Sprite2D" parent="CanvasGroup"]
 position = Vector2(0, -8)
 texture = ExtResource("2_0qle8")
 

@@ -1,10 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://d01caaj6mstmd"]
+[gd_scene load_steps=8 format=3 uid="uid://d01caaj6mstmd"]
 
+[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="1_ggnq6"]
 [ext_resource type="Script" uid="uid://drvdbdkydh5hc" path="res://scripts/Crate.cs" id="1_mo0jf"]
 [ext_resource type="Texture2D" uid="uid://dfa5jmen02ikp" path="res://assets/crate.png" id="2_ggnq6"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ggnq6"]
+shader = ExtResource("1_ggnq6")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hs0m"]
 size = Vector2(18, 18)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_44j4e"]
+shader = ExtResource("1_ggnq6")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mo0jf"]
 size = Vector2(18, 18)
@@ -13,12 +24,16 @@ size = Vector2(18, 18)
 collision_layer = 2
 platform_floor_layers = 4294967040
 script = ExtResource("1_mo0jf")
+CanvasMaterial = SubResource("ShaderMaterial_ggnq6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_2hs0m")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+material = SubResource("ShaderMaterial_44j4e")
+
+[node name="Sprite" type="Sprite2D" parent="CanvasGroup"]
 position = Vector2(0, -9)
 texture = ExtResource("2_ggnq6")
 
