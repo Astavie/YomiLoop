@@ -295,8 +295,10 @@ public partial class Robo : Thing
                 o.Grabbed = grabbed;
                 o.PlayHand.Travel("grab");
                 o.PlaySound(o.GrabSound);
-                if (!o.IsPreview && grabbed is Goal goal)
-                    o.physics.GoalAction(goal, o);
+                if (grabbed is Goal goal) {
+                    o.PlayBody.Travel("happy");
+                    if (!o.IsPreview) o.physics.GoalAction(goal, o);
+                }
             }
         });
     }

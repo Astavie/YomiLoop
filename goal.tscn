@@ -10,6 +10,8 @@ size = Vector2(18, 18)
 size = Vector2(14, 14)
 
 [node name="Goal" type="CharacterBody2D"]
+z_index = 100
+z_as_relative = false
 collision_layer = 0
 platform_floor_layers = 4294967040
 script = ExtResource("1_0qle8")

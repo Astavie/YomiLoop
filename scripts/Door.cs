@@ -145,10 +145,6 @@ public partial class Door : Node2D
             Queued = move;
         };
     }
-
-    public void OnDeath()
-    {
-    }
     
     public override void _PhysicsProcess(double delta)
     {
