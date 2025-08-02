@@ -5,6 +5,8 @@ public partial class ControlUI : Control
 {
     [Export] public bool EnableHover { get; set; } = true;
     [Export] public bool EnableRocket { get; set; } = true;
+    [Export] public bool EnableLoop { get; set; } = true;
+    [Export] public Texture2D LockedTexture { get; set; }
 
     private Control Buttons;
 
@@ -13,8 +15,9 @@ public partial class ControlUI : Control
         
         Buttons = GetNode<Control>("%Buttons");
         Buttons.GetChildren().OfType<ControlButton>().ToList().ForEach(b => b.Disable());
-        if (!EnableHover) GetNode<ControlButton>("%Buttons/Hover").Disable(forever:true);
-        if (!EnableRocket) GetNode<ControlButton>("%Buttons/Rocket").Disable(forever:true);
+        if (!EnableLoop) GetNode<ControlButton>("%Buttons/Loop").Disable(forever:true,overrideTex:LockedTexture);
+        if (!EnableHover) GetNode<ControlButton>("%Buttons/Hover").Disable(forever:true,overrideTex:LockedTexture);
+        if (!EnableRocket) GetNode<ControlButton>("%Buttons/Rocket").Disable(forever:true,overrideTex:LockedTexture);
     }
 
     public override void _ExitTree()

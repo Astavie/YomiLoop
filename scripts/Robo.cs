@@ -17,7 +17,7 @@ public enum Direction {
 
 public partial class Robo : Thing
 {
-    [Export] public float GrabDistance = 48;
+    [Export] public float GrabDistance = 32;
     private Line2D _grabLine;
 
     public AnimationTree BodyTree { get; private set; }
@@ -43,8 +43,9 @@ public partial class Robo : Thing
     public Thing Grabbed {
         get => _grabbed;
         set {
+            if (_grabbed is not null) _grabbed.IsGrabbed = false;
+            
             if (value is null) {
-                if (_grabbed is not null) _grabbed.IsGrabbed = false;
                 PlayHand.Travel("idle");
             } else {
                 value.IsGrabbed = true;

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://deqmiinqkvymo"]
+
+[ext_resource type="Script" uid="uid://tsafbxrtdptp" path="res://scripts/Button.cs" id="1_n4tde"]
+[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="2_vxja4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
+size = Vector2(18, 9)
+
+[node name="Button" type="Area2D"]
+collision_layer = 0
+collision_mask = 12
+script = ExtResource("1_n4tde")
+
+[node name="Icon" type="Sprite2D" parent="."]
+position = Vector2(0, -4.51)
+scale = Vector2(0.14, 0.07)
+texture = ExtResource("2_vxja4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_omn1t")

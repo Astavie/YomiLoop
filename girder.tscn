@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_v7ypp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hs0m"]
-size = Vector2(54, 18)
+size = Vector2(52, 18)
 
 [node name="Girder" type="CharacterBody2D"]
 collision_layer = 0
