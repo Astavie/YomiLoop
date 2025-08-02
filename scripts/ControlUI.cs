@@ -23,7 +23,8 @@ public partial class ControlUI : Control
         } else {
             Robo me = GetNode<Physics>("/root/Physics").Me;
             for (int i = 0; i < Buttons.GetChildCount(); i++) {
-                ControlButton controlButton = Buttons.GetChild<ControlButton>(i);
+                Control child = Buttons.GetChild<Control>(i);
+                if (child is not ControlButton controlButton) continue;
                 if (controlButton.Move.IsLegal?.Invoke(me) ?? true) controlButton.Enable();
             }
         }

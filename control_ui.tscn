@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=34 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -28,6 +28,8 @@
 [ext_resource type="Texture2D" uid="uid://d15i5gd5ecupb" path="res://assets/ui/hover/hover3.png" id="20_jihhr"]
 [ext_resource type="Texture2D" uid="uid://cd7csjqit7m8t" path="res://assets/ui/hover/hover4.png" id="21_kui8s"]
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6naa"]
+
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_thkbl"]
 frames = 3
 frame_0/texture = ExtResource("5_s6naa")
@@ -43,6 +45,8 @@ frame_0/texture = ExtResource("3_occbk")
 frame_0/duration = 0.2
 frame_1/texture = ExtResource("4_8uxlj")
 frame_1/duration = 0.2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lmmbu"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_vh257"]
 frames = 2
@@ -87,6 +91,11 @@ layout_mode = 2
 texture_normal = ExtResource("1_w7rrd")
 script = ExtResource("3_8uxlj")
 
+[node name="VSeparator" type="VSeparator" parent="PanelContainer/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 11
+theme_override_styles/separator = SubResource("StyleBoxEmpty_s6naa")
+
 [node name="Wait" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("2_bd2vw")
@@ -99,6 +108,11 @@ texture_normal = ExtResource("3_occbk")
 texture_pressed = ExtResource("4_8uxlj")
 texture_hover = SubResource("AnimatedTexture_gaoim")
 script = ExtResource("3_8uxlj")
+
+[node name="VSeparator2" type="VSeparator" parent="PanelContainer/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 11
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lmmbu")
 
 [node name="Move" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
