@@ -3,6 +3,7 @@ using System;
 
 public partial class Goal : Thing
 {
+    private bool _justReset = false;
     
     public override void _Ready()
     {
@@ -19,21 +20,33 @@ public partial class Goal : Thing
         GetNode<Area2D>("Area2D").BodyEntered += OnBodyEntered;
     }
 
+    public override void AfterFrame()
+    {
+        _justReset = false;
+    }
+
+    public override void Reset(Thing parent)
+    {
+        base.Reset(parent);
+        _justReset = true;
+    }
+
     private void OnBodyEntered(Node2D body)
     {
+        if (_justReset) return;
         if (body is Robo robo && robo.IsPreview == IsPreview)
             OnRoboEntered(robo);
     }
 
     private void OnRoboEntered(Robo robo)
     {
-        if (!IsPreview)
+        if (robo.IsFrozen)
         {
-            physics.GoalAction?.Invoke(this, robo);
+            robo.IsFrozen = false;
+            robo.Velocity = Vector2.Zero;
         }
-        else
-        {
-            // TODO: what do we do on preview?
-        }
+        robo.ForcedMove = Robo.Grab(this);
+        robo.MoveFrame = 0;
+        robo.MoveIndex = 0;
     }
 }

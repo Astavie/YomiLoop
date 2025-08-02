@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://cm6dmsfr1kg5i"]
+[gd_scene load_steps=5 format=3 uid="uid://cm6dmsfr1kg5i"]
 
 [ext_resource type="Script" uid="uid://dda1wgyvjj20x" path="res://scripts/Goal.cs" id="1_0qle8"]
 [ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="2_p20yd"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0qle8"]
 size = Vector2(18, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
+size = Vector2(14, 14)
 
 [node name="Goal" type="CharacterBody2D"]
 collision_layer = 0
@@ -13,7 +16,7 @@ script = ExtResource("1_0qle8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
-shape = SubResource("RectangleShape2D_omn1t")
+shape = SubResource("RectangleShape2D_0qle8")
 
 [node name="Icon" type="Sprite2D" parent="."]
 position = Vector2(0, -9)
