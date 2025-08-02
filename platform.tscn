@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://coge0vk4srkme"]
+[gd_scene load_steps=9 format=3 uid="uid://coge0vk4srkme"]
 
 [ext_resource type="Script" uid="uid://casrgirhma1e7" path="res://scripts/Platform.cs" id="1_s8bxr"]
-[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="2_c1gtx"]
+[ext_resource type="Texture2D" uid="uid://cdro4asydgc3a" path="res://assets/platform.png" id="2_s8bxr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
 size = Vector2(71, 18)
@@ -9,16 +9,40 @@ size = Vector2(71, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bxr"]
 size = Vector2(71, 18)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1gtx"]
+atlas = ExtResource("2_s8bxr")
+region = Rect2(0, 0, 72, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ry5bi"]
+atlas = ExtResource("2_s8bxr")
+region = Rect2(72, 0, 72, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph1ng"]
+atlas = ExtResource("2_s8bxr")
+region = Rect2(144, 0, 72, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7u0im"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1gtx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ry5bi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ph1ng")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
 [node name="Platform" type="CharacterBody2D"]
 collision_layer = 0
 platform_floor_layers = 4294967040
 script = ExtResource("1_s8bxr")
 Grabbable = false
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -9)
-scale = Vector2(0.562, 0.141)
-texture = ExtResource("2_c1gtx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -9)
@@ -32,3 +56,7 @@ collision_mask = 0
 position = Vector2(0, -9)
 shape = SubResource("RectangleShape2D_s8bxr")
 one_way_collision = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -9)
+sprite_frames = SubResource("SpriteFrames_7u0im")

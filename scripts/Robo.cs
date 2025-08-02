@@ -158,8 +158,7 @@ public partial class Robo : Thing
 
         // Death logic
         // Only applies to past self, current self must manually take the loop action
-        if (PastSelf && AboutToDie())
-            Die();
+        if (PastSelf && AboutToDie()) Die();
     }
 
     public void Die()
@@ -254,18 +253,21 @@ public partial class Robo : Thing
     public static Move MoveLeft = Move("MoveLeft", 60, animation:"moving_left", xspeed: -64, doFrame:IsOnGround);
     public static Move MoveRight = Move("MoveRight", 60, animation:"moving_right", xspeed: 64, doFrame:IsOnGround);
     public static Move Wait = Move("Wait", 30, animation:"idle");
-    public static Move ThrowLeft = Move("ThrowLeft", 30, o =>
-    {
-        if (o.Grabbed is null) return;
-        o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? -512 : -256, o.Grabbed.IsFrozen ? 0 : -128);
-        o.Grabbed = null;
-    }, isLegal: robo => robo.Grabbed is not null);
-    public static Move ThrowRight = Move("ThrowRight", 30, o =>
-    {
-        if (o.Grabbed is null) return;
-        o.Grabbed.Velocity = new Vector2(o.Grabbed.IsFrozen ? 512 : 256, o.Grabbed.IsFrozen ? 0 : -128);
-        o.Grabbed = null;
-    }, isLegal: robo => robo.Grabbed is not null);
+
+    public static Move Throw(Direction direction) {
+        (Vector2 throwVec, Vector2 frozenVec) = direction switch {
+            Direction.Left => (new Vector2(-256, -128), new Vector2(-512, 0)),
+            Direction.Right => (new Vector2(256, -128), new Vector2(512, 0)),
+            Direction.Up => (new Vector2(0, -384), new Vector2(0, -512)),
+            Direction.UpLeft => (new Vector2(-128, -256), new Vector2(-362, -362)),
+            Direction.UpRight => (new Vector2(128, -256), new Vector2(362, -362)),
+        };
+        return Move("Throw" + direction, 30, o => {
+            if (o.Grabbed is null) return;
+            o.Grabbed.Velocity = o.Grabbed.IsFrozen ? frozenVec : throwVec;
+            o.Grabbed = null;
+        }, isLegal: robo => robo.Grabbed is not null);
+    }
     
     public static Move Grab(Thing thing)
     {
@@ -322,8 +324,10 @@ public partial class Robo : Thing
         });
     }
 
-    public static Move Loop = new("Loop", 30, (o, _) => {
+    public static Move Loop = new("Loop", 30, (o, frame) => {
+        if (frame > 0) return;
         o.Die();
+        if (!(o.IsPreview || o.PastSelf)) o.GetNode<Wipe>("/root/Wipe").DoWipe(() => {});
     });
 
     private void Travel(string name) {
