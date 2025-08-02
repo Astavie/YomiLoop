@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://yi0648t087qk"]
+[gd_scene load_steps=8 format=4 uid="uid://ctspb3gb544rh"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_cc5tm"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_mj76i"]
@@ -20,6 +20,7 @@ tile_map_data = PackedByteArray("AAD//xQAAAABAAMAAAAAABQAAAACAAMAAAAiABQAAAACAAM
 
 [node name="ControlUI" parent="." instance=ExtResource("3_mdw0g")]
 unique_name_in_owner = true
+LockedTexture = null
 
 [node name="Crate" parent="." instance=ExtResource("4_naavy")]
 position = Vector2(159, 270)
