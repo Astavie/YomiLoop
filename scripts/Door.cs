@@ -82,29 +82,29 @@ public partial class Door : Node2D
         Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => true;
         Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
 
-        Buttons.GetNode<BaseButton>("Perform").Pressed += HandlePerform;
-        Buttons.GetNode<BaseButton>("Grab").Pressed += HandleGrab;
-        Buttons.GetNode<BaseButton>("Loop").Pressed += QueueMove(Robo.Loop);
-        Buttons.GetNode<BaseButton>("Wait").Pressed += QueueMove(Robo.Wait);
-        Buttons.GetNode<BaseButton>("Move/PopupPanel/Container/Left").Pressed += QueueMove(Robo.MoveLeft);
-        Buttons.GetNode<BaseButton>("Move/PopupPanel/Container/Right").Pressed += QueueMove(Robo.MoveRight);
-        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Left").Pressed += QueueMove(Robo.Throw(Direction.Left));
-        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Right").Pressed += QueueMove(Robo.Throw(Direction.Right));
-        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Throw(Direction.Up));
-        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/UpLeft").Pressed += QueueMove(Robo.Throw(Direction.UpLeft));
-        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/UpRight").Pressed += QueueMove(Robo.Throw(Direction.UpRight));
-        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Down").Pressed += QueueMove(Robo.Throw(Direction.Down));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Right").Pressed += QueueMove(Robo.Rocket(Direction.Right));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Left").Pressed += QueueMove(Robo.Rocket(Direction.Left));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Rocket(Direction.Up));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Down").Pressed += QueueMove(Robo.Rocket(Direction.Down));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/UpRight").Pressed += QueueMove(Robo.Rocket(Direction.UpRight));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/DownRight").Pressed += QueueMove(Robo.Rocket(Direction.DownRight));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/UpLeft").Pressed += QueueMove(Robo.Rocket(Direction.UpLeft));
-        Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/DownLeft").Pressed += QueueMove(Robo.Rocket(Direction.DownLeft));
-        Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Left").Pressed += QueueMove(Robo.Hover(Direction.Left));
-        Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Right").Pressed += QueueMove(Robo.Hover(Direction.Right));
-        Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Hover(Direction.Up));
+        Buttons.GetNode<ControlButton>("Perform").Used += HandlePerform;
+        Buttons.GetNode<ControlButton>("Grab").Used += HandleGrab;
+        Buttons.GetNode<ControlButton>("Loop").Used += QueueMove(Robo.Loop);
+        Buttons.GetNode<ControlButton>("Wait").Used += QueueMove(Robo.Wait);
+        Buttons.GetNode<ControlButton>("Move/PopupPanel/Container/Left").Used += QueueMove(Robo.MoveLeft);
+        Buttons.GetNode<ControlButton>("Move/PopupPanel/Container/Right").Used += QueueMove(Robo.MoveRight);
+        Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/Left").Used += QueueMove(Robo.Throw(Direction.Left));
+        Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/Right").Used += QueueMove(Robo.Throw(Direction.Right));
+        Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/Up").Used += QueueMove(Robo.Throw(Direction.Up));
+        Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/UpLeft").Used += QueueMove(Robo.Throw(Direction.UpLeft));
+        Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/UpRight").Used += QueueMove(Robo.Throw(Direction.UpRight));
+        Buttons.GetNode<ControlButton>("Throw/PopupPanel/Container/Down").Used += QueueMove(Robo.Throw(Direction.Down));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/Right").Used += QueueMove(Robo.Rocket(Direction.Right));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/Left").Used += QueueMove(Robo.Rocket(Direction.Left));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/Up").Used += QueueMove(Robo.Rocket(Direction.Up));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/Down").Used += QueueMove(Robo.Rocket(Direction.Down));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/UpRight").Used += QueueMove(Robo.Rocket(Direction.UpRight));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/DownRight").Used += QueueMove(Robo.Rocket(Direction.DownRight));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/UpLeft").Used += QueueMove(Robo.Rocket(Direction.UpLeft));
+        Buttons.GetNode<ControlButton>("Rocket/PopupPanel/Container/DownLeft").Used += QueueMove(Robo.Rocket(Direction.DownLeft));
+        Buttons.GetNode<ControlButton>("Hover/PopupPanel/Container/Left").Used += QueueMove(Robo.Hover(Direction.Left));
+        Buttons.GetNode<ControlButton>("Hover/PopupPanel/Container/Right").Used += QueueMove(Robo.Hover(Direction.Right));
+        Buttons.GetNode<ControlButton>("Hover/PopupPanel/Container/Up").Used += QueueMove(Robo.Hover(Direction.Up));
     }
 
     private void SpawnPlayer() {
@@ -139,7 +139,7 @@ public partial class Door : Node2D
         Music.Play("CLEAR");
     }
 
-    private Action QueueMove(Move move) {
+    private ControlButton.UsedEventHandler QueueMove(Move move) {
         return () => {
             Physics.State = PlayState.Preview;
             Queued = move;
@@ -193,18 +193,23 @@ public partial class Door : Node2D
 
     public void HandleGrab()
     {
-        Queued = null;
-        Physics.State = PlayState.Grab;
-        
-        Me.InputPickable = false;
+        var canGrab = Physics.Objects.Where(Me.CanGrab).ToList();
+        if (canGrab.Count == 1)
+        {
+            Queued = Robo.Grab(canGrab[0]);
+        }
+        else
+        {
+            Queued = null;
+            Physics.State = PlayState.Grab;
+            Me.InputPickable = false;
+        }
     }
 
     public void HandleGrabClicked(Thing thing)
     {
         Me.InputPickable = true;
-        
         Physics.State = PlayState.Preview;
-        
         Queued = Robo.Grab(thing);
     }
 

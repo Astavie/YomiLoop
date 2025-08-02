@@ -5,19 +5,34 @@ public partial class ControlButton : TextureButton {
     private readonly Color BaseColor = Colors.White;
     private readonly Color HoverColor = Colors.CornflowerBlue;
     private readonly Color DisabledColor = Colors.DarkSlateGray;
+    private PopupPanel _panel;
+    
+    [Signal]
+    public delegate void UsedEventHandler();
+
+    [Export] public string Label;
+    [Export] public Key Key;
+    [Export] public Key Key2;
 
     public Predicate<Robo> IsLegal { get; set; } = o => !o.AboutToDie(); 
     
     private bool _disabledForever = false;
     
-    public override void _Ready() {
+    public override void _Ready()
+    {
+        base.Pressed += EmitSignalUsed;
+        
         if (Disabled) Modulate = DisabledColor;
         MouseEntered += () => {
+            if (!_disabledForever) GetNode<Label>("%Buttons/../../Label").Text = Label;
             if (!Disabled) Modulate = HoverColor;
         };
         MouseExited += () => {
             if (!Disabled) Modulate = BaseColor;
         };
+
+        if (GetParent().GetParent() is PopupPanel panel)
+            _panel = panel;
     }
 
     public void Disable(bool forever = false, Texture2D overrideTex = null) {
@@ -31,5 +46,18 @@ public partial class ControlButton : TextureButton {
         if (_disabledForever) return;
         Modulate = BaseColor;
         Disabled = false;
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        bool visible = _panel?.Visible ?? true;
+        if (Disabled || !visible) return;
+        if (@event is InputEventKey { Pressed: true } key && (key.Keycode == Key || key.Keycode == Key2))
+        {
+            if (_panel is null && !Label.StartsWith("Perform"))
+                GetNode<Label>("%Buttons/../../Label").Text = Label;
+            _panel?.Hide();
+            EmitSignalUsed();
+        }
     }
 }

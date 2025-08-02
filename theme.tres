@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://c5rg43posc4g6"]
+
+[ext_resource type="FontFile" uid="uid://cr7o85dq0baty" path="res://assets/fonts/Kenney Pixel.ttf" id="1_e1x85"]
+
+[resource]
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/constants/shadow_offset_x = 0
+Label/constants/shadow_offset_y = 0
+Label/constants/shadow_outline_size = 7
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_e1x85")
