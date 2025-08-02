@@ -29,7 +29,7 @@ public partial class Door : Node2D
     private Robo Me;
     private Robo Preview => (Robo)Me.Preview;
     private Physics Physics => GetNode<Physics>("/root/Physics");
-    private AnimationPlayer Music => GetNode<AnimationPlayer>("%Music/AnimationPlayer");
+    private AnimationPlayer Music => GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
     private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
     private bool _shouldDie = false;
     
