@@ -7,7 +7,12 @@ public partial class StartButton : Godot.Button
 
     public override void _Ready()
     {
-        base.Pressed += () => GetNode<Wipe>("/root/Wipe").DoWipe(Start);
+        base.Pressed += OnPressed;
+    }
+
+    private void OnPressed()
+    {
+        GetNode<Wipe>("/root/Wipe").DoWipe(Start, playSound:true);
     }
 
     private void Start()

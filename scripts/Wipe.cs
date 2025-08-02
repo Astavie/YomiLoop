@@ -16,8 +16,13 @@ public partial class Wipe : Node2D
         _nextCallback?.Invoke();
     }
 
-    public void DoWipe(Action callback)
+    public void DoWipe(Action callback, bool playSound = false)
     {
+        if (playSound)
+        {
+            GetNode<AudioStreamPlayer>("AudioPlayer").Play();
+        }
+        
         _nextCallback = callback;
         GetNode<AnimationPlayer>("AnimationPlayer").Play("In");
         GetNode<Timer>("Timer").Start();
