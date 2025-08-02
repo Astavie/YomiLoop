@@ -188,7 +188,6 @@ public partial class Robo : Thing
         Aberration = robo?.Aberration ?? 0;
         IsDead = robo?.IsDead ?? false;
         ForcedMove = robo?.ForcedMove;
-        GD.Print($"reset age {Age} to {robo?.Age ?? 0}");
         Age = robo?.Age ?? 0;
 
         var velocity = Velocity;

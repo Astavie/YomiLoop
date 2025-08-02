@@ -10,6 +10,7 @@ public partial class Physics : Node {
     private readonly List<Thing> _objects =  [];
     private readonly List<Thing> _previews = [];
     public Robo Me = null;
+    public int LifeTime;
     public Action<Thing> GrabAction = null;
     public Action<Goal, Robo> GoalAction = null;
 

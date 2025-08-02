@@ -31,7 +31,7 @@ public partial class Door : Node2D
 
     private Robo Me;
     private Robo Preview => (Robo)Me.Preview;
-    private Physics Physics => GetNode<Physics>("/root/Physics");
+    private Physics Physics;
     private AnimationPlayer Music => GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
     private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
     
@@ -62,11 +62,14 @@ public partial class Door : Node2D
 
     public override void _Ready() {
         // account for entering move
-        LifeTime += 60;
-        SpawnPlayer();
+        Physics = GetNode<Physics>("/root/Physics");
         Physics.GrabAction = HandleGrabClicked;
         Physics.GoalAction = HandleGoal;
+        // save "actual" lifetime to physics (for displaying time left)
+        Physics.LifeTime = LifeTime;
         
+        LifeTime += 60;
+        SpawnPlayer();
         // Connect button signals
 
         

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=41 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -28,6 +28,12 @@
 [ext_resource type="Texture2D" uid="uid://bv5i7k5n7eonm" path="res://assets/ui/hover/hover2.png" id="19_urnk1"]
 [ext_resource type="Texture2D" uid="uid://d15i5gd5ecupb" path="res://assets/ui/hover/hover3.png" id="20_jihhr"]
 [ext_resource type="Texture2D" uid="uid://cd7csjqit7m8t" path="res://assets/ui/hover/hover4.png" id="21_kui8s"]
+[ext_resource type="Script" uid="uid://cfk3xgswfx77e" path="res://scripts/TimeLeft.cs" id="29_1q3sf"]
+[ext_resource type="Texture2D" uid="uid://blls2cqtghmj8" path="res://assets/ui/time/time1.png" id="30_5j60u"]
+[ext_resource type="Texture2D" uid="uid://b8wervkdeivg7" path="res://assets/ui/time/time2.png" id="31_w8ai5"]
+[ext_resource type="Texture2D" uid="uid://bdixf7bonich5" path="res://assets/ui/time/time3.png" id="32_add7k"]
+[ext_resource type="Texture2D" uid="uid://dd1t2b3i33mvp" path="res://assets/ui/time/time4.png" id="33_4cpmv"]
+[ext_resource type="Texture2D" uid="uid://c6i2f45o0kgmd" path="res://assets/ui/time/time5.png" id="34_urnk1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6naa"]
 
@@ -264,7 +270,7 @@ script = ExtResource("6_llrar")
 [node name="Container" type="HBoxContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 60.0
+offset_right = 80.0
 offset_bottom = 20.0
 
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
@@ -286,6 +292,20 @@ script = ExtResource("3_8uxlj")
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
 script = ExtResource("3_8uxlj")
+
+[node name="VSeparator3" type="VSeparator" parent="PanelContainer/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 11
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lmmbu")
+
+[node name="TimeLeft" type="TextureRect" parent="PanelContainer/Buttons"]
+layout_mode = 2
+script = ExtResource("29_1q3sf")
+Full = ExtResource("30_5j60u")
+ThreeQuarters = ExtResource("31_w8ai5")
+Half = ExtResource("32_add7k")
+Quarter = ExtResource("33_4cpmv")
+Empty = ExtResource("34_urnk1")
 
 [connection signal="pressed" from="PanelContainer/Buttons/Move" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Move/PopupPanel/Container/Close" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_close_pressed"]
