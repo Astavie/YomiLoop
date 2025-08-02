@@ -8,7 +8,7 @@ public partial class Thing : CharacterBody2D
     [Export] public float FrozenDrag = 4f;
     [Export] public float AirDrag = 0.67f;
     
-    
+    public Vector2 Center => new Vector2(GlobalPosition.X, GlobalPosition.Y - 9);
     public const float Gravity = 9.8f;
 
     private Transform2D _initialTransform;

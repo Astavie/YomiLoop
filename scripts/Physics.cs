@@ -13,6 +13,8 @@ public partial class Physics : Node {
     public int LifeTime;
     public Action<Thing> GrabAction = null;
     public Action<Goal, Robo> GoalAction = null;
+    
+    public IEnumerable<Thing> Objects => _objects;
 
     private PlayState _state = PlayState.Preview;
     public PlayState State {

@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using System.Collections.Generic;
+using System.Linq;
 
 public readonly struct Move(string name, int frames, Action<Robo, int> onFrame, Predicate<Robo> isLegal = null)
 {
@@ -76,6 +77,7 @@ public partial class Door : Node2D
         Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.ThrowLeft.IsLegal(o) && !o.AboutToDie();
+        Buttons.GetNode<ControlButton>("Grab").IsLegal = o => Physics.Objects.Any(t => t != o && t.Grabbable && o.CanGrab(t)) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => true;
         Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
 
@@ -104,8 +106,9 @@ public partial class Door : Node2D
         if (MeFirst)
         {
             foreach (var pastSelf in _pastSelves) {
-                pastSelf.LifeTime += 30;
-                ((Robo)pastSelf.Preview).LifeTime += 30;
+                pastSelf.LifeTime += 60;
+                ((Robo)pastSelf.Preview).LifeTime += 60;
+                pastSelf.Moves.Insert(0, Robo.Wait);
                 pastSelf.Moves.Insert(0, Robo.Wait);
             }
         }
@@ -119,8 +122,9 @@ public partial class Door : Node2D
         {
             foreach (var pastSelf in _pastSelves)
             {
-                Me.LifeTime += 30;
-                Preview.LifeTime += 30;
+                Me.LifeTime += 60;
+                Preview.LifeTime += 60;
+                Me.Moves.Add(Robo.Wait);
                 Me.Moves.Add(Robo.Wait);
             }
         }

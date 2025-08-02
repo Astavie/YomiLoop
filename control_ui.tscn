@@ -29,7 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://bv5i7k5n7eonm" path="res://assets/ui/hover/hover2.png" id="19_urnk1"]
 [ext_resource type="Texture2D" uid="uid://d15i5gd5ecupb" path="res://assets/ui/hover/hover3.png" id="20_jihhr"]
 [ext_resource type="Texture2D" uid="uid://cd7csjqit7m8t" path="res://assets/ui/hover/hover4.png" id="21_kui8s"]
-[ext_resource type="Script" uid="uid://cfk3xgswfx77e" path="res://scripts/TimeLeft.cs" id="29_1q3sf"]
+[ext_resource type="Script" path="res://scripts/TimeLeft.cs" id="29_1q3sf"]
 [ext_resource type="Texture2D" uid="uid://blls2cqtghmj8" path="res://assets/ui/time/time1.png" id="30_5j60u"]
 [ext_resource type="Texture2D" uid="uid://b8wervkdeivg7" path="res://assets/ui/time/time2.png" id="31_w8ai5"]
 [ext_resource type="Texture2D" uid="uid://bdixf7bonich5" path="res://assets/ui/time/time3.png" id="32_add7k"]

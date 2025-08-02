@@ -217,13 +217,15 @@ public partial class Robo : Thing
         }
 
         _grabLine.Points = [
-            Vector2.Zero, ToLocal(thing.GlobalPosition)
+            Vector2.Zero, _grabLine.ToLocal(thing.Center)
         ];
     }
 
     public bool CanGrab(Thing thing)
     {
-        return thing.GlobalPosition.DistanceSquaredTo(GlobalPosition) < GrabDistance * GrabDistance;
+        return
+            float.Min(thing.Center.DistanceSquaredTo(GlobalPosition), thing.Center.DistanceSquaredTo(Center))
+            < GrabDistance * GrabDistance;
     }
 
     public static Move Move(string name,

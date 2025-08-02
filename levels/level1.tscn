@@ -15,7 +15,7 @@
 [node name="Door" parent="." instance=ExtResource("1_ua5ty")]
 position = Vector2(-30, 234)
 NextLevel = ExtResource("2_omn1t")
-MeFirst = true
+LifeTime = 99999
 
 [node name="LevelTiles" parent="." instance=ExtResource("1_b3oru")]
 position = Vector2(6, 0)

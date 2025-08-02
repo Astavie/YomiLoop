@@ -22,6 +22,11 @@ public partial class TimeLeft : TextureRect {
         Texture = Full;
     }
 
+    public override void _ExitTree()
+    {
+        physics.StateChanged -= OnStateChanged;
+    }
+
     public override void _Process(double delta) {
         if (physics.State is PlayState.Running) {
             Texture = TimeLeftFraction(physics.Me) switch {
