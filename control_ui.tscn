@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=35 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://dx0mlx371s1nv" path="res://assets/ui/move/move2.png" id="8_8uxlj"]
 [ext_resource type="Texture2D" uid="uid://ryvmqsy8oiad" path="res://assets/ui/close.png" id="8_lmmbu"]
 [ext_resource type="Texture2D" uid="uid://c7s3l3yscexln" path="res://assets/ui/directions/right.png" id="9_ncl7v"]
+[ext_resource type="Texture2D" uid="uid://dc4tscomuugww" path="res://assets/ui/loop.png" id="10_lmmbu"]
 [ext_resource type="Texture2D" uid="uid://jytkcegvbrtk" path="res://assets/ui/throw.png" id="10_thkbl"]
 [ext_resource type="Texture2D" uid="uid://cepw13nrufxpk" path="res://assets/ui/rocket.png" id="11_jebi8"]
 [ext_resource type="Texture2D" uid="uid://bgicgxt7xjrqj" path="res://assets/ui/directions/up_left.png" id="12_n2rdi"]
@@ -109,6 +110,11 @@ texture_pressed = ExtResource("4_8uxlj")
 texture_hover = SubResource("AnimatedTexture_gaoim")
 script = ExtResource("3_8uxlj")
 
+[node name="Loop" type="TextureButton" parent="PanelContainer/Buttons"]
+layout_mode = 2
+texture_normal = ExtResource("10_lmmbu")
+script = ExtResource("3_8uxlj")
+
 [node name="VSeparator2" type="VSeparator" parent="PanelContainer/Buttons"]
 layout_mode = 2
 theme_override_constants/separation = 11
@@ -189,6 +195,7 @@ auto_translate_mode = 1
 canvas_item_default_texture_filter = 0
 size = Vector2i(64, 64)
 script = ExtResource("6_llrar")
+up_amount = 64
 
 [node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Rocket/PopupPanel"]
 offset_left = 4.0
