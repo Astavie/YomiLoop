@@ -193,21 +193,12 @@ public partial class Door : Node2D
 
     public void HandleGoal(Goal goal, Robo robo)
     {
-        AnimationPlayer player = GetNode<AnimationPlayer>("/root/Wipe/AnimationPlayer");
-        player.Play("In");
-        var timer = new Timer();
-        timer.OneShot = true;
-        timer.Autostart = true;
-        timer.WaitTime = 0.5;
-        timer.Timeout += () => CallDeferred(nameof(DoNextLevel));
-        AddChild(timer);
+        Wipe wipe = GetNode<Wipe>("/root/Wipe");
+        wipe.DoWipe(() => CallDeferred(nameof(DoNextLevel)));
     }
 
     public void DoNextLevel()
     {
-        AnimationPlayer player = GetNode<AnimationPlayer>("/root/Wipe/AnimationPlayer");
-        player.Play("Out");
-        
         Physics.OnLevelEnd();
         if (NextLevel is not null)
             GetNode("/root").AddChild(NextLevel.Instantiate());
