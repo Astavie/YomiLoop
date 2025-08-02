@@ -158,8 +158,7 @@ public partial class Robo : Thing
 
         // Death logic
         // Only applies to past self, current self must manually take the loop action
-        if (PastSelf && AboutToDie())
-            Die();
+        if (PastSelf && AboutToDie()) Die();
     }
 
     public void Die()
@@ -320,8 +319,10 @@ public partial class Robo : Thing
         });
     }
 
-    public static Move Loop = new("Loop", 30, (o, _) => {
+    public static Move Loop = new("Loop", 30, (o, frame) => {
+        if (frame > 0) return;
         o.Die();
+        if (!(o.IsPreview || o.PastSelf)) o.GetNode<Wipe>("/root/Wipe").DoWipe(() => {});
     });
 
     private void Travel(string name) {

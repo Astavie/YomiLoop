@@ -200,8 +200,7 @@ public partial class Door : Node2D
 
     public void HandleGoal(Goal goal, Robo robo)
     {
-        Wipe wipe = GetNode<Wipe>("/root/Wipe");
-        wipe.DoWipe(() => CallDeferred(nameof(DoNextLevel)));
+        GetNode<Wipe>("/root/Wipe").DoWipe(() => CallDeferred(nameof(DoNextLevel)));
     }
 
     public void DoNextLevel()
