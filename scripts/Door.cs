@@ -216,8 +216,6 @@ public partial class Door : Node2D
     public void DoNextLevel()
     {
         Physics.OnLevelEnd();
-        if (NextLevel is not null)
-            GetNode("/root").AddChild(NextLevel.Instantiate());
-        GetParent().Free();
+        GetTree().ChangeSceneToPacked(NextLevel);
     }
 }
