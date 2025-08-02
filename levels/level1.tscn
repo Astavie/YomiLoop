@@ -35,6 +35,6 @@ position = Vector2(150, 252)
 Grabbable = true
 
 [node name="Goal" parent="." instance=ExtResource("6_8hd6v")]
-position = Vector2(159, 234)
+position = Vector2(510, 234)
 
 [connection signal="pressed" from="Button" to="Door" method="HandleDie"]
