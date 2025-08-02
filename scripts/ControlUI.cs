@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 public partial class ControlUI : Control
@@ -19,16 +20,12 @@ public partial class ControlUI : Control
 
     private void OnStateChanged(PlayState _, PlayState next) {
         if (next is PlayState.Running) {
-            for (int i = 0; i < Buttons.GetChildCount(); i++) {
-                Buttons.GetChild<ControlButton>(i).Disable();
-            }
+            Buttons.GetChildren().OfType<ControlButton>().ToList().ForEach(b => b.Disable());
         } else {
             Robo me = GetNode<Physics>("/root/Physics").Me;
-            for (int i = 0; i < Buttons.GetChildCount(); i++) {
-                Control child = Buttons.GetChild<Control>(i);
-                if (child is not ControlButton controlButton) continue;
-                if (controlButton.Move.IsLegal?.Invoke(me) ?? true) controlButton.Enable();
-            }
+            Buttons.GetChildren().OfType<ControlButton>().ToList().ForEach(b => {
+                if (b.Move.IsLegal?.Invoke(me) ?? true) b.Enable();
+            });
         }
     }
 }

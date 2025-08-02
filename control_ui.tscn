@@ -257,7 +257,7 @@ script = ExtResource("6_llrar")
 [node name="Container" type="HBoxContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 60.0
+offset_right = 80.0
 offset_bottom = 20.0
 
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
