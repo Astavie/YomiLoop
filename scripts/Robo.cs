@@ -107,15 +107,14 @@ public partial class Robo : Thing
         }
     }
 
-    private bool LastMoveIs(string name) => Moves.Count > 0 && Moves.Last().Name == name;
-    
     private void AdvanceMove(Move move) {
-        if (!LastMoveIs("Loop") && Age >= LifeTime) {
+        // interrupt player move when about to die
+        if (!PastSelf && move.Name != "Loop" && AboutToDie()) {
             MoveFrame = 0;
-            ForcedMove = null;
             MoveIndex = Moves.Count;
             return;
         }
+
         if (MoveFrame < move.Frames) return;
         MoveFrame = 0;
         if (ForcedMove.HasValue) MoveIndex = Moves.Count;
@@ -141,10 +140,9 @@ public partial class Robo : Thing
         AdvanceMove(move);
     }
 
-
     public override void AfterFrame() {
         Age++;
-        
+
         if (IsOnGround(this)) {
             bool notRocketing = PlayBody.GetCurrentNode() != "rocket";
             bool notGoingToRocket = PlayBody.GetTravelPath().Count == 0 || PlayBody.GetTravelPath().Last() != "rocket";
@@ -158,22 +156,26 @@ public partial class Robo : Thing
         }
 
         // Death logic
-        if (ShouldDie())
-        {
-            Velocity = Vector2.Zero;
-            Grabbed = null;
-            IsFrozen = true;
-            Aberration = 1.5f;
-            PlayBody.Travel("hurt");
-            PlayHand.Travel("RESET");
-            Advance(0.001);
-        }
+        // Only applies to past self, current self must manually take the loop action
+        if (PastSelf && AboutToDie())
+            Die();
     }
 
-    public bool ShouldDie()
+    private void Die()
+    {
+        Velocity = Vector2.Zero;
+        Grabbed = null;
+        IsFrozen = true;
+        Aberration = 1.5f;
+        PlayBody.Travel("hurt");
+        PlayHand.Travel("RESET");
+        Advance(0.001);
+    }
+
+    public bool AboutToDie()
     {
         if (Grabbed is Goal) return false;
-        return (MoveIndex >= Moves.Count && PastSelf) || IsDead;
+        return IsDead || OldAge;
     }
 
     public override void Reset([MaybeNull] Thing parent)
@@ -319,7 +321,7 @@ public partial class Robo : Thing
     }
 
     public static Move Loop = new("Loop", 30, (o, _) => {
-        o.IsDead = true;
+        o.Die();
     });
 
     private void Travel(string name) {

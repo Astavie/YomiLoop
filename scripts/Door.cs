@@ -34,7 +34,6 @@ public partial class Door : Node2D
     private Physics Physics => GetNode<Physics>("/root/Physics");
     private AnimationPlayer Music => GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
     private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
-    private bool _shouldDie = false;
     
     private Move? Queued
     {
@@ -71,9 +70,9 @@ public partial class Door : Node2D
         // Connect button signals
 
         
-        Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.OldAge;
-        Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.OldAge;
-        Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.ThrowLeft.IsLegal(o) && !o.OldAge;
+        Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie();
+        Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie();
+        Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.ThrowLeft.IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => true;
         Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
 
@@ -137,11 +136,9 @@ public partial class Door : Node2D
     
     public override void _PhysicsProcess(double delta)
     {
-        if (_shouldDie || Me.IsDead)
+        if (Me.IsFrozen)
         {
-            _shouldDie = false;
             // Create new past self
-            Queued = null;
             Physics.ResetMovement();
             Me.PastSelf = true;
             Preview.PastSelf = true;
@@ -179,11 +176,6 @@ public partial class Door : Node2D
             Music.Play("CLEAR");
             Physics.ResetPreview();
         }
-    }
-
-    public void HandleDie()
-    {
-        _shouldDie = true;
     }
 
     public void HandleGrab()
