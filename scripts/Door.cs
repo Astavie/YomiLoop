@@ -193,18 +193,23 @@ public partial class Door : Node2D
 
     public void HandleGrab()
     {
-        Queued = null;
-        Physics.State = PlayState.Grab;
-        
-        Me.InputPickable = false;
+        var canGrab = Physics.Objects.Where(Me.CanGrab).ToList();
+        if (canGrab.Count == 1)
+        {
+            Queued = Robo.Grab(canGrab[0]);
+        }
+        else
+        {
+            Queued = null;
+            Physics.State = PlayState.Grab;
+            Me.InputPickable = false;
+        }
     }
 
     public void HandleGrabClicked(Thing thing)
     {
         Me.InputPickable = true;
-        
         Physics.State = PlayState.Preview;
-        
         Queued = Robo.Grab(thing);
     }
 
