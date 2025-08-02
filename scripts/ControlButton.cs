@@ -54,7 +54,9 @@ public partial class ControlButton : TextureButton {
         if (Disabled || !visible) return;
         if (@event is InputEventKey { Pressed: true } key && (key.Keycode == Key || key.Keycode == Key2))
         {
-            if (_panel is null && !Label.StartsWith("Perform"))
+            if (Label.StartsWith("Perform"))
+                GetNode<Label>("%Buttons/../../Label").Text = "";
+            else if (_panel is null)
                 GetNode<Label>("%Buttons/../../Label").Text = Label;
             _panel?.Hide();
             EmitSignalUsed();

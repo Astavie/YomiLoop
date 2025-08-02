@@ -223,4 +223,13 @@ public partial class Door : Node2D
         Physics.OnLevelEnd();
         GetTree().ChangeSceneToPacked(NextLevel);
     }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.Escape })
+        {
+            Queued = null;
+            GetNode<Control>("%ControlUI").GetNode<Label>("Label").Text = "";
+        }
+    }
 }
