@@ -169,14 +169,31 @@ script = ExtResource("3_8uxlj")
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Throw"]
 auto_translate_mode = 1
 canvas_item_default_texture_filter = 0
-size = Vector2i(64, 24)
+size = Vector2i(64, 64)
 script = ExtResource("6_llrar")
+up_amount = 64
 
-[node name="Container" type="HBoxContainer" parent="PanelContainer/Buttons/Throw/PopupPanel"]
+[node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Throw/PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 60.0
-offset_bottom = 20.0
+offset_bottom = 60.0
+columns = 3
+
+[node name="UpLeft" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("12_n2rdi")
+script = ExtResource("3_8uxlj")
+
+[node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("13_11uq4")
+script = ExtResource("3_8uxlj")
+
+[node name="UpRight" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("14_1q3sf")
+script = ExtResource("3_8uxlj")
 
 [node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
 layout_mode = 2
@@ -192,6 +209,17 @@ script = ExtResource("3_8uxlj")
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
 script = ExtResource("3_8uxlj")
+
+[node name="Nothing" type="Control" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+
+[node name="Down" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("16_w8ai5")
+script = ExtResource("3_8uxlj")
+
+[node name="Nothing2" type="Control" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
 
 [node name="Rocket" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
@@ -266,23 +294,30 @@ script = ExtResource("3_8uxlj")
 [node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Hover"]
 auto_translate_mode = 1
 canvas_item_default_texture_filter = 0
-size = Vector2i(64, 24)
+size = Vector2i(64, 44)
 script = ExtResource("6_llrar")
 
-[node name="Container" type="HBoxContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
+[node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
-offset_right = 80.0
-offset_bottom = 20.0
+offset_right = 60.0
+offset_bottom = 40.0
+columns = 3
 
-[node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
+[node name="Nothing" type="Control" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
-texture_normal = ExtResource("7_s6naa")
-script = ExtResource("3_8uxlj")
 
 [node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("13_11uq4")
+script = ExtResource("3_8uxlj")
+
+[node name="Nothing2" type="Control" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
+layout_mode = 2
+
+[node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("7_s6naa")
 script = ExtResource("3_8uxlj")
 
 [node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
