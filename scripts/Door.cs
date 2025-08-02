@@ -68,8 +68,8 @@ public partial class Door : Node2D
         // Connect button signals
         Buttons.GetNode<BaseButton>("Perform").Pressed += HandlePerform;
         Buttons.GetNode<BaseButton>("Grab").Pressed += HandleGrab;
-        Buttons.GetNode<BaseButton>("Loop").Pressed += HandleDie;
-        Buttons.GetNode<BaseButton>("Wait").Pressed += () => Queued = Robo.Wait;
+        Buttons.GetNode<BaseButton>("Loop").Pressed += QueueMove(Robo.Loop);
+        Buttons.GetNode<BaseButton>("Wait").Pressed += QueueMove(Robo.Wait);
         Buttons.GetNode<ControlButton>("Rocket").Move = Robo.Rocket(Direction.Up);
         Buttons.GetNode<ControlButton>("Hover").Move = Robo.Hover(Direction.Up);
         Buttons.GetNode<ControlButton>("Throw").Move = Robo.ThrowLeft;
@@ -126,7 +126,7 @@ public partial class Door : Node2D
     
     public override void _PhysicsProcess(double delta)
     {
-        if (_shouldDie)
+        if (_shouldDie || Me.IsDead)
         {
             _shouldDie = false;
             // Create new past self

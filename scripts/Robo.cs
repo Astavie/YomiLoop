@@ -29,7 +29,9 @@ public partial class Robo : Thing
     public AnimatedSprite2D RocketSprite { get; private set; }
 
     public bool CanRocket { get; private set; } = true;
+    public bool IsDead { get; set; } = false;
 
+    
     public Move? ForcedMove = null;
     public List<Move> Moves = [];
     public int MoveIndex = 0;
@@ -154,7 +156,7 @@ public partial class Robo : Thing
     public bool ShouldDie()
     {
         if (Grabbed is Goal) return false;
-        return MoveIndex >= Moves.Count && PastSelf;
+        return (MoveIndex >= Moves.Count && PastSelf) || IsDead;
     }
 
     public override void Reset([MaybeNull] Thing parent)
@@ -165,6 +167,7 @@ public partial class Robo : Thing
         MoveFrame = robo?.MoveFrame ?? 0;
         Grabbed = robo?.Grabbed?.Preview;
         Aberration = robo?.Aberration ?? 0;
+        IsDead = robo?.IsDead ?? false;
         ForcedMove = robo?.ForcedMove;
 
         var velocity = Velocity;
@@ -233,7 +236,6 @@ public partial class Robo : Thing
     public static Move MoveLeft = Move("MoveLeft", 60, animation:"moving_left", xspeed: -64, doFrame:IsOnGround);
     public static Move MoveRight = Move("MoveRight", 60, animation:"moving_right", xspeed: 64, doFrame:IsOnGround);
     public static Move Wait = Move("Wait", 30, animation:"idle");
-    public static Move Ungrab = Move("Ungrab", 30, o => o.Grabbed = null);
     public static Move ThrowLeft = Move("ThrowLeft", 30, o =>
     {
         if (o.Grabbed is null) return;
@@ -301,6 +303,10 @@ public partial class Robo : Thing
             o.RocketSprite.Rotation = rocketRot;
         });
     }
+
+    public static Move Loop = new Move("Loop", 30, (o, frame) => {
+        o.IsDead = true;
+    });
 
     private void Travel(string name) {
         PlayBody.Travel(name);
