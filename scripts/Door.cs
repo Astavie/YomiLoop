@@ -166,6 +166,7 @@ public partial class Door : Node2D
                 break;
             case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
                 Physics.State = PlayState.Preview;
+                Physics.ResetPreview();
                 Music.Play("EQ");
                 break;
             case PlayState.Running:
