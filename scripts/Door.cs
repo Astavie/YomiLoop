@@ -25,6 +25,7 @@ public partial class Door : Node2D
     public PackedScene NextLevel { get; set; }
 
     [Export] public bool MeFirst = false;
+    [Export] public int LifeTime = 180;
 
     private readonly List<Robo> _pastSelves = [];
 
@@ -61,18 +62,25 @@ public partial class Door : Node2D
     }
 
     public override void _Ready() {
+        // account for entering move
+        LifeTime += 60;
         SpawnPlayer();
         Physics.GrabAction = HandleGrabClicked;
         Physics.GoalAction = HandleGoal;
         
         // Connect button signals
+
+        
+        Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.OldAge;
+        Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.OldAge;
+        Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.ThrowLeft.IsLegal(o) && !o.OldAge;
+        Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => true;
+        Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
+
         Buttons.GetNode<BaseButton>("Perform").Pressed += HandlePerform;
         Buttons.GetNode<BaseButton>("Grab").Pressed += HandleGrab;
         Buttons.GetNode<BaseButton>("Loop").Pressed += QueueMove(Robo.Loop);
         Buttons.GetNode<BaseButton>("Wait").Pressed += QueueMove(Robo.Wait);
-        Buttons.GetNode<ControlButton>("Rocket").Move = Robo.Rocket(Direction.Up);
-        Buttons.GetNode<ControlButton>("Hover").Move = Robo.Hover(Direction.Up);
-        Buttons.GetNode<ControlButton>("Throw").Move = Robo.ThrowLeft;
         Buttons.GetNode<BaseButton>("Move/PopupPanel/Container/Left").Pressed += QueueMove(Robo.MoveLeft);
         Buttons.GetNode<BaseButton>("Move/PopupPanel/Container/Right").Pressed += QueueMove(Robo.MoveRight);
         Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Left").Pressed += QueueMove(Robo.ThrowLeft);
@@ -90,17 +98,18 @@ public partial class Door : Node2D
         Buttons.GetNode<BaseButton>("Hover/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Hover(Direction.Up));
     }
 
-    private void SpawnPlayer()
-    {
+    private void SpawnPlayer() {
         if (MeFirst)
         {
-            foreach (var pastSelf in _pastSelves)
-            {
+            foreach (var pastSelf in _pastSelves) {
+                pastSelf.LifeTime += 30;
+                ((Robo)pastSelf.Preview).LifeTime += 30;
                 pastSelf.Moves.Insert(0, Robo.Wait);
             }
         }
-        
+
         Me = PlayerScene.Instantiate<Robo>();
+        Me.LifeTime = LifeTime;
         Physics.Me = Me;
         AddChild(Me);
 
@@ -108,6 +117,8 @@ public partial class Door : Node2D
         {
             foreach (var pastSelf in _pastSelves)
             {
+                Me.LifeTime += 30;
+                Preview.LifeTime += 30;
                 Me.Moves.Add(Robo.Wait);
             }
         }

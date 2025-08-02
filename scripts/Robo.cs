@@ -30,7 +30,9 @@ public partial class Robo : Thing
 
     public bool CanRocket { get; private set; } = true;
     public bool IsDead { get; set; } = false;
-
+    public int LifeTime { get; set; } = 180;
+    public int Age { get; private set; } = 0;
+    public bool OldAge => Age >= LifeTime;
     
     public Move? ForcedMove = null;
     public List<Move> Moves = [];
@@ -83,9 +85,10 @@ public partial class Robo : Thing
         
         Travel("idle");
 
-        if (IsPreview)
-        {
-            Moves = GetParent<Robo>().Moves;
+        if (IsPreview) {
+            Robo parent = GetParent<Robo>();
+            Moves = parent.Moves;
+            LifeTime = parent.LifeTime;
             foreach (var group in BodyGroups)
             {
                 group.Material = (Material)group.Material.Duplicate();
@@ -104,6 +107,21 @@ public partial class Robo : Thing
         }
     }
 
+    private bool LastMoveIs(string name) => Moves.Count > 0 && Moves.Last().Name == name;
+    
+    private void AdvanceMove(Move move) {
+        if (!LastMoveIs("Loop") && Age >= LifeTime) {
+            MoveFrame = 0;
+            ForcedMove = null;
+            MoveIndex = Moves.Count;
+            return;
+        }
+        if (MoveFrame < move.Frames) return;
+        MoveFrame = 0;
+        if (ForcedMove.HasValue) MoveIndex = Moves.Count;
+        else MoveIndex++;
+    }
+
     public override void OnFrame(double delta)
     {
         Advance(delta);
@@ -114,20 +132,19 @@ public partial class Robo : Thing
         
         // Advance to next frame
         if (!ForcedMove.HasValue && MoveIndex >= Moves.Count) return;
+        
         var move = ForcedMove ?? Moves[MoveIndex];
         move.OnFrame(this, MoveFrame);
         MoveFrame++;
         
         // Advance to next move
-        if (MoveFrame < move.Frames) return;
-        MoveFrame = 0;
-        if (ForcedMove.HasValue)
-            MoveIndex = Moves.Count;
-        else
-            MoveIndex++;
+        AdvanceMove(move);
     }
 
+
     public override void AfterFrame() {
+        Age++;
+        
         if (IsOnGround(this)) {
             bool notRocketing = PlayBody.GetCurrentNode() != "rocket";
             bool notGoingToRocket = PlayBody.GetTravelPath().Count == 0 || PlayBody.GetTravelPath().Last() != "rocket";
@@ -169,6 +186,8 @@ public partial class Robo : Thing
         Aberration = robo?.Aberration ?? 0;
         IsDead = robo?.IsDead ?? false;
         ForcedMove = robo?.ForcedMove;
+        GD.Print($"reset age {Age} to {robo?.Age ?? 0}");
+        Age = robo?.Age ?? 0;
 
         var velocity = Velocity;
         Velocity = Vector2.Zero;
@@ -212,10 +231,8 @@ public partial class Robo : Thing
                             Predicate<Robo> isLegal = null,
                             string animation = "idle",
                             float? xspeed = null,
-                            float? yspeed = null) {
-        return new Move(
-            name,
-            frames, 
+                            float? yspeed = null)
+        => new(name, frames, 
             (o, frame) => {
                 if (frame == 0) {
                     if (animation != null) o.Travel(animation);
@@ -225,10 +242,7 @@ public partial class Robo : Thing
                 if (doFrame?.Invoke(o) ?? true) {
                     o.Velocity = new Vector2(xspeed ?? o.Velocity.X, yspeed ?? o.Velocity.Y);
                 }
-            },
-            isLegal
-        );
-    }
+            }, isLegal);
 
     private static bool IsOnGround(Robo o) => o.IsOnFloor() && !o.IsGrabbed && !o.WasGrabbed;
     private static bool CanUseRocket(Robo o) => o.CanRocket;
@@ -304,7 +318,7 @@ public partial class Robo : Thing
         });
     }
 
-    public static Move Loop = new Move("Loop", 30, (o, frame) => {
+    public static Move Loop = new("Loop", 30, (o, _) => {
         o.IsDead = true;
     });
 

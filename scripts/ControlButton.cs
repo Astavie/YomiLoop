@@ -6,7 +6,7 @@ public partial class ControlButton : TextureButton {
     private readonly Color HoverColor = Colors.CornflowerBlue;
     private readonly Color DisabledColor = Colors.DarkSlateGray;
 
-    public Move Move { get; set; }
+    public Predicate<Robo> IsLegal { get; set; } = o => o.Age < o.LifeTime; 
     
     private bool _disabledForever = false;
     

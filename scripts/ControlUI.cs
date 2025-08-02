@@ -28,7 +28,7 @@ public partial class ControlUI : Control
         } else {
             Robo me = GetNode<Physics>("/root/Physics").Me;
             Buttons.GetChildren().OfType<ControlButton>().ToList().ForEach(b => {
-                if (b.Move.IsLegal?.Invoke(me) ?? true) b.Enable();
+                if (b.IsLegal?.Invoke(me) ?? true) b.Enable();
             });
         }
     }
