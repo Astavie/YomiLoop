@@ -3070,7 +3070,7 @@ animations = [{
 
 [node name="Robo" type="CharacterBody2D"]
 z_index = 20
-collision_layer = 2
+collision_layer = 66
 platform_floor_layers = 4294967040
 script = ExtResource("1_o68hb")
 

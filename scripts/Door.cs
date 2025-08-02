@@ -21,6 +21,8 @@ public partial class Door : Node2D
 {
     [Export]
     public PackedScene PlayerScene { get; set; }
+    [Export]
+    public PackedScene NextLevel { get; set; }
 
     [Export] public bool MeFirst = false;
 
@@ -61,6 +63,7 @@ public partial class Door : Node2D
     public override void _Ready() {
         SpawnPlayer();
         Physics.GrabAction = HandleGrabClicked;
+        Physics.GoalAction = HandleGoal;
         
         // Connect button signals
         Buttons.GetNode<BaseButton>("Perform").Pressed += HandlePerform;
@@ -186,5 +189,28 @@ public partial class Door : Node2D
         Physics.State = PlayState.Preview;
         
         Queued = Robo.Grab(thing);
+    }
+
+    public void HandleGoal(Goal goal, Robo robo)
+    {
+        AnimationPlayer player = GetNode<AnimationPlayer>("/root/Wipe/AnimationPlayer");
+        player.Play("In");
+        var timer = new Timer();
+        timer.OneShot = true;
+        timer.Autostart = true;
+        timer.WaitTime = 0.5;
+        timer.Timeout += () => CallDeferred(nameof(DoNextLevel));
+        AddChild(timer);
+    }
+
+    public void DoNextLevel()
+    {
+        AnimationPlayer player = GetNode<AnimationPlayer>("/root/Wipe/AnimationPlayer");
+        player.Play("Out");
+        
+        Physics.OnLevelEnd();
+        if (NextLevel is not null)
+            GetNode("/root").AddChild(NextLevel.Instantiate());
+        GetParent().Free();
     }
 }

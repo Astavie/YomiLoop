@@ -18,6 +18,11 @@ public partial class ControlUI : Control
         if (!EnableRocket) GetNode<ControlButton>("%Buttons/Rocket").Disable(forever:true);
     }
 
+    public override void _ExitTree()
+    {
+        GetNode<Physics>("/root/Physics").StateChanged -= OnStateChanged;
+    }
+
     private void OnStateChanged(PlayState _, PlayState next) {
         if (next is PlayState.Running) {
             Buttons.GetChildren().OfType<ControlButton>().ToList().ForEach(b => b.Disable());

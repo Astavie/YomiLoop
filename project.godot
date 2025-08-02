@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Physics="*res://scripts/Physics.cs"
 Music="*res://music.tscn"
+Wipe="*res://wipe.tscn"
 
 [display]
 
@@ -41,6 +42,7 @@ project/assembly_name="yomiloop"
 2d_physics/layer_4="Objects"
 2d_physics/layer_5="Preview Object with Player"
 2d_physics/layer_6="Object with Player"
+2d_physics/layer_7="Player"
 
 [rendering]
 

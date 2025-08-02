@@ -11,6 +11,7 @@ public partial class Physics : Node {
     private readonly List<Thing> _previews = [];
     public Robo Me = null;
     public Action<Thing> GrabAction = null;
+    public Action<Goal, Robo> GoalAction = null;
 
     private PlayState _state = PlayState.Preview;
     public PlayState State {
@@ -19,6 +20,15 @@ public partial class Physics : Node {
             EmitSignalStateChanged(_state, value);
             _state = value;
         }
+    }
+
+    public void OnLevelEnd()
+    {
+        _objects.Clear();
+        _previews.Clear();
+        GrabAction = null;
+        GoalAction = null;
+        Me = null;
     }
 
     public void RegisterObject(Thing obj)
