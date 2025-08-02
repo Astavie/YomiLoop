@@ -33,7 +33,7 @@ public partial class Crate : Thing
     public override void AfterFrame()
     {
         // Round position on standstill
-        if (Velocity.X < Single.Epsilon && Velocity.Y < Single.Epsilon)
+        if (Velocity.X < float.Epsilon && Velocity.Y < float.Epsilon)
         {
             Position = Position.Round();
         }

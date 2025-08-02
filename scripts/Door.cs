@@ -47,6 +47,7 @@ public partial class Door : Node2D
         }
         set
         {
+            ResetGrabHighlights();
             Physics.ResetPreview();
             if (Me.MoveIndex < Me.Moves.Count)
             {
@@ -67,13 +68,15 @@ public partial class Door : Node2D
         Physics = GetNode<Physics>("/root/Physics");
         Physics.GrabAction = HandleGrabClicked;
         Physics.GoalAction = HandleGoal;
+        Physics.StateChanged += (_, next) => {
+            if (next is PlayState.Running) ResetGrabHighlights();
+        };
         // save "actual" lifetime to physics (for displaying time left)
         Physics.LifeTime = LifeTime;
         
         LifeTime += 60;
         SpawnPlayer();
         // Connect button signals
-
         
         Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie();
@@ -105,6 +108,10 @@ public partial class Door : Node2D
         Buttons.GetNode<ControlButton>("Hover/PopupPanel/Container/Left").Used += QueueMove(Robo.Hover(Direction.Left));
         Buttons.GetNode<ControlButton>("Hover/PopupPanel/Container/Right").Used += QueueMove(Robo.Hover(Direction.Right));
         Buttons.GetNode<ControlButton>("Hover/PopupPanel/Container/Up").Used += QueueMove(Robo.Hover(Direction.Up));
+    }
+
+    private void ResetGrabHighlights() {
+        Physics.Objects.Where(o => o.Grabbable).ToList().ForEach(o => o.Highlight(null));
     }
 
     private void SpawnPlayer() {
@@ -145,10 +152,6 @@ public partial class Door : Node2D
             Queued = move;
         };
     }
-
-    public void OnDeath()
-    {
-    }
     
     public override void _PhysicsProcess(double delta)
     {
@@ -166,6 +169,7 @@ public partial class Door : Node2D
                 break;
             case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
                 Physics.State = PlayState.Preview;
+                Physics.ResetPreview();
                 Music.Play("EQ");
                 break;
             case PlayState.Running:
@@ -193,14 +197,19 @@ public partial class Door : Node2D
 
     public void HandleGrab()
     {
-        var canGrab = Physics.Objects.Where(Me.CanGrab).ToList();
-        if (canGrab.Count == 1)
+        var grabbables = Physics.Objects.Where(Me.CanGrab).ToList();
+        if (grabbables.Count == 1)
         {
-            Queued = Robo.Grab(canGrab[0]);
+            Thing grabbable = grabbables[0];
+            Queued = Robo.Grab(grabbable);
+            grabbable.Highlight(Colors.CornflowerBlue);
         }
         else
         {
             Queued = null;
+            foreach (Thing grabbable in grabbables) {
+                grabbable.Highlight(Colors.White);
+            }
             Physics.State = PlayState.Grab;
             Me.InputPickable = false;
         }

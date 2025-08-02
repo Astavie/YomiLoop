@@ -7,8 +7,9 @@ public partial class Thing : CharacterBody2D
     [Export] public float GroundDrag = 8f;
     [Export] public float FrozenDrag = 4f;
     [Export] public float AirDrag = 0.67f;
+    [Export] public Material CanvasMaterial { get; set; }
     
-    public Vector2 Center => new Vector2(GlobalPosition.X, GlobalPosition.Y - 9);
+    public Vector2 Center => new(GlobalPosition.X, GlobalPosition.Y - 9);
     public const float Gravity = 9.8f;
 
     private Transform2D _initialTransform;
@@ -28,6 +29,7 @@ public partial class Thing : CharacterBody2D
         {
             Preview = (Thing)Duplicate();
             Preview.IsPreview = true;
+            Preview.CanvasMaterial = (Material)CanvasMaterial?.Duplicate(subresources:true);
             AddChild(Preview);
             if (Grabbable) InputPickable = true;
         }
@@ -43,6 +45,10 @@ public partial class Thing : CharacterBody2D
         _initialModulate = Modulate;
         physics = GetNode<Physics>("/root/Physics");
         physics.RegisterObject(this);
+
+        if (GetNodeOrNull<CanvasGroup>("CanvasGroup") is CanvasGroup canvasGroup) {
+            canvasGroup.Material = CanvasMaterial;
+        }
     }
 
     public void StepMovement(double delta)
@@ -74,6 +80,16 @@ public partial class Thing : CharacterBody2D
     public virtual void OnFrame(double delta) {}
     public virtual void AfterFrame() {}
 
+    public void Highlight(Color? colorMaybe) {
+        if (colorMaybe is Color color) {
+            CanvasMaterial.Set("shader_parameter/line_colour", color);
+            CanvasMaterial.Set("shader_parameter/line_thickness", 1f);
+        } else {
+            CanvasMaterial.Set("shader_parameter/line_thickness", 0f);
+        }
+        
+    }
+
     public Thing OrPreview(Thing player) => player.IsPreview ? Preview : this;
 
     public virtual void Reset([MaybeNull] Thing parent)
@@ -89,13 +105,14 @@ public partial class Thing : CharacterBody2D
     {
         var physicsMe = physics.Me;
         if (physics.State is not PlayState.Grab || physicsMe is null) return;
-        if (physicsMe.CanGrab(this)) physicsMe.LineTo(this);
+        if (physicsMe.CanGrab(this)) Highlight(Colors.CornflowerBlue);
     }
 
     public override void _MouseExit()
     {
-        if (physics.State is not PlayState.Grab || physics.Me is null) return;
-        physics.Me.LineTo(null);
+        Robo physicsMe = physics.Me;
+        if (physics.State is not PlayState.Grab || physicsMe is null) return;
+        if (physicsMe.CanGrab(this)) Highlight(Colors.White);
     }
 
     public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
