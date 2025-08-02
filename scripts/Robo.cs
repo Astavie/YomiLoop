@@ -222,6 +222,7 @@ public partial class Robo : Thing
 
     public bool CanGrab(Thing thing)
     {
+        if (!thing.Grabbable || this == thing) return false;
         return
             float.Min(thing.Center.DistanceSquaredTo(GlobalPosition), thing.Center.DistanceSquaredTo(Center))
             < GrabDistance * GrabDistance;

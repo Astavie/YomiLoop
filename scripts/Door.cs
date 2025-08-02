@@ -78,7 +78,7 @@ public partial class Door : Node2D
         Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.Throw(Direction.Up).IsLegal(o) && !o.AboutToDie();
-        Buttons.GetNode<ControlButton>("Grab").IsLegal = o => Physics.Objects.Any(t => t != o && t.Grabbable && o.CanGrab(t)) && !o.AboutToDie();
+        Buttons.GetNode<ControlButton>("Grab").IsLegal = o => Physics.Objects.Any(o.CanGrab) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => true;
         Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
 
