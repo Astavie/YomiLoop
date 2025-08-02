@@ -161,7 +161,7 @@ public partial class Robo : Thing
             Die();
     }
 
-    private void Die()
+    public void Die()
     {
         Velocity = Vector2.Zero;
         Grabbed = null;

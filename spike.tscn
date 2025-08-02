@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://inpxx0ab8od2"]
+
+[ext_resource type="Script" uid="uid://c47m1ta0cvixk" path="res://scripts/Spike.cs" id="1_7k7bx"]
+[ext_resource type="Texture2D" uid="uid://d0ru5nvx603vj" path="res://assets/spike.png" id="2_tggh8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0qle8"]
+size = Vector2(18, 9)
+
+[node name="Spike" type="Area2D"]
+collision_layer = 0
+collision_mask = 64
+script = ExtResource("1_7k7bx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_0qle8")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+texture = ExtResource("2_tggh8")
+
+[connection signal="body_entered" from="." to="." method="OnBodyEntered"]
