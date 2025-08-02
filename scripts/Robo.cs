@@ -29,7 +29,8 @@ public partial class Robo : Thing
     public AnimatedSprite2D RocketSprite { get; private set; }
 
     public bool CanRocket { get; private set; } = true;
-    
+
+    public Move? ForcedMove = null;
     public List<Move> Moves = [];
     public int MoveIndex = 0;
     public int MoveFrame = 0;
@@ -107,15 +108,18 @@ public partial class Robo : Thing
         }
         
         // Advance to next frame
-        if (MoveIndex >= Moves.Count) return;
-        var move = Moves[MoveIndex];
+        if (!ForcedMove.HasValue && MoveIndex >= Moves.Count) return;
+        var move = ForcedMove ?? Moves[MoveIndex];
         move.OnFrame(this, MoveFrame);
         MoveFrame++;
         
         // Advance to next move
         if (MoveFrame < move.Frames) return;
         MoveFrame = 0;
-        MoveIndex++;
+        if (ForcedMove.HasValue)
+            MoveIndex = Moves.Count;
+        else
+            MoveIndex++;
     }
 
     public override void AfterFrame() {
@@ -133,7 +137,7 @@ public partial class Robo : Thing
         }
 
         // Death logic
-        if (MoveIndex >= Moves.Count && PastSelf)
+        if (ShouldDie())
         {
             Velocity = Vector2.Zero;
             Grabbed = null;
@@ -145,6 +149,12 @@ public partial class Robo : Thing
         }
     }
 
+    public bool ShouldDie()
+    {
+        if (Grabbed is Goal) return false;
+        return MoveIndex >= Moves.Count && PastSelf;
+    }
+
     public override void Reset([MaybeNull] Thing parent)
     {
         base.Reset(parent);
@@ -153,6 +163,7 @@ public partial class Robo : Thing
         MoveFrame = robo?.MoveFrame ?? 0;
         Grabbed = robo?.Grabbed?.Preview;
         Aberration = robo?.Aberration ?? 0;
+        ForcedMove = robo?.ForcedMove;
 
         var velocity = Velocity;
         Velocity = Vector2.Zero;
@@ -242,6 +253,9 @@ public partial class Robo : Thing
             if (o.CanGrab(grabbed)) {
                 o.Grabbed = grabbed;
                 o.PlayHand.Travel("grab");
+
+                if (!o.IsPreview && grabbed is Goal goal)
+                    o.physics.GoalAction(goal, o);
             }
         });
     }
