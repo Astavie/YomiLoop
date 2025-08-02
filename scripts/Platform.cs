@@ -16,10 +16,12 @@ public partial class Platform : Crate, IActivatable
     public IActivatable Preview => base.Preview as IActivatable;
     
     private float _initialX;
+    private AnimatedSprite2D sprite;
 
     public override void _Ready()
     {
         base._Ready();
+        sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _initialX = GlobalPosition.X;
         if (Active)
         {
@@ -43,13 +45,16 @@ public partial class Platform : Crate, IActivatable
         {
             GlobalPosition = new Vector2(goal, GlobalPosition.Y);
             Velocity = new Vector2(0, Velocity.Y);
+            sprite.Stop();
         }
         else if (goal < current)
         {
             Velocity = new Vector2(-Speed, Velocity.Y);
+            sprite.PlayBackwards();
         }
         else
         {
+            sprite.Play();
             Velocity = new Vector2(Speed, Velocity.Y);
         }
     }

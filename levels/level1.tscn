@@ -16,6 +16,7 @@
 position = Vector2(-30, 234)
 NextLevel = ExtResource("2_omn1t")
 MeFirst = true
+LifeTime = 1000
 
 [node name="LevelTiles" parent="." instance=ExtResource("1_b3oru")]
 position = Vector2(6, 0)
@@ -29,7 +30,7 @@ EnableLoop = false
 position = Vector2(320, 180)
 
 [node name="Crate" parent="." instance=ExtResource("5_61w3m")]
-position = Vector2(141, 234)
+position = Vector2(175, 234)
 
 [node name="Goal" parent="." instance=ExtResource("6_8hd6v")]
 position = Vector2(366, 108)
