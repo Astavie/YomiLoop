@@ -19,7 +19,7 @@ public partial class Thing : CharacterBody2D
     public bool IsFrozen = false;
     public bool IsPaused = false;
     
-    protected Physics Physics => GetNode<Physics>("/root/Physics");
+    protected Physics physics;
     
     public override void _Ready()
     {
@@ -40,7 +40,8 @@ public partial class Thing : CharacterBody2D
         }
         _initialTransform = Transform;
         _initialModulate = Modulate;
-        Physics.RegisterObject(this);
+        physics = GetNode<Physics>("/root/Physics");
+        physics.RegisterObject(this);
     }
 
     public void StepMovement(double delta)
@@ -84,25 +85,25 @@ public partial class Thing : CharacterBody2D
 
     public override void _MouseEnter()
     {
-        var physicsMe = Physics.Me;
-        if (Physics.State is not PlayState.Grab || physicsMe is null) return;
+        var physicsMe = physics.Me;
+        if (physics.State is not PlayState.Grab || physicsMe is null) return;
         if (physicsMe.CanGrab(this)) physicsMe.LineTo(this);
     }
 
     public override void _MouseExit()
     {
-        if (Physics.State is not PlayState.Grab || Physics.Me is null) return;
-        Physics.Me.LineTo(null);
+        if (physics.State is not PlayState.Grab || physics.Me is null) return;
+        physics.Me.LineTo(null);
     }
 
     public override void _InputEvent(Viewport viewport, InputEvent @event, int shapeIdx)
     {
-        if (Physics.State is PlayState.Grab && @event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
+        if (physics.State is PlayState.Grab && @event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left })
         {
             // clear line
-            Physics.Me.LineTo(null);
+            physics.Me.LineTo(null);
 
-            Physics.GrabAction?.Invoke(this);
+            physics.GrabAction?.Invoke(this);
         }
     }
 }
