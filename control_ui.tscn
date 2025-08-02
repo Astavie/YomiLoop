@@ -1,8 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=36 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
 [ext_resource type="Texture2D" uid="uid://dw61vsso6bbtu" path="res://assets/ui/wait.png" id="2_bd2vw"]
+[ext_resource type="Texture2D" uid="uid://cdypbih7unaer" path="res://assets/ui/locked.png" id="2_ncl7v"]
 [ext_resource type="Script" uid="uid://cr7tdgmetkq4w" path="res://scripts/ControlButton.cs" id="3_8uxlj"]
 [ext_resource type="Texture2D" uid="uid://cysa1s75obbmq" path="res://assets/ui/grab/grab1.png" id="3_occbk"]
 [ext_resource type="Texture2D" uid="uid://ba7ctxqwkh1ge" path="res://assets/ui/grab/grab2.png" id="4_8uxlj"]
@@ -75,6 +76,7 @@ offset_bottom = 40.0
 script = ExtResource("1_bd2vw")
 EnableHover = false
 EnableRocket = false
+LockedTexture = ExtResource("2_ncl7v")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0

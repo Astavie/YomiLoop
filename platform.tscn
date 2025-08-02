@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://coge0vk4srkme"]
+
+[ext_resource type="Script" uid="uid://casrgirhma1e7" path="res://scripts/Platform.cs" id="1_s8bxr"]
+[ext_resource type="Texture2D" uid="uid://cjyhojvg0vo68" path="res://icon.svg" id="2_c1gtx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
+size = Vector2(72, 18)
+
+[node name="Platform" type="CharacterBody2D"]
+collision_layer = 0
+platform_floor_layers = 4294967040
+script = ExtResource("1_s8bxr")
+CollidesPlayer = true
+Grabbable = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -9)
+scale = Vector2(0.562, 0.141)
+texture = ExtResource("2_c1gtx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9)
+shape = SubResource("RectangleShape2D_omn1t")

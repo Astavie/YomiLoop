@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=4 uid="uid://b4nrogynn5buu"]
+
+[ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_xj2qs"]
+[ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_b4gt3"]
+[ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_coos2"]
+[ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_f2gs6"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Door" parent="." instance=ExtResource("1_xj2qs")]
+position = Vector2(-30, 234)
+MeFirst = true
+
+[node name="LevelTiles" parent="." instance=ExtResource("2_b4gt3")]
+position = Vector2(6, 0)
+tile_map_data = PackedByteArray("AAD//w0AAAACAAEAAAD//w4AAAACAAIAAAAAAA0AAAACAAEAAAAAAA4AAAACAAIAAAD9/w0AAAABAAEAAAD9/w4AAAABAAMAAAD+/w0AAAACAAEAAAD+/w4AAAACAAMAAAD//w8AAAABAAIAAAD//xAAAAABAAIAAAAAABEAAAACAAIAAAAAABIAAAACAAIAAAAAABMAAAACAAIAAAAAABQAAAACAAMAAAD//xQAAAABAAMAAAD//xMAAAABAAIAAAD//xIAAAABAAIAAAD//xEAAAABAAIAAAAAABAAAAACAAIAAAAAAA8AAAACAAIAAAABABQAAAADAAMAAAABABMAAAADAAIAAAABABIAAAADAAIAAAABABEAAAADAAIAAAABABAAAAADAAIAAAABAA8AAAADAAIAAAABAA4AAAADAAIAAAABAA0AAAADAAEAAAA=")
+
+[node name="ControlUI" parent="." instance=ExtResource("3_coos2")]
+unique_name_in_owner = true
+
+[node name="Background" parent="." instance=ExtResource("4_f2gs6")]
+position = Vector2(320, 180)

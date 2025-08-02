@@ -17,7 +17,7 @@ public enum Direction {
 
 public partial class Robo : Thing
 {
-    [Export] public float GrabDistance = 48;
+    [Export] public float GrabDistance = 32;
     private Line2D _grabLine;
 
     public AnimationTree BodyTree { get; private set; }

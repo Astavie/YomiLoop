@@ -20,10 +20,11 @@ public partial class ControlButton : TextureButton {
         };
     }
 
-    public void Disable(bool forever = false) {
+    public void Disable(bool forever = false, Texture2D overrideTex = null) {
         Modulate = DisabledColor;
         Disabled = true;
         if (forever) _disabledForever = true;
+        if (overrideTex is not null) TextureNormal = overrideTex;
     }
     
     public void Enable() {
