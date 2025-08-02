@@ -261,6 +261,7 @@ public partial class Robo : Thing
             Direction.Up => (new Vector2(0, -384), new Vector2(0, -512)),
             Direction.UpLeft => (new Vector2(-128, -256), new Vector2(-362, -362)),
             Direction.UpRight => (new Vector2(128, -256), new Vector2(362, -362)),
+            Direction.Down => (Vector2.Zero, Vector2.Zero)
         };
         return Move("Throw" + direction, 30, o => {
             if (o.Grabbed is null) return;

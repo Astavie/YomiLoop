@@ -93,6 +93,7 @@ public partial class Door : Node2D
         Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Throw(Direction.Up));
         Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/UpLeft").Pressed += QueueMove(Robo.Throw(Direction.UpLeft));
         Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/UpRight").Pressed += QueueMove(Robo.Throw(Direction.UpRight));
+        Buttons.GetNode<BaseButton>("Throw/PopupPanel/Container/Down").Pressed += QueueMove(Robo.Throw(Direction.Down));
         Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Right").Pressed += QueueMove(Robo.Rocket(Direction.Right));
         Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Left").Pressed += QueueMove(Robo.Rocket(Direction.Left));
         Buttons.GetNode<BaseButton>("Rocket/PopupPanel/Container/Up").Pressed += QueueMove(Robo.Rocket(Direction.Up));
