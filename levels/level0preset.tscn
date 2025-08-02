@@ -8,15 +8,15 @@
 [node name="Level" type="Node2D"]
 
 [node name="Door" parent="." instance=ExtResource("1_xj2qs")]
-position = Vector2(-30, 234)
+position = Vector2(-30, 162)
 MeFirst = true
 
 [node name="LevelTiles" parent="." instance=ExtResource("2_b4gt3")]
-position = Vector2(6, 0)
+position = Vector2(6, -72)
 tile_map_data = PackedByteArray("AAD//w0AAAACAAEAAAD//w4AAAACAAIAAAAAAA0AAAACAAEAAAAAAA4AAAACAAIAAAD9/w0AAAABAAEAAAD9/w4AAAABAAMAAAD+/w0AAAACAAEAAAD+/w4AAAACAAMAAAD//w8AAAABAAIAAAD//xAAAAABAAIAAAAAABEAAAACAAIAAAAAABIAAAACAAIAAAAAABMAAAACAAIAAAAAABQAAAACAAMAAAD//xQAAAABAAMAAAD//xMAAAABAAIAAAD//xIAAAABAAIAAAD//xEAAAABAAIAAAAAABAAAAACAAIAAAAAAA8AAAACAAIAAAABABQAAAADAAMAAAABABMAAAADAAIAAAABABIAAAADAAIAAAABABEAAAADAAIAAAABABAAAAADAAIAAAABAA8AAAADAAIAAAABAA4AAAADAAIAAAABAA0AAAADAAEAAAA=")
 
 [node name="ControlUI" parent="." instance=ExtResource("3_coos2")]
 unique_name_in_owner = true
 
 [node name="Background" parent="." instance=ExtResource("4_f2gs6")]
-position = Vector2(320, 180)
+position = Vector2(320, 108)
