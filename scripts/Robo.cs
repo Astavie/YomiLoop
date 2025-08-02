@@ -17,6 +17,12 @@ public enum Direction {
 
 public partial class Robo : Thing
 {
+    [Export] public AudioStream DeathSound { get; set; }
+    [Export] public AudioStream ThrowSound { get; set; }
+    [Export] public AudioStream GrabSound { get; set; }
+    [Export] public AudioStream RocketSound { get; set; }
+    private AudioStreamPlayer audioPlayer;
+    
     [Export] public float GrabDistance = 32;
     private Line2D _grabLine;
 
@@ -71,6 +77,7 @@ public partial class Robo : Thing
     public override void _Ready()
     {
         base._Ready();
+        audioPlayer = GetNode<AudioStreamPlayer>("AudioPlayer");
         BodyTree = GetNode<AnimationTree>("BodyTree");
         PlayBody = (AnimationNodeStateMachinePlayback)BodyTree.Get("parameters/playback");
         HandTree = GetNode<AnimationTree>("HandTree");
@@ -106,6 +113,12 @@ public partial class Robo : Thing
         {
             CollisionMask |= 32;
         }
+    }
+
+    private void PlaySound(AudioStream audioStream) {
+        if (IsPreview) return;
+        audioPlayer.Stream = audioStream;
+        audioPlayer.Play();
     }
 
     private void AdvanceMove(Move move) {
@@ -170,6 +183,7 @@ public partial class Robo : Thing
         PlayBody.Travel("hurt");
         PlayHand.Travel("RESET");
         Advance(0.001);
+        PlaySound(DeathSound);
     }
 
     public bool AboutToDie()
@@ -266,6 +280,7 @@ public partial class Robo : Thing
         };
         return Move("Throw" + direction, 30, o => {
             if (o.Grabbed is null) return;
+            o.PlaySound(o.ThrowSound);
             o.Grabbed.Velocity = o.Grabbed.IsFrozen ? frozenVec : throwVec;
             o.Grabbed = null;
         }, isLegal: robo => robo.Grabbed is not null);
@@ -279,7 +294,7 @@ public partial class Robo : Thing
             if (o.CanGrab(grabbed)) {
                 o.Grabbed = grabbed;
                 o.PlayHand.Travel("grab");
-
+                o.PlaySound(o.GrabSound);
                 if (!o.IsPreview && grabbed is Goal goal)
                     o.physics.GoalAction(goal, o);
             }
@@ -321,6 +336,7 @@ public partial class Robo : Thing
             o.CanRocket = false;
             o.Grabbed = null;
             o.Travel("rocket");
+            o.PlaySound(o.RocketSound);
             o.RocketSprite.Position = rocketPos;
             o.RocketSprite.Rotation = rocketRot;
         });
