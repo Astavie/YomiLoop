@@ -36,6 +36,7 @@ public partial class Door : Node2D
     private Physics Physics;
     private AnimationPlayer Music => GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
     private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
+    private bool _winning => Me.Grabbed is Goal || _pastSelves.Any(o => o.Grabbed is Goal);
     
     private Move? Queued
     {
@@ -173,7 +174,7 @@ public partial class Door : Node2D
                 // Create new Me
                 SpawnPlayer();
                 break;
-            case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
+            case PlayState.Running when Me.MoveIndex >= Me.Moves.Count && !_winning:
                 Physics.State = PlayState.Preview;
                 Physics.ResetPreview();
                 Music.Play("EQ");
