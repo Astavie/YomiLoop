@@ -23,8 +23,11 @@ public partial class ControlButton : TextureButton {
         base.Pressed += EmitSignalUsed;
         
         if (Disabled) Modulate = DisabledColor;
-        MouseEntered += () => {
-            if (!_disabledForever) GetNode<Label>("%Buttons/../../Label").Text = Label;
+        MouseEntered += () =>
+        {
+            string text = Label;
+            if (_disabledForever) text = "???";
+            GetNode<Label>("%Buttons/../../Label").Text = text;
             if (!Disabled) Modulate = HoverColor;
         };
         MouseExited += () => {
