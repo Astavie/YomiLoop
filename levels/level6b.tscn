@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://sm42q7wklhs2"]
+[gd_scene load_steps=13 format=4 uid="uid://c5yet7wbb5l4y"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_1aa06"]
 [ext_resource type="PackedScene" uid="uid://cxc52wrjwfte2" path="res://levels/level7.tscn" id="2_73tmc"]
@@ -46,6 +46,7 @@ position = Vector2(187, 54)
 [node name="Platform" parent="." instance=ExtResource("9_tl0a1")]
 position = Vector2(186, 72)
 Movement = 72.0
+CollidesPlayer = true
 
 [node name="MoveMessage" type="PanelContainer" parent="."]
 z_index = -5

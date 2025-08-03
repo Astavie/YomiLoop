@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://coge0vk4srkme"]
+[gd_scene load_steps=13 format=3 uid="uid://coge0vk4srkme"]
 
 [ext_resource type="Script" uid="uid://casrgirhma1e7" path="res://scripts/Platform.cs" id="1_s8bxr"]
+[ext_resource type="Texture2D" uid="uid://dp2dlee6igkhl" path="res://assets/platform-twoway.png" id="2_c1gtx"]
 [ext_resource type="Texture2D" uid="uid://cdro4asydgc3a" path="res://assets/platform.png" id="2_s8bxr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
@@ -21,6 +22,18 @@ region = Rect2(72, 0, 72, 18)
 atlas = ExtResource("2_s8bxr")
 region = Rect2(144, 0, 72, 18)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_7u0im"]
+atlas = ExtResource("2_c1gtx")
+region = Rect2(0, 0, 72, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8osn"]
+atlas = ExtResource("2_c1gtx")
+region = Rect2(72, 0, 72, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ardar"]
+atlas = ExtResource("2_c1gtx")
+region = Rect2(144, 0, 72, 18)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_7u0im"]
 animations = [{
 "frames": [{
@@ -36,6 +49,20 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7u0im")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8osn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ardar")
+}],
+"loop": true,
+"name": &"twoway",
+"speed": 5.0
 }]
 
 [node name="Platform" type="CharacterBody2D"]

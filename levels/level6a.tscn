@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=4 uid="uid://bpifjwwct51o4"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_o0wr3"]
-[ext_resource type="PackedScene" uid="uid://sm42q7wklhs2" path="res://levels/level6b.tscn" id="2_eewrb"]
+[ext_resource type="PackedScene" uid="uid://c5yet7wbb5l4y" path="res://levels/level6b.tscn" id="2_eewrb"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_yqpsh"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_8ldvn"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_m2vi5"]
@@ -53,6 +53,7 @@ Movement = 54.0
 position = Vector2(222, 36)
 Movement = -54.0
 Active = true
+CollidesPlayer = true
 
 [node name="Crate" parent="." instance=ExtResource("8_j1e20")]
 position = Vector2(96, 162)

@@ -45,6 +45,7 @@ position = Vector2(96, 36)
 position = Vector2(96, 54)
 Movement = -72.0
 Speed = 128.0
+CollidesPlayer = true
 
 [node name="Button" parent="." instance=ExtResource("9_tq58f")]
 position = Vector2(330, 162)

@@ -56,6 +56,7 @@ position = Vector2(420, 54)
 [node name="Platform" parent="." instance=ExtResource("5_nnkdi")]
 position = Vector2(420, 72)
 Movement = 72.0
+CollidesPlayer = true
 
 [node name="Platform2" parent="." instance=ExtResource("5_nnkdi")]
 position = Vector2(366, 198)

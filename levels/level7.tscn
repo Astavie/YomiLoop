@@ -48,6 +48,7 @@ position = Vector2(42, 36)
 position = Vector2(42, 54)
 Movement = -72.0
 Speed = 128.0
+CollidesPlayer = true
 
 [node name="Crate" parent="." instance=ExtResource("7_ti5b6")]
 position = Vector2(268, 144)

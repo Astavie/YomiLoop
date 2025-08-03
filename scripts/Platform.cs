@@ -21,6 +21,13 @@ public partial class Platform : Crate, IActivatable
 
     public override void _Ready()
     {
+        if (CollidesPlayer)
+        {
+            GetNode<CollisionShape2D>("CollisionShape2D").OneWayCollision = false;
+            RemoveChild(GetNode("OneWay"));
+            GetNode<AnimatedSprite2D>("AnimatedSprite2D").Animation = "twoway";
+        }
+        
         base._Ready();
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _initialX = GlobalPosition.X;
