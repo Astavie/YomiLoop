@@ -47,6 +47,11 @@ public partial class Door : Node2D
         }
         set
         {
+            if (value is null)
+                Buttons.GetNode<ControlButton>("Perform").Disable();
+            else
+                Buttons.GetNode<ControlButton>("Perform").Enable();
+            
             ResetGrabHighlights();
             Physics.ResetPreview();
             if (Me.MoveIndex < Me.Moves.Count)
@@ -77,12 +82,13 @@ public partial class Door : Node2D
         LifeTime += 60;
         SpawnPlayer();
         // Connect button signals
+        Buttons.GetNode<Godot.Button>("../../Reset").Pressed += ResetLevel;
         
         Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.Throw(Direction.Up).IsLegal(o) && !o.AboutToDie();
         Buttons.GetNode<ControlButton>("Grab").IsLegal = o => Physics.Objects.Any(o.CanGrab) && !o.AboutToDie();
-        Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => true;
+        Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => Queued is not null;
         Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
 
         Buttons.GetNode<ControlButton>("Perform").Used += HandlePerform;
@@ -220,6 +226,17 @@ public partial class Door : Node2D
         Me.InputPickable = true;
         Physics.State = PlayState.Preview;
         Queued = Robo.Grab(thing);
+    }
+
+    public void ResetLevel()
+    {
+        GetNode<Wipe>("/root/Wipe").DoWipe(() => CallDeferred(nameof(DoThisLevel)), playSound:true);
+    }
+
+    public void DoThisLevel()
+    {
+        Physics.OnLevelEnd();
+        GetTree().ReloadCurrentScene();
     }
 
     public void HandleGoal(Goal goal, Robo robo)

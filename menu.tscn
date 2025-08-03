@@ -1,12 +1,23 @@
-[gd_scene load_steps=8 format=4 uid="uid://dowvtkiru5l4e"]
+[gd_scene load_steps=10 format=4 uid="uid://dowvtkiru5l4e"]
 
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_2fskk"]
 [ext_resource type="PackedScene" uid="uid://4034aehate3n" path="res://robo.tscn" id="3_mae5d"]
 [ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="4_4hy44"]
+[ext_resource type="Shader" uid="uid://ccax67xr74503" path="res://robo.gdshader" id="4_kk3ma"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_tbhb4"]
 [ext_resource type="Script" uid="uid://ccujk375qv77b" path="res://scripts/StartButton.cs" id="5_l48gv"]
 [ext_resource type="Theme" uid="uid://c5rg43posc4g6" path="res://theme.tres" id="5_ytr4m"]
 [ext_resource type="PackedScene" uid="uid://rvip1py4xe4u" path="res://levels/level1.tscn" id="6_ecwwl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrnbx"]
+resource_local_to_scene = true
+shader = ExtResource("4_kk3ma")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+shader_parameter/aberration = 0.0
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
 
 [node name="Level" type="Node2D"]
 
@@ -19,6 +30,7 @@ position = Vector2(320, 108)
 
 [node name="Robo" parent="." instance=ExtResource("3_mae5d")]
 position = Vector2(24, 162)
+CanvasMaterial = SubResource("ShaderMaterial_nrnbx")
 
 [node name="Label" type="Label" parent="."]
 offset_left = 280.0

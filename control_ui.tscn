@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=45 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -36,6 +36,8 @@
 [ext_resource type="Texture2D" uid="uid://dd1t2b3i33mvp" path="res://assets/ui/time/time4.png" id="33_4cpmv"]
 [ext_resource type="Texture2D" uid="uid://c6i2f45o0kgmd" path="res://assets/ui/time/time5.png" id="34_urnk1"]
 [ext_resource type="Theme" uid="uid://c5rg43posc4g6" path="res://theme.tres" id="36_w8ai5"]
+[ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="37_add7k"]
+[ext_resource type="FontFile" uid="uid://cr7o85dq0baty" path="res://assets/fonts/Kenney Pixel.ttf" id="38_4cpmv"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6naa"]
 
@@ -425,6 +427,16 @@ offset_top = 250.0
 offset_right = 136.0
 offset_bottom = 280.0
 theme = ExtResource("36_w8ai5")
+
+[node name="Reset" type="Button" parent="."]
+layout_mode = 0
+offset_left = 435.0
+offset_top = 2.0
+offset_right = 478.0
+offset_bottom = 22.0
+theme = ExtResource("37_add7k")
+theme_override_fonts/font = ExtResource("38_4cpmv")
+text = "Reset"
 
 [connection signal="Used" from="PanelContainer/Buttons/Move" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Move/PopupPanel/Container/Close" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_close_pressed"]

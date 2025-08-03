@@ -20,4 +20,12 @@ public partial class StartButton : Godot.Button
         GetNode<Physics>("/root/Physics").OnLevelEnd();
         GetTree().ChangeSceneToPacked(FirstLevel);
     }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey { Pressed: true, Keycode: Key.Enter })
+        {
+            OnPressed();
+        }
+    }
 }
