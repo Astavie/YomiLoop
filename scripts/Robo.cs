@@ -266,7 +266,7 @@ public partial class Robo : Thing
         (Vector2 throwVec, Vector2 frozenVec) = direction switch {
             Direction.Left => (new Vector2(-256, -128), new Vector2(-512, 0)),
             Direction.Right => (new Vector2(256, -128), new Vector2(512, 0)),
-            Direction.Up => (new Vector2(0, -340), new Vector2(0, -512)),
+            Direction.Up => (new Vector2(0, -340), new Vector2(0, -400)),
             Direction.UpLeft => (new Vector2(-128, -256), new Vector2(-362, -362)),
             Direction.UpRight => (new Vector2(128, -256), new Vector2(362, -362)),
             Direction.Down => (Vector2.Zero, Vector2.Zero)
