@@ -291,19 +291,27 @@ public partial class Robo : Thing
                 if (grabbed is Goal goal) {
                     o.PlayBody.Travel("happy");
                     if (o.IsPreview) return;
-                    var music = o.GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
-                    music.Play("FADE");
-                    AudioStream victorySound = o.VictorySound;
-                    o.PlaySound(victorySound);
-                    
-                    var timer = o.GetTree().CreateTimer(victorySound.GetLength() - 0.8);
-                    timer.Timeout += () =>
-                    {
-                        music.PlayBackwards("FADE");
-                        if (!IsInstanceValid(o)) return;
-                        o.physics.GoalAction(goal, o);
-                    };
 
+                    if (o.physics.State != PlayState.Replaying)
+                    {
+                        var music = o.GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
+                        music.Play("FADE");
+                        AudioStream victorySound = o.VictorySound;
+                        o.PlaySound(victorySound);
+                        
+                        var timer = o.GetTree().CreateTimer(victorySound.GetLength() - 0.8);
+                        timer.Timeout += () =>
+                        {
+                            music.PlayBackwards("FADE");
+                            if (!IsInstanceValid(o)) return;
+                            o.physics.GoalAction(goal, o);
+                        };
+                    }
+                    else
+                    {
+                        var timer = o.GetTree().CreateTimer(1.0);
+                        timer.Timeout += () => o.physics.GoalAction(goal, o);
+                    }
                 }
             }
         });
@@ -356,7 +364,7 @@ public partial class Robo : Thing
         if (!(o.IsPreview || o.PastSelf))
         {
             o.GetNode<Wipe>("/root/Wipe")
-                .DoWipe(() => o.physics.State = PlayState.Reset);
+                .DoWipe(() => o.physics.State = PlayState.Reset, backwards:true);
         }
     });
 

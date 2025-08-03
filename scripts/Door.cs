@@ -241,7 +241,7 @@ public partial class Door : Node2D
 
     public void ResetLevel()
     {
-        GetNode<Wipe>("/root/Wipe").DoWipe(() => CallDeferred(nameof(DoThisLevel)), playSound:true);
+        GetNode<Wipe>("/root/Wipe").DoWipe(() => CallDeferred(nameof(DoThisLevel)), playSound:true, backwards:true);
     }
 
     public void DoThisLevel()
@@ -255,7 +255,7 @@ public partial class Door : Node2D
             Buttons.GetNode<Godot.Button>("../../NextLevel").Visible = true;
             _replaying = true;
             Physics.State = PlayState.Reset;
-        }, playSound:true);
+        }, playSound:true, backwards:true);
     }
 
     public void DoNextLevel() {

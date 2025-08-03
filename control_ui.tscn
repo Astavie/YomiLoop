@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=42 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://d15i5gd5ecupb" path="res://assets/ui/hover/hover3.png" id="20_jihhr"]
 [ext_resource type="Texture2D" uid="uid://cd7csjqit7m8t" path="res://assets/ui/hover/hover4.png" id="21_kui8s"]
 [ext_resource type="Script" uid="uid://cfk3xgswfx77e" path="res://scripts/TimeLeft.cs" id="29_1q3sf"]
+[ext_resource type="AudioStream" uid="uid://dssa00vivgd2l" path="res://assets/sound/loop.ogg" id="35_5j60u"]
 [ext_resource type="Theme" uid="uid://c5rg43posc4g6" path="res://theme.tres" id="36_w8ai5"]
 [ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="37_add7k"]
 [ext_resource type="FontFile" uid="uid://cr7o85dq0baty" path="res://assets/fonts/Kenney Pixel.ttf" id="38_4cpmv"]
@@ -493,6 +494,13 @@ theme = ExtResource("37_add7k")
 theme_override_font_sizes/font_size = 32
 text = "LOOP"
 horizontal_alignment = 1
+
+[node name="MustLoopSound" type="AudioStreamPlayer" parent="TimeLeft"]
+stream = ExtResource("35_5j60u")
+volume_db = -12.0
+pitch_scale = 1.78
+bus = &"Music"
+parameters/looping = true
 
 [connection signal="Used" from="PanelContainer/Buttons/Throw" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Throw/PopupPanel/Container/Close" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_close_pressed"]

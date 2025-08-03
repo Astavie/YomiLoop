@@ -4,6 +4,7 @@ using System;
 public partial class Wipe : Node2D
 {
     private Action _nextCallback;
+    private bool _backwards;
     
     public override void _Ready()
     {
@@ -12,21 +13,32 @@ public partial class Wipe : Node2D
 
     private void OnTimeout()
     {
-        GetNode<AnimationPlayer>("AnimationPlayer").Play("Out");
+        if (_backwards)
+            GetNode<AnimationPlayer>("AnimationPlayer").PlayBackwards("In");
+        else
+            GetNode<AnimationPlayer>("AnimationPlayer").Play("Out");
         _nextCallback?.Invoke();
     }
 
-    public void DoWipe(Action callback, bool playSound = false)
+    public void DoWipe(Action callback, bool playSound = false, bool backwards = false)
     {
         if (GetNode<AnimationPlayer>("AnimationPlayer").IsPlaying()) return;
         
         if (playSound)
         {
-            GetNode<AudioStreamPlayer>("AudioPlayer").Play();
+            if (backwards)
+                GetNode<AudioStreamPlayer>("AudioPlayerBackwards").Play();
+            else
+                GetNode<AudioStreamPlayer>("AudioPlayer").Play();
         }
         
         _nextCallback = callback;
-        GetNode<AnimationPlayer>("AnimationPlayer").Play("In");
+        _backwards = backwards;
+        
+        if (backwards)
+            GetNode<AnimationPlayer>("AnimationPlayer").PlayBackwards("Out");
+        else
+            GetNode<AnimationPlayer>("AnimationPlayer").Play("In");
         GetNode<Timer>("Timer").Start();
     }
 }
