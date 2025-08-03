@@ -104,7 +104,8 @@ last_wrap_alignment = 2
 layout_mode = 2
 texture_normal = ExtResource("1_w7rrd")
 script = ExtResource("3_8uxlj")
-Label = "Perform [Enter]"
+Label = "Perform [Space/Enter]"
+Key = 32
 Key2 = 4194309
 
 [node name="VSeparator" type="VSeparator" parent="PanelContainer/Buttons"]
