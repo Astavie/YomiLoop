@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=17 format=3 uid="uid://cp0gsljqt2qt3"]
+[gd_resource type="TileSet" load_steps=18 format=3 uid="uid://cp0gsljqt2qt3"]
 
 [ext_resource type="Texture2D" uid="uid://5j4jdfdcwmjg" path="res://assets/tiles/ground.png" id="1_o7slu"]
 [ext_resource type="Texture2D" uid="uid://c3ud78s1adnwe" path="res://assets/tiles/marble.png" id="2_vn51s"]
@@ -23,6 +23,9 @@ tile_data = PackedInt32Array(0, 393219, 6, 65536, 393219, 8, 1, 458755, 6, 65537
 
 [sub_resource type="TileMapPattern" id="TileMapPattern_232of"]
 tile_data = PackedInt32Array(0, 393219, 6, 65536, 393219, 7, 131072, 393219, 8, 1, 524291, 6, 65537, 524291, 7, 131073, 524291, 8)
+
+[sub_resource type="TileMapPattern" id="TileMapPattern_b2yam"]
+tile_data = PackedInt32Array(0, 196609, 6, 65536, 196609, 7, 131072, 196609, 7, 196608, 196609, 8, 1, 262145, 6, 65537, 262145, 7, 131073, 65537, 7, 196609, 262145, 8, 2, 327681, 6, 65538, 327681, 7, 131074, 327681, 7, 196610, 327681, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pl1rj"]
 texture = ExtResource("1_o7slu")
@@ -703,3 +706,4 @@ pattern_2 = SubResource("TileMapPattern_vc2pd")
 pattern_3 = SubResource("TileMapPattern_jr6rv")
 pattern_4 = SubResource("TileMapPattern_pl1rj")
 pattern_5 = SubResource("TileMapPattern_232of")
+pattern_6 = SubResource("TileMapPattern_b2yam")
