@@ -33,7 +33,7 @@ public partial class Goal : Thing
 
     private void OnBodyEntered(Node2D body)
     {
-        if (_justReset) return;
+        if (_justReset || IsGrabbed) return;
         if (body is Robo robo && robo.IsPreview == IsPreview)
             OnRoboEntered(robo);
     }
