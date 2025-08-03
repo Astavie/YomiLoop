@@ -14,7 +14,7 @@ public partial class ControlButton : TextureButton {
     [Export] public Key Key;
     [Export] public Key Key2;
 
-    public Predicate<Robo> IsLegal { get; set; } = o => !o.AboutToDie(); 
+    public Predicate<Robo> IsLegal { get; set; } = o => !o.AboutToDie() && o.physics.State != PlayState.Replaying; 
     
     private bool _disabledForever = false;
     

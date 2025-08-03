@@ -21,7 +21,7 @@ public partial class Thing : CharacterBody2D
     public bool IsGrabbed = false;
     public bool WasGrabbed = false;
     
-    protected Physics physics;
+    public Physics physics;
     
     public override void _Ready()
     {

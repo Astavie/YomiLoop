@@ -17,6 +17,7 @@ public enum PlayState
     Running,
     Grab,
     Reset,
+    Replaying
 }
 
 public partial class Door : Node2D
@@ -36,6 +37,8 @@ public partial class Door : Node2D
     private Physics Physics;
     private AnimationPlayer Music => GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
     private HFlowContainer Buttons => GetNode<Control>("%ControlUI").GetNode<HFlowContainer>("%Buttons");
+    private bool _winning => Me.Grabbed is Goal || _pastSelves.Any(o => o.Grabbed is Goal);
+    private bool _replaying = false;
     
     private Move? Queued
     {
@@ -81,15 +84,19 @@ public partial class Door : Node2D
         
         LifeTime += 60;
         SpawnPlayer();
+        Music.Play("CLEAR");
         // Connect button signals
         Buttons.GetNode<Godot.Button>("../../Reset").Pressed += ResetLevel;
+        Buttons.GetNode<Godot.Button>("../../NextLevel").Pressed += DoNextLevel;
         
-        Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie();
-        Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie();
-        Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.Throw(Direction.Up).IsLegal(o) && !o.AboutToDie();
-        Buttons.GetNode<ControlButton>("Grab").IsLegal = o => Physics.Objects.Any(o.CanGrab) && !o.AboutToDie();
-        Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => Queued is not null;
-        Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => true;
+        Buttons.GetNode<ControlButton>("Rocket").IsLegal = o => Robo.Rocket(Direction.Up).IsLegal(o) && !o.AboutToDie() && !_replaying;
+        Buttons.GetNode<ControlButton>("Hover").IsLegal = o => Robo.Hover(Direction.Up).IsLegal(o) && !o.AboutToDie() && !_replaying;
+        Buttons.GetNode<ControlButton>("Throw").IsLegal = o => Robo.Throw(Direction.Up).IsLegal(o) && !o.AboutToDie() && !_replaying;
+        Buttons.GetNode<ControlButton>("Grab").IsLegal = o => Physics.Objects.Any(o.CanGrab) && !o.AboutToDie() && !_replaying;
+        Buttons.GetNode<ControlButton>("Perform").IsLegal = _ => Queued is not null && !_replaying;
+        Buttons.GetNode<ControlButton>("Loop").IsLegal = _ => !_replaying;
+        Buttons.GetNode<ControlButton>("Wait").IsLegal = o => !o.AboutToDie() && !_replaying;
+        Buttons.GetNode<ControlButton>("Move").IsLegal = o => !o.AboutToDie() && !_replaying;
 
         Buttons.GetNode<ControlButton>("Perform").Used += HandlePerform;
         Buttons.GetNode<ControlButton>("Grab").Used += HandleGrab;
@@ -149,7 +156,6 @@ public partial class Door : Node2D
         Me.Moves.Add(Robo.MoveRight);
         
         Physics.State = PlayState.Running;
-        Music.Play("CLEAR");
     }
 
     private ControlButton.UsedEventHandler QueueMove(Move move) {
@@ -169,16 +175,21 @@ public partial class Door : Node2D
                 Me.PastSelf = true;
                 Preview.PastSelf = true;
                 _pastSelves.Add(Me);
-        
+                Music.Play("CLEAR");
+
                 // Create new Me
-                SpawnPlayer();
+                if (_replaying) Physics.State = PlayState.Replaying;
+                else SpawnPlayer();
                 break;
-            case PlayState.Running when Me.MoveIndex >= Me.Moves.Count:
+            case PlayState.Running when Me.MoveIndex >= Me.Moves.Count && !_winning:
                 Physics.State = PlayState.Preview;
                 Physics.ResetPreview();
                 Music.Play("EQ");
                 break;
-            case PlayState.Running:
+            case PlayState.Replaying:
+                Physics.StepMovement(delta);
+                break;
+            case PlayState.Running or PlayState.Replaying:
                 Physics.StepMovement(delta);
                 break;
             case PlayState.Preview when Queued is not null:
@@ -190,7 +201,7 @@ public partial class Door : Node2D
             }
         }
     }
-    
+
     public void HandlePerform()
     {
         if (Queued.HasValue)
@@ -239,15 +250,19 @@ public partial class Door : Node2D
         GetTree().ReloadCurrentScene();
     }
 
-    public void HandleGoal(Goal goal, Robo robo)
-    {
-        GetNode<Wipe>("/root/Wipe").DoWipe(() => CallDeferred(nameof(DoNextLevel)));
+    public void HandleGoal(Goal goal, Robo robo) {
+        GetNode<Wipe>("/root/Wipe").DoWipe(() => {
+            Buttons.GetNode<Godot.Button>("../../NextLevel").Visible = true;
+            _replaying = true;
+            Physics.State = PlayState.Reset;
+        }, playSound:true);
     }
 
-    public void DoNextLevel()
-    {
-        Physics.OnLevelEnd();
-        GetTree().ChangeSceneToPacked(NextLevel);
+    public void DoNextLevel() {
+        GetNode<Wipe>("/root/Wipe").DoWipe(() => {
+            Physics.OnLevelEnd();
+            GetTree().ChangeSceneToPacked(NextLevel);
+        }, playSound:true);
     }
 
     public override void _Input(InputEvent @event)
