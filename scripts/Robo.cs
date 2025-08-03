@@ -323,7 +323,7 @@ public partial class Robo : Thing
                 o.PlayHand.Travel(handAnim);
             }
             if (o.PlayBody.GetCurrentNode() != "transform") {
-                o.Velocity = new(xspeed, -Gravity);
+                o.Velocity = frame == 0 ? new(o.Velocity.X, -Gravity) : new(xspeed, -Gravity);
             }
         }, o => o.Grabbed is null);
     }

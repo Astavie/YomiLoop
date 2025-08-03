@@ -74,6 +74,8 @@ frame_3/texture = ExtResource("21_kui8s")
 frame_3/duration = 0.1
 
 [node name="ControlUI" type="Control"]
+z_index = 100
+z_as_relative = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -277,6 +279,7 @@ auto_translate_mode = 1
 canvas_item_default_texture_filter = 0
 size = Vector2i(64, 44)
 script = ExtResource("6_llrar")
+up_amount = 64
 
 [node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
 offset_left = 4.0
