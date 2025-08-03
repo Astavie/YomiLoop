@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=4 uid="uid://dmk46qalei54"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_j1f0n"]
-[ext_resource type="PackedScene" uid="uid://cxc52wrjwfte2" path="res://levels/level7.tscn" id="2_4egkl"]
+[ext_resource type="PackedScene" uid="uid://sm42q7wklhs2" path="res://levels/level6a.tscn" id="2_4egkl"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_nnkdi"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_4m8hb"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_6ilhl"]
@@ -17,7 +17,7 @@ shader = ExtResource("8_rv0x7")
 shader_parameter/line_colour = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 0
 
-[node name="Level" type="Node2D"]
+[node name="Level2" type="Node2D"]
 
 [node name="Door" parent="." instance=ExtResource("1_j1f0n")]
 position = Vector2(-30, 162)
