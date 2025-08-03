@@ -50,14 +50,14 @@ frame_1/duration = 0.3
 frame_2/texture = ExtResource("7_ncl7v")
 frame_2/duration = 0.3
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lmmbu"]
+
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_gaoim"]
 frames = 2
 frame_0/texture = ExtResource("3_occbk")
 frame_0/duration = 0.2
 frame_1/texture = ExtResource("4_8uxlj")
 frame_1/duration = 0.2
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lmmbu"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_vh257"]
 frames = 2
@@ -120,6 +120,18 @@ script = ExtResource("3_8uxlj")
 Label = "Wait [W]"
 Key = 87
 
+[node name="Loop" type="TextureButton" parent="PanelContainer/Buttons"]
+layout_mode = 2
+texture_normal = ExtResource("10_lmmbu")
+script = ExtResource("3_8uxlj")
+Label = "Loop [L]"
+Key = 76
+
+[node name="VSeparator4" type="VSeparator" parent="PanelContainer/Buttons"]
+layout_mode = 2
+theme_override_constants/separation = 11
+theme_override_styles/separator = SubResource("StyleBoxEmpty_lmmbu")
+
 [node name="Grab" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
 texture_normal = ExtResource("3_occbk")
@@ -129,12 +141,84 @@ script = ExtResource("3_8uxlj")
 Label = "Grab [G]"
 Key = 71
 
-[node name="Loop" type="TextureButton" parent="PanelContainer/Buttons"]
+[node name="Throw" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
-texture_normal = ExtResource("10_lmmbu")
+texture_normal = ExtResource("10_thkbl")
 script = ExtResource("3_8uxlj")
-Label = "Loop [L]"
-Key = 76
+Label = "Throw [T]"
+Key = 84
+
+[node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Throw"]
+auto_translate_mode = 1
+canvas_item_default_texture_filter = 0
+size = Vector2i(64, 64)
+script = ExtResource("6_llrar")
+up_amount = 64
+
+[node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Throw/PopupPanel"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 60.0
+offset_bottom = 60.0
+columns = 3
+
+[node name="UpLeft" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("12_n2rdi")
+script = ExtResource("3_8uxlj")
+Label = "[Num7]"
+Key2 = 4194445
+
+[node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("13_11uq4")
+script = ExtResource("3_8uxlj")
+Label = "[Up/Num8]"
+Key = 4194320
+Key2 = 4194446
+
+[node name="UpRight" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("14_1q3sf")
+script = ExtResource("3_8uxlj")
+Label = "[Num9]"
+Key2 = 4194447
+
+[node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("7_s6naa")
+script = ExtResource("3_8uxlj")
+Label = "[Left/Num4]"
+Key = 4194319
+Key2 = 4194442
+
+[node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("8_lmmbu")
+script = ExtResource("3_8uxlj")
+Label = "Close [Esc]"
+
+[node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("9_ncl7v")
+script = ExtResource("3_8uxlj")
+Label = "[Right/Num6]"
+Key = 4194321
+Key2 = 4194444
+
+[node name="Nothing" type="Control" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+
+[node name="Down" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
+texture_normal = ExtResource("16_w8ai5")
+script = ExtResource("3_8uxlj")
+Label = "[Down/Num2]"
+Key = 4194322
+Key2 = 4194440
+
+[node name="Nothing2" type="Control" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+layout_mode = 2
 
 [node name="VSeparator2" type="VSeparator" parent="PanelContainer/Buttons"]
 layout_mode = 2
@@ -183,50 +267,42 @@ Label = "[Right/Num6]"
 Key = 4194321
 Key2 = 4194444
 
-[node name="Throw" type="TextureButton" parent="PanelContainer/Buttons"]
+[node name="Hover" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
-texture_normal = ExtResource("10_thkbl")
+texture_normal = ExtResource("18_4cpmv")
+texture_hover = SubResource("AnimatedTexture_uvlxr")
 script = ExtResource("3_8uxlj")
-Label = "Throw [T]"
-Key = 84
+Label = "Hover [H]"
+Key = 72
 
-[node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Throw"]
+[node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Hover"]
 auto_translate_mode = 1
 canvas_item_default_texture_filter = 0
-size = Vector2i(64, 64)
+size = Vector2i(64, 44)
 script = ExtResource("6_llrar")
-up_amount = 64
 
-[node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Throw/PopupPanel"]
+[node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
 offset_left = 4.0
 offset_top = 4.0
 offset_right = 60.0
-offset_bottom = 60.0
+offset_bottom = 40.0
 columns = 3
 
-[node name="UpLeft" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+[node name="Nothing" type="Control" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
-texture_normal = ExtResource("12_n2rdi")
-script = ExtResource("3_8uxlj")
-Label = "[Num7]"
-Key2 = 4194445
 
-[node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+[node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("13_11uq4")
 script = ExtResource("3_8uxlj")
-Label = "[Up/Kp8]"
+Label = "[Up/Num8]"
 Key = 4194320
 Key2 = 4194446
 
-[node name="UpRight" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+[node name="Nothing2" type="Control" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
-texture_normal = ExtResource("14_1q3sf")
-script = ExtResource("3_8uxlj")
-Label = "[Num9]"
-Key2 = 4194447
 
-[node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+[node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("7_s6naa")
 script = ExtResource("3_8uxlj")
@@ -234,33 +310,19 @@ Label = "[Left/Num4]"
 Key = 4194319
 Key2 = 4194442
 
-[node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+[node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("8_lmmbu")
 script = ExtResource("3_8uxlj")
 Label = "Close [Esc]"
 
-[node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
+[node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
 layout_mode = 2
 texture_normal = ExtResource("9_ncl7v")
 script = ExtResource("3_8uxlj")
 Label = "[Right/Num6]"
 Key = 4194321
 Key2 = 4194444
-
-[node name="Nothing" type="Control" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
-layout_mode = 2
-
-[node name="Down" type="TextureButton" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
-layout_mode = 2
-texture_normal = ExtResource("16_w8ai5")
-script = ExtResource("3_8uxlj")
-Label = "[Down/Num2]"
-Key = 4194322
-Key2 = 4194440
-
-[node name="Nothing2" type="Control" parent="PanelContainer/Buttons/Throw/PopupPanel/Container"]
-layout_mode = 2
 
 [node name="Rocket" type="TextureButton" parent="PanelContainer/Buttons"]
 layout_mode = 2
@@ -294,7 +356,7 @@ Key2 = 4194445
 layout_mode = 2
 texture_normal = ExtResource("13_11uq4")
 script = ExtResource("3_8uxlj")
-Label = "[Up/Kp8]"
+Label = "[Up/Num8]"
 Key = 4194320
 Key2 = 4194446
 
@@ -349,63 +411,6 @@ script = ExtResource("3_8uxlj")
 Label = "[Num3]"
 Key2 = 4194441
 
-[node name="Hover" type="TextureButton" parent="PanelContainer/Buttons"]
-layout_mode = 2
-texture_normal = ExtResource("18_4cpmv")
-texture_hover = SubResource("AnimatedTexture_uvlxr")
-script = ExtResource("3_8uxlj")
-Label = "Hover [H]"
-Key = 72
-
-[node name="PopupPanel" type="PopupPanel" parent="PanelContainer/Buttons/Hover"]
-auto_translate_mode = 1
-canvas_item_default_texture_filter = 0
-size = Vector2i(64, 44)
-script = ExtResource("6_llrar")
-
-[node name="Container" type="GridContainer" parent="PanelContainer/Buttons/Hover/PopupPanel"]
-offset_left = 4.0
-offset_top = 4.0
-offset_right = 60.0
-offset_bottom = 40.0
-columns = 3
-
-[node name="Nothing" type="Control" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
-layout_mode = 2
-
-[node name="Up" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
-layout_mode = 2
-texture_normal = ExtResource("13_11uq4")
-script = ExtResource("3_8uxlj")
-Label = "[Up/Kp8]"
-Key = 4194320
-Key2 = 4194446
-
-[node name="Nothing2" type="Control" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
-layout_mode = 2
-
-[node name="Left" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
-layout_mode = 2
-texture_normal = ExtResource("7_s6naa")
-script = ExtResource("3_8uxlj")
-Label = "[Left/Num4]"
-Key = 4194319
-Key2 = 4194442
-
-[node name="Close" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
-layout_mode = 2
-texture_normal = ExtResource("8_lmmbu")
-script = ExtResource("3_8uxlj")
-Label = "Close [Esc]"
-
-[node name="Right" type="TextureButton" parent="PanelContainer/Buttons/Hover/PopupPanel/Container"]
-layout_mode = 2
-texture_normal = ExtResource("9_ncl7v")
-script = ExtResource("3_8uxlj")
-Label = "[Right/Num6]"
-Key = 4194321
-Key2 = 4194444
-
 [node name="VSeparator3" type="VSeparator" parent="PanelContainer/Buttons"]
 layout_mode = 2
 theme_override_constants/separation = 11
@@ -438,11 +443,11 @@ theme = ExtResource("37_add7k")
 theme_override_fonts/font = ExtResource("38_4cpmv")
 text = "Reset"
 
-[connection signal="Used" from="PanelContainer/Buttons/Move" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_button_pressed"]
-[connection signal="pressed" from="PanelContainer/Buttons/Move/PopupPanel/Container/Close" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_close_pressed"]
 [connection signal="Used" from="PanelContainer/Buttons/Throw" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Throw/PopupPanel/Container/Close" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_close_pressed"]
-[connection signal="Used" from="PanelContainer/Buttons/Rocket" to="PanelContainer/Buttons/Rocket/PopupPanel" method="_on_button_pressed"]
-[connection signal="pressed" from="PanelContainer/Buttons/Rocket/PopupPanel/Container/Close" to="PanelContainer/Buttons/Rocket/PopupPanel" method="_on_close_pressed"]
+[connection signal="Used" from="PanelContainer/Buttons/Move" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_button_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Move/PopupPanel/Container/Close" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_close_pressed"]
 [connection signal="Used" from="PanelContainer/Buttons/Hover" to="PanelContainer/Buttons/Hover/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Hover/PopupPanel/Container/Close" to="PanelContainer/Buttons/Hover/PopupPanel" method="_on_close_pressed"]
+[connection signal="Used" from="PanelContainer/Buttons/Rocket" to="PanelContainer/Buttons/Rocket/PopupPanel" method="_on_button_pressed"]
+[connection signal="pressed" from="PanelContainer/Buttons/Rocket/PopupPanel/Container/Close" to="PanelContainer/Buttons/Rocket/PopupPanel" method="_on_close_pressed"]

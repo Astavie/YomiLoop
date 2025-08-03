@@ -307,9 +307,8 @@ public partial class Robo : Thing
             if (frame == 0) {
                 o.PlayBody.Travel(bodyAnim);
                 o.PlayHand.Travel(handAnim);
-            } else if (o.PlayBody.GetCurrentNode() == "transform") {
-                o.Velocity = new(o.Velocity.X, o.Velocity.Y);
-            } else {
+            }
+            if (o.PlayBody.GetCurrentNode() != "transform") {
                 o.Velocity = new(xspeed, -Gravity);
             }
         }, o => o.Grabbed is null);

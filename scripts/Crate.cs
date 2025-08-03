@@ -4,6 +4,7 @@ using System;
 public partial class Crate : Thing
 {
     [Export] public bool CollidesPlayer = false;
+    [Export] public bool CollidesObjects = true;
     
     public override void _Ready()
     {
@@ -13,7 +14,8 @@ public partial class Crate : Thing
         if (IsPreview)
         {
             CollisionLayer |= 4;
-            CollisionMask |= 4;
+            if (CollidesObjects)
+                CollisionMask |= 4;
             if (CollidesPlayer)
                 CollisionLayer |= 16;
             if (oneWay is not null)
@@ -22,7 +24,8 @@ public partial class Crate : Thing
         else
         {
             CollisionLayer |= 8;
-            CollisionMask |= 8;
+            if (CollidesObjects)
+                CollisionMask |= 8;
             if (CollidesPlayer)
                 CollisionLayer |= 32;
             if (oneWay is not null)

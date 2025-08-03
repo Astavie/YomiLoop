@@ -9,7 +9,6 @@
 
 [node name="Door" parent="." instance=ExtResource("1_xj2qs")]
 position = Vector2(-30, 162)
-MeFirst = true
 
 [node name="LevelTiles" parent="." instance=ExtResource("2_b4gt3")]
 position = Vector2(6, -72)

@@ -14,7 +14,8 @@ public partial class Platform : Crate, IActivatable
     [Export] public bool Active { get; set; } = false;
     
     public IActivatable Preview => base.Preview as IActivatable;
-    
+
+    private bool _initialActive;
     private float _initialX;
     private AnimatedSprite2D sprite;
 
@@ -23,6 +24,7 @@ public partial class Platform : Crate, IActivatable
         base._Ready();
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _initialX = GlobalPosition.X;
+        _initialActive = Active;
         if (Active)
         {
             Position = new Vector2(Position.X + Movement, Position.Y);
@@ -32,7 +34,11 @@ public partial class Platform : Crate, IActivatable
     public override void Reset(Thing parent)
     {
         base.Reset(parent);
-        Active = ((Platform)parent)?.Active ?? false;
+        Active = ((Platform)parent)?.Active ?? _initialActive;
+        if (Active)
+        {
+            Position = new Vector2(Position.X + Movement, Position.Y);
+        }
     }
 
     public override void OnFrame(double delta)
