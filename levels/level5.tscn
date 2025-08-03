@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="6_d4v0i"]
 [ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="7_66nwl"]
 [ext_resource type="PackedScene" uid="uid://coge0vk4srkme" path="res://platform.tscn" id="7_dm5g0"]
-[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="7_t5gjd"]
 [ext_resource type="PackedScene" uid="uid://deqmiinqkvymo" path="res://button.tscn" id="8_vp6pq"]
 [ext_resource type="PackedScene" uid="uid://cm6dmsfr1kg5i" path="res://goal.tscn" id="8_y18d6"]
 
