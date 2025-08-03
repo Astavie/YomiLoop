@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=3 uid="uid://4034aehate3n"]
+[gd_scene load_steps=134 format=3 uid="uid://4034aehate3n"]
 
 [ext_resource type="Texture2D" uid="uid://3pywb0o6n6vy" path="res://assets/robo/robo_directions.png" id="1_mid84"]
 [ext_resource type="Script" uid="uid://74go3kcb6ayl" path="res://scripts/Robo.cs" id="1_o68hb"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://oq2530uxky7i" path="res://assets/robo/robo_transform.png" id="4_45lv5"]
 [ext_resource type="AudioStream" uid="uid://x1veg17f6kmw" path="res://assets/sound/rocket.ogg" id="5_cs0dw"]
 [ext_resource type="Texture2D" uid="uid://fggw5muefdpd" path="res://assets/robo/face_normal.png" id="5_s7t8c"]
+[ext_resource type="AudioStream" uid="uid://87skgjq3f54h" path="res://assets/sound/winner.wav" id="6_08be0"]
 [ext_resource type="Texture2D" uid="uid://usoqllgfs8hl" path="res://assets/robo/face_right.png" id="6_aevwq"]
 [ext_resource type="Texture2D" uid="uid://csdnjwwlklt2w" path="res://assets/robo/face_left.png" id="7_k142k"]
 [ext_resource type="Texture2D" uid="uid://cycdmfbysn1jr" path="res://assets/robo/face_hurt.png" id="8_fb6yg"]
@@ -3163,6 +3164,7 @@ DeathSound = ExtResource("2_fb6yg")
 ThrowSound = ExtResource("3_cnick")
 GrabSound = ExtResource("4_08be0")
 RocketSound = ExtResource("5_cs0dw")
+VictorySound = ExtResource("6_08be0")
 CanvasMaterial = SubResource("ShaderMaterial_k0gj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

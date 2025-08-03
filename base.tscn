@@ -1,32 +1,61 @@
-[gd_scene load_steps=7 format=4 uid="uid://c8ag00buo1yic"]
+[gd_scene load_steps=12 format=4 uid="uid://c8ag00buo1yic"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_8rhti"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="1_rpg24"]
+[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="3_42dj3"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_tpea4"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="5_21bcp"]
 [ext_resource type="PackedScene" uid="uid://inpxx0ab8od2" path="res://spike.tscn" id="5_tpea4"]
 [ext_resource type="PackedScene" uid="uid://cm6dmsfr1kg5i" path="res://goal.tscn" id="6_tpea4"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_56f15"]
+resource_local_to_scene = true
+shader = ExtResource("3_42dj3")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cho24"]
+resource_local_to_scene = true
+shader = ExtResource("3_42dj3")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dlkme"]
+resource_local_to_scene = true
+shader = ExtResource("3_42dj3")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_im64q"]
+resource_local_to_scene = true
+shader = ExtResource("3_42dj3")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
 [node name="Base" type="Node2D"]
 
 [node name="Door" parent="." instance=ExtResource("1_8rhti")]
-position = Vector2(-36, 106)
+position = Vector2(16, 104)
 LifeTime = 120
 
 [node name="Object" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(354, 139)
+CanvasMaterial = SubResource("ShaderMaterial_56f15")
 
 [node name="Object2" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(389, 99)
+CanvasMaterial = SubResource("ShaderMaterial_cho24")
 
 [node name="Object3" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(319, 47)
+CanvasMaterial = SubResource("ShaderMaterial_dlkme")
 
 [node name="Object4" parent="." instance=ExtResource("1_rpg24")]
 position = Vector2(125, 184)
+CanvasMaterial = SubResource("ShaderMaterial_im64q")
 
 [node name="Goal" parent="." instance=ExtResource("6_tpea4")]
-position = Vector2(53, 104)
+position = Vector2(288, 249)
 
 [node name="LevelTiles" parent="." instance=ExtResource("5_21bcp")]
 position = Vector2(1, 70)

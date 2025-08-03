@@ -21,6 +21,7 @@ public partial class Robo : Thing
     [Export] public AudioStream ThrowSound { get; set; }
     [Export] public AudioStream GrabSound { get; set; }
     [Export] public AudioStream RocketSound { get; set; }
+    [Export] public AudioStream VictorySound { get; set; }
     private AudioStreamPlayer audioPlayer;
     
     [Export] public float GrabDistance = 32;
@@ -125,7 +126,10 @@ public partial class Robo : Thing
 
         if (MoveFrame < move.Frames) return;
         MoveFrame = 0;
-        if (ForcedMove.HasValue) MoveIndex = Moves.Count;
+        if (ForcedMove.HasValue) {
+            ForcedMove = null;
+            MoveIndex = Moves.Count;
+        }
         else MoveIndex++;
     }
 
@@ -291,7 +295,17 @@ public partial class Robo : Thing
                 o.PlaySound(o.GrabSound);
                 if (grabbed is Goal goal) {
                     o.PlayBody.Travel("happy");
-                    if (!o.IsPreview) o.physics.GoalAction(goal, o);
+                    if (o.IsPreview) return;
+                    var music = o.GetNode<AnimationPlayer>("/root/Music/AnimationPlayer");
+                    music.Play("FADE");
+                    AudioStream victorySound = o.VictorySound;
+                    o.PlaySound(victorySound);
+                    var timer = o.GetTree().CreateTimer(victorySound.GetLength() - 0.8);
+                    timer.Timeout += () => {
+                        music.PlayBackwards("FADE");
+                        o.physics.GoalAction(goal, o);
+                    };
+
                 }
             }
         });
