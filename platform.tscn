@@ -48,6 +48,7 @@ Grabbable = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8.5)
 shape = SubResource("RectangleShape2D_omn1t")
+one_way_collision = true
 
 [node name="OneWay" type="StaticBody2D" parent="."]
 collision_layer = 0
