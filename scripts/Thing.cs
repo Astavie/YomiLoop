@@ -70,7 +70,12 @@ public partial class Thing : CharacterBody2D
         {
             OnFrame(delta);
             Velocity = new Vector2(Velocity.X, Velocity.Y + Gravity);
+            
+            var originalY = Position.Y;
+            var yShouldStay = Velocity.Y == 0.0;
             MoveAndSlide();
+            if (yShouldStay) Position = new(Position.X, originalY);
+            
             AfterFrame();
         }
 

@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=4 uid="uid://dgs076iqu6bw1"]
+
+[ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="1_beduj"]
+[ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="2_wabui"]
+[ext_resource type="PackedScene" uid="uid://4034aehate3n" path="res://robo.tscn" id="3_ea6qb"]
+[ext_resource type="Shader" uid="uid://ccax67xr74503" path="res://robo.gdshader" id="4_0xf44"]
+[ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="5_qhmma"]
+[ext_resource type="Script" uid="uid://ccujk375qv77b" path="res://scripts/StartButton.cs" id="6_ypq80"]
+[ext_resource type="PackedScene" uid="uid://rvip1py4xe4u" path="res://levels/level1.tscn" id="7_3gs2s"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nrnbx"]
+resource_local_to_scene = true
+shader = ExtResource("4_0xf44")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+shader_parameter/aberration = 0.0
+shader_parameter/redDir = Vector2(1, 0)
+shader_parameter/greenDir = Vector2(0, 1)
+shader_parameter/blueDir = Vector2(-1, 0)
+
+[node name="Level" type="Node2D"]
+
+[node name="LevelTiles" parent="." instance=ExtResource("1_beduj")]
+position = Vector2(6, -72)
+tile_map_data = PackedByteArray("AAD//w0AAAACAAEAAAD//w4AAAACAAIAAAD//w8AAAABAAIAAAD//xAAAAABAAIAAAD//xEAAAABAAIAAAD//xIAAAABAAIAAAD//xMAAAABAAIAAAD//xQAAAABAAMAAAAAAA0AAAACAAEAAAAAAA4AAAACAAIAAAAAAA8AAAACAAIAAAAAABAAAAACAAIAAAAAABEAAAACAAIAAAAAABIAAAACAAIAAAAAABMAAAACAAIAAAAAABQAAAACAAMAAAABAA0AAAADAAEAAAABAA4AAAADAAIAAAABAA8AAAADAAIAAAABABAAAAADAAIAAAABABEAAAADAAIAAAABABIAAAADAAIAAAABABMAAAADAAIAAAABABQAAAADAAMAAAD9/w0AAAABAAEAAAD9/w4AAAABAAMAAAD+/w0AAAACAAEAAAD+/w4AAAACAAMAAAA=")
+
+[node name="Background" parent="." instance=ExtResource("2_wabui")]
+position = Vector2(320, 108)
+
+[node name="Robo" parent="." instance=ExtResource("3_ea6qb")]
+position = Vector2(24, 162)
+CanvasMaterial = SubResource("ShaderMaterial_nrnbx")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 280.0
+offset_top = 79.0
+offset_right = 475.0
+offset_bottom = 102.0
+theme = ExtResource("5_qhmma")
+text = "your only move is"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 41.0
+offset_top = 230.0
+offset_right = 486.0
+offset_bottom = 266.0
+theme = ExtResource("5_qhmma")
+theme_override_font_sizes/font_size = 32
+text = "Thanks for playing"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+offset_left = 352.0
+offset_top = 99.0
+offset_right = 475.0
+offset_bottom = 143.0
+theme = ExtResource("5_qhmma")
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/font_size = 32
+text = " Loop"
+script = ExtResource("6_ypq80")
+FirstLevel = ExtResource("7_3gs2s")

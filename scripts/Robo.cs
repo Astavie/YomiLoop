@@ -347,6 +347,7 @@ public partial class Robo : Thing
             Direction.DownLeft => (-diagonal, diagonal, new Vector2(10, -6), Mathf.Tau * 7/8),
             _ => throw new Exception("WTF are you even doing???")
         };
+        yspeed -= Thing.Gravity;
         return Move("Rocket" + direction, 30, xspeed:xspeed, yspeed:yspeed, isLegal:CanUseRocket, action: o => {
             o.CanRocket = false;
             o.Grabbed = null;
