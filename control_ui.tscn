@@ -438,6 +438,17 @@ theme = ExtResource("37_add7k")
 theme_override_fonts/font = ExtResource("38_4cpmv")
 text = "Reset"
 
+[node name="NextLevel" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 212.0
+offset_top = 221.0
+offset_right = 275.0
+offset_bottom = 241.0
+theme = ExtResource("37_add7k")
+theme_override_fonts/font = ExtResource("38_4cpmv")
+text = "Next Level"
+
 [connection signal="Used" from="PanelContainer/Buttons/Move" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Move/PopupPanel/Container/Close" to="PanelContainer/Buttons/Move/PopupPanel" method="_on_close_pressed"]
 [connection signal="Used" from="PanelContainer/Buttons/Throw" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_button_pressed"]
