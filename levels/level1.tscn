@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://rvip1py4xe4u"]
+[gd_scene load_steps=13 format=4 uid="uid://rvip1py4xe4u"]
 
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="1_b3oru"]
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_ua5ty"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://coge0vk4srkme" path="res://platform.tscn" id="7_045es"]
 [ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="7_lf3p4"]
 [ext_resource type="PackedScene" uid="uid://deqmiinqkvymo" path="res://button.tscn" id="8_045es"]
+[ext_resource type="Theme" uid="uid://c5rg43posc4g6" path="res://theme.tres" id="11_bekh1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yydhl"]
 resource_local_to_scene = true
@@ -50,3 +51,51 @@ Speed = 128.0
 [node name="Button" parent="." instance=ExtResource("8_045es")]
 position = Vector2(411, 216)
 connected = [NodePath("../Platform")]
+
+[node name="MoveMessage" type="PanelContainer" parent="."]
+z_index = -5
+z_as_relative = false
+offset_left = 11.0
+offset_top = 85.0
+offset_right = 145.0
+offset_bottom = 102.0
+theme = ExtResource("11_bekh1")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MoveMessage"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme = ExtResource("11_bekh1")
+bbcode_enabled = true
+text = "   You can [img]assets/ui/move/move1.png[/img] move around"
+
+[node name="GrabMessage" type="PanelContainer" parent="."]
+z_index = -5
+z_as_relative = false
+offset_left = 153.0
+offset_top = 114.0
+offset_right = 287.0
+offset_bottom = 131.0
+theme = ExtResource("11_bekh1")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="GrabMessage"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme = ExtResource("11_bekh1")
+bbcode_enabled = true
+text = "   Try [img]assets/ui/grab/grab1.png[/img] grabbing this box"
+
+[node name="ThrowMessage" type="PanelContainer" parent="."]
+z_index = -5
+z_as_relative = false
+offset_left = 259.0
+offset_top = 172.0
+offset_right = 351.0
+offset_bottom = 189.0
+theme = ExtResource("11_bekh1")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ThrowMessage"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+theme = ExtResource("11_bekh1")
+bbcode_enabled = true
+text = "   And [img]assets/ui/throw.png[/img] throw it"

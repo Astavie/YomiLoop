@@ -20,7 +20,7 @@ public partial class ControlButton : TextureButton {
     
     public override void _Ready()
     {
-        base.Pressed += EmitSignalUsed;
+        Pressed += EmitSignalUsed;
         
         if (Disabled) Modulate = DisabledColor;
         MouseEntered += () =>

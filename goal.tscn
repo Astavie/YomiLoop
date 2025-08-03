@@ -21,7 +21,7 @@ shader_parameter/line_thickness = 0
 size = Vector2(14, 14)
 
 [node name="Goal" type="CharacterBody2D"]
-z_index = 100
+z_index = 15
 z_as_relative = false
 collision_layer = 2
 platform_floor_layers = 4294967040
