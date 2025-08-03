@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="YOMILoop"
-run/main_scene="uid://c8ag00buo1yic"
+run/main_scene="uid://dowvtkiru5l4e"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 config/icon="uid://dgfpocxq24dvm"
 config/windows_native_icon="res://robo_icon.ico"

@@ -267,7 +267,11 @@ public partial class Door : Node2D
 
     public override void _Input(InputEvent @event)
     {
-        if (@event is InputEventKey { Pressed: true, Keycode: Key.Escape })
+        if (_replaying && @event is InputEventKey { Pressed: true, Keycode: Key.Enter })
+        {
+            DoNextLevel();
+        }
+        if (Physics.State == PlayState.Preview && @event is InputEventKey { Pressed: true, Keycode: Key.Escape })
         {
             Queued = null;
             GetNode<Control>("%ControlUI").GetNode<Label>("Label").Text = "";

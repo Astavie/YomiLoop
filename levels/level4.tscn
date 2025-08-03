@@ -1,18 +1,25 @@
-[gd_scene load_steps=8 format=4 uid="uid://ctspb3gb544rh"]
+[gd_scene load_steps=10 format=4 uid="uid://ctspb3gb544rh"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_cc5tm"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_mj76i"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_mdw0g"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="4_naavy"]
+[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="6_mj76i"]
 [ext_resource type="PackedScene" uid="uid://cm6dmsfr1kg5i" path="res://goal.tscn" id="6_qi51e"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="7_lw0yu"]
 [ext_resource type="PackedScene" uid="uid://inpxx0ab8od2" path="res://spike.tscn" id="8_mj76i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mdw0g"]
+resource_local_to_scene = true
+shader = ExtResource("6_mj76i")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Door" parent="." instance=ExtResource("1_cc5tm")]
 position = Vector2(-30, 162)
-LifeTime = 560
+LifeTime = 440
 
 [node name="LevelTiles" parent="." instance=ExtResource("2_mj76i")]
 position = Vector2(24, -72)
@@ -26,6 +33,7 @@ position = Vector2(320, 108)
 
 [node name="Crate" parent="." instance=ExtResource("4_naavy")]
 position = Vector2(159, 180)
+CanvasMaterial = SubResource("ShaderMaterial_mdw0g")
 
 [node name="Spike3" parent="." instance=ExtResource("8_mj76i")]
 position = Vector2(357, 180)

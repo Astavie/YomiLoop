@@ -40,6 +40,7 @@ public partial class Goal : Thing
 
     private void OnRoboEntered(Robo robo)
     {
+        if (robo.IsFrozen && !robo.PastSelf) return;
         if (robo.IsFrozen)
         {
             robo.IsFrozen = false;

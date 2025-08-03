@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://bfj45ghbmpx4l"]
+[gd_scene load_steps=41 format=3 uid="uid://bfj45ghbmpx4l"]
 
 [ext_resource type="Script" uid="uid://d0uai8t4wwwya" path="res://scripts/ControlUI.cs" id="1_bd2vw"]
 [ext_resource type="Texture2D" uid="uid://bxgkq2ip3eolv" path="res://assets/ui/perform.png" id="1_w7rrd"]
@@ -30,14 +30,10 @@
 [ext_resource type="Texture2D" uid="uid://d15i5gd5ecupb" path="res://assets/ui/hover/hover3.png" id="20_jihhr"]
 [ext_resource type="Texture2D" uid="uid://cd7csjqit7m8t" path="res://assets/ui/hover/hover4.png" id="21_kui8s"]
 [ext_resource type="Script" uid="uid://cfk3xgswfx77e" path="res://scripts/TimeLeft.cs" id="29_1q3sf"]
-[ext_resource type="Texture2D" uid="uid://blls2cqtghmj8" path="res://assets/ui/time/time1.png" id="30_5j60u"]
-[ext_resource type="Texture2D" uid="uid://b8wervkdeivg7" path="res://assets/ui/time/time2.png" id="31_w8ai5"]
-[ext_resource type="Texture2D" uid="uid://bdixf7bonich5" path="res://assets/ui/time/time3.png" id="32_add7k"]
-[ext_resource type="Texture2D" uid="uid://dd1t2b3i33mvp" path="res://assets/ui/time/time4.png" id="33_4cpmv"]
-[ext_resource type="Texture2D" uid="uid://c6i2f45o0kgmd" path="res://assets/ui/time/time5.png" id="34_urnk1"]
 [ext_resource type="Theme" uid="uid://c5rg43posc4g6" path="res://theme.tres" id="36_w8ai5"]
 [ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="37_add7k"]
 [ext_resource type="FontFile" uid="uid://cr7o85dq0baty" path="res://assets/fonts/Kenney Pixel.ttf" id="38_4cpmv"]
+[ext_resource type="FontFile" uid="uid://cuuld15ofm05y" path="res://assets/fonts/Kenney Future.ttf" id="39_urnk1"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6naa"]
 
@@ -412,20 +408,6 @@ script = ExtResource("3_8uxlj")
 Label = "[Num3]"
 Key2 = 4194441
 
-[node name="VSeparator3" type="VSeparator" parent="PanelContainer/Buttons"]
-layout_mode = 2
-theme_override_constants/separation = 11
-theme_override_styles/separator = SubResource("StyleBoxEmpty_lmmbu")
-
-[node name="TimeLeft" type="TextureRect" parent="PanelContainer/Buttons"]
-layout_mode = 2
-script = ExtResource("29_1q3sf")
-Full = ExtResource("30_5j60u")
-ThreeQuarters = ExtResource("31_w8ai5")
-Half = ExtResource("32_add7k")
-Quarter = ExtResource("33_4cpmv")
-Empty = ExtResource("34_urnk1")
-
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
 offset_left = 10.0
@@ -454,6 +436,57 @@ offset_bottom = 241.0
 theme = ExtResource("37_add7k")
 theme_override_fonts/font = ExtResource("38_4cpmv")
 text = "Next Level"
+
+[node name="TimeLeft" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("29_1q3sf")
+
+[node name="Time2" type="Label" parent="TimeLeft"]
+offset_left = -3.0
+offset_top = 26.0
+offset_right = 477.0
+offset_bottom = 62.0
+theme = ExtResource("37_add7k")
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("39_urnk1")
+text = "Time"
+horizontal_alignment = 1
+
+[node name="Time" type="Label" parent="TimeLeft"]
+offset_top = 41.0
+offset_right = 480.0
+offset_bottom = 77.0
+theme = ExtResource("37_add7k")
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("39_urnk1")
+theme_override_font_sizes/font_size = 32
+text = "18"
+horizontal_alignment = 1
+
+[node name="MustLoop" type="Control" parent="TimeLeft"]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label2" type="Label" parent="TimeLeft/MustLoop"]
+offset_top = 79.0
+offset_right = 480.0
+offset_bottom = 102.0
+theme = ExtResource("37_add7k")
+text = "your only move is"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="TimeLeft/MustLoop"]
+offset_top = 93.0
+offset_right = 480.0
+offset_bottom = 129.0
+theme = ExtResource("37_add7k")
+theme_override_font_sizes/font_size = 32
+text = "LOOP"
+horizontal_alignment = 1
 
 [connection signal="Used" from="PanelContainer/Buttons/Throw" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_button_pressed"]
 [connection signal="pressed" from="PanelContainer/Buttons/Throw/PopupPanel/Container/Close" to="PanelContainer/Buttons/Throw/PopupPanel" method="_on_close_pressed"]
