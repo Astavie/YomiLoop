@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cdro4asydgc3a" path="res://assets/platform.png" id="2_s8bxr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_omn1t"]
-size = Vector2(71, 18)
+size = Vector2(71, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8bxr"]
 size = Vector2(71, 18)
@@ -46,7 +46,7 @@ CollidesObjects = false
 Grabbable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -9)
+position = Vector2(0, -8.5)
 shape = SubResource("RectangleShape2D_omn1t")
 
 [node name="OneWay" type="StaticBody2D" parent="."]

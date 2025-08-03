@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=4 uid="uid://cxc52wrjwfte2"]
+
+[ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_njina"]
+[ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_mub31"]
+[ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_ln8rm"]
+[ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_a5bpx"]
+[ext_resource type="PackedScene" uid="uid://coge0vk4srkme" path="res://platform.tscn" id="5_dscan"]
+[ext_resource type="PackedScene" uid="uid://cm6dmsfr1kg5i" path="res://goal.tscn" id="6_dtagf"]
+[ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="7_ti5b6"]
+[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="8_l7rxp"]
+[ext_resource type="PackedScene" uid="uid://deqmiinqkvymo" path="res://button.tscn" id="9_k5ivc"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4egkl"]
+resource_local_to_scene = true
+shader = ExtResource("8_l7rxp")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
+[node name="Level" type="Node2D"]
+
+[node name="Door" parent="." instance=ExtResource("1_njina")]
+position = Vector2(-30, 144)
+LifeTime = 540
+
+[node name="LevelTiles" parent="." instance=ExtResource("2_mub31")]
+position = Vector2(6, -72)
+tile_map_data = PackedByteArray("AAD+/wwAAAABAAEAAAD+/w0AAAABAAIAAAD+/w4AAAABAAIAAAD//wwAAAACAAEAAAD//w0AAAACAAIAAAD//w4AAAACAAIAAAD//w8AAAACAAIAAAAAAAwAAAACAAEAAAAAAA0AAAACAAIAAAAAAA4AAAACAAIAAAAAAA8AAAACAAIAAAAAABAAAAACAAIAAAAAABEAAAACAAIAAAAAABIAAAACAAIAAAAAABMAAAACAAIAAAAAABQAAAACAAIAAAABAAwAAAACAAEAAAABAA0AAAACAAIAAAABAA4AAAACAAIAAAABAA8AAAACAAIAAAABABAAAAACAAIAAAABABEAAAACAAIAAAABABIAAAACAAIAAAABABMAAAACAAIAAAABABQAAAACAAIAAAACAAwAAAACAAEAAAACAA0AAAACAAIAAAACAA4AAAACAAIAAAACAA8AAAACAAIAAAACABAAAAACAAIAAAACABEAAAACAAIAAAACABIAAAACAAIAAAACABMAAAACAAIAAAACABQAAAACAAIAAAADAAwAAAACAAEAAAADAA0AAAACAAIAAAADAA4AAAACAAIAAAADAA8AAAACAAIAAAADABAAAAACAAIAAAADABEAAAACAAIAAAADABIAAAACAAIAAAADABMAAAACAAIAAAADABQAAAACAAIAAAAEAAwAAAADAAEAAAD+/w8AAAABAAMAAAAAABUAAAACAAMAAAABABUAAAACAAMAAAACABUAAAACAAMAAAADABUAAAACAAMAAAAEAA0AAAADAAIAAAAEAA4AAAADAAIAAAAEAA8AAAADAAIAAAAEABAAAAADAAIAAAAEABEAAAADAAIAAAAEABIAAAADAAIAAAAEABMAAAADAAIAAAAEABQAAAADAAIAAAAEABUAAAADAAMAAAAFAA0ABAAAAAAAAAD//xUAAAABAAMAAAD//xQAAAABAAIAAAD//xMAAAABAAIAAAD//xIAAAABAAIAAAD//xEAAAABAAIAAAD//xAAAAABAAIAAAAPAAwAAAADAAEAAAAPAA0AAAADAAIAAAAPAA4AAAADAAIAAAAPAA8AAAADAAIAAAAPABAAAAADAAIAAAAPABEAAAADAAIAAAAPABIAAAADAAIAAAAPABMAAAADAAIAAAAPABQAAAADAAIAAAAPABUAAAADAAMAAAANAAwAAAABAAEAAAANAA0AAAABAAIAAAANAA4AAAABAAIAAAANAA8AAAABAAIAAAANABAAAAABAAIAAAANABEAAAABAAIAAAANABIAAAABAAIAAAANABMAAAABAAIAAAANABQAAAABAAIAAAANABUAAAABAAMAAAAOAAwAAAACAAEAAAAOAA0AAAACAAIAAAAOAA4AAAACAAIAAAAOAA8AAAACAAIAAAAOABAAAAACAAIAAAAOABEAAAACAAIAAAAOABIAAAACAAIAAAAOABMAAAACAAIAAAAOABQAAAACAAIAAAAOABUAAAACAAMAAAD6/wcAAwAEAAYAAAD6/wgAAwAEAAgAAAD7/wcAAwAEAAYAAAD7/wgAAwAEAAgAAAD8/wcAAwAEAAYAAAD8/wgAAwAEAAgAAAD9/wcAAwAEAAYAAAD9/wgAAwAEAAgAAAD+/wcAAwAFAAYAAAD+/wgAAwAFAAgAAAD//wcABAABAAAAAAAAAAcABAADAAAAAAAEAAcABAADAAAAAAD5/wcAAwAEAAYAAAD5/wgAAwAEAAgAAAADAAcABAABAAAAAAAEAAYABAAAAAAAAAA=")
+
+[node name="ControlUI" parent="." instance=ExtResource("3_ln8rm")]
+unique_name_in_owner = true
+EnableHover = true
+
+[node name="Background" parent="." instance=ExtResource("4_a5bpx")]
+position = Vector2(320, 108)
+
+[node name="Platform" parent="." instance=ExtResource("5_dscan")]
+position = Vector2(150, 162)
+Movement = -18.0
+Speed = 13.5
+Active = true
+
+[node name="Goal" parent="." instance=ExtResource("6_dtagf")]
+position = Vector2(42, 36)
+
+[node name="Platform2" parent="." instance=ExtResource("5_dscan")]
+position = Vector2(42, 54)
+Movement = -72.0
+Speed = 128.0
+
+[node name="Crate" parent="." instance=ExtResource("7_ti5b6")]
+position = Vector2(268, 144)
+CanvasMaterial = SubResource("ShaderMaterial_4egkl")
+
+[node name="Button" parent="." instance=ExtResource("9_k5ivc")]
+position = Vector2(24, 144)
+connected = [NodePath("../Platform2")]
+
+[node name="Button2" parent="." instance=ExtResource("9_k5ivc")]
+position = Vector2(267, 144)
+connected = [NodePath("../Platform")]

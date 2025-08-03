@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://dhqqyn6rmp2rk"]
+[gd_scene load_steps=11 format=4 uid="uid://dhqqyn6rmp2rk"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_py88r"]
 [ext_resource type="PackedScene" uid="uid://bs4sq2kqrij5h" path="res://levels/level3.tscn" id="2_76ugp"]
@@ -6,7 +6,20 @@
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_s1bpp"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_76ugp"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="5_g1dg4"]
+[ext_resource type="Shader" uid="uid://281ef1201g1m" path="res://outline.gdshader" id="7_e8p81"]
 [ext_resource type="PackedScene" uid="uid://cm6dmsfr1kg5i" path="res://goal.tscn" id="8_crte6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_55gdq"]
+resource_local_to_scene = true
+shader = ExtResource("7_e8p81")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crte6"]
+resource_local_to_scene = true
+shader = ExtResource("7_e8p81")
+shader_parameter/line_colour = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 0
 
 [node name="Level" type="Node2D"]
 
@@ -28,9 +41,11 @@ position = Vector2(320, 108)
 
 [node name="Crate" parent="." instance=ExtResource("5_g1dg4")]
 position = Vector2(141, 180)
+CanvasMaterial = SubResource("ShaderMaterial_55gdq")
 
 [node name="Crate2" parent="." instance=ExtResource("5_g1dg4")]
 position = Vector2(339, 198)
+CanvasMaterial = SubResource("ShaderMaterial_crte6")
 
 [node name="Goal" parent="." instance=ExtResource("8_crte6")]
 position = Vector2(411, 162)

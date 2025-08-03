@@ -25,7 +25,7 @@ public partial class Platform : Crate, IActivatable
         sprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         _initialX = GlobalPosition.X;
         _initialActive = Active;
-        if (Active)
+        if (Active && !IsPreview)
         {
             Position = new Vector2(Position.X + Movement, Position.Y);
         }
@@ -35,7 +35,7 @@ public partial class Platform : Crate, IActivatable
     {
         base.Reset(parent);
         Active = ((Platform)parent)?.Active ?? _initialActive;
-        if (Active)
+        if (Active && !IsPreview)
         {
             Position = new Vector2(Position.X + Movement, Position.Y);
         }
