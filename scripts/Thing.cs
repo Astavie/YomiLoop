@@ -94,9 +94,19 @@ public partial class Thing : CharacterBody2D
 
     public virtual void Reset([MaybeNull] Thing parent)
     {
+        // ""Manually"" set the IsOnFloor flag
+        if (parent is not null && parent.IsOnFloor())
+            GlobalPosition = parent.GetParent<Node2D>().ToGlobal(parent._initialTransform.Origin);
+        else
+            GlobalPosition = new(0, -100);
+        Velocity = new(0, Gravity);
+        MoveAndSlide();
+        // End of scuffed IsOnFloor flag setting
+        
         Transform = _initialTransform;
-        Modulate = _initialModulate;
         Velocity = parent?.Velocity ?? Vector2.Zero;
+        
+        Modulate = _initialModulate;
         IsGrabbed = parent?.IsGrabbed ?? false;
         IsFrozen = parent?.IsFrozen ?? false;
     }
