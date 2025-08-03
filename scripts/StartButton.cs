@@ -1,9 +1,8 @@
 using Godot;
 using System;
 
-public partial class StartButton : Godot.Button
-{    [Export]
-    public PackedScene FirstLevel { get; set; }
+public partial class StartButton : Godot.Button {
+    public PackedScene FirstLevel => GD.Load<PackedScene>("res://levels/level1.tscn");
 
     public override void _Ready()
     {

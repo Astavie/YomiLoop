@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://dgs076iqu6bw1"]
+[gd_scene load_steps=8 format=4 uid="uid://dgs076iqu6bw1"]
 
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="1_beduj"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="2_wabui"]
@@ -6,7 +6,6 @@
 [ext_resource type="Shader" uid="uid://ccax67xr74503" path="res://robo.gdshader" id="4_0xf44"]
 [ext_resource type="Theme" uid="uid://d3uj770o15k5m" path="res://titletheme.tres" id="5_qhmma"]
 [ext_resource type="Script" uid="uid://ccujk375qv77b" path="res://scripts/StartButton.cs" id="6_ypq80"]
-[ext_resource type="PackedScene" uid="uid://rvip1py4xe4u" path="res://levels/level1.tscn" id="7_3gs2s"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nrnbx"]
 resource_local_to_scene = true
@@ -60,4 +59,3 @@ theme_override_constants/outline_size = 0
 theme_override_font_sizes/font_size = 32
 text = " Loop"
 script = ExtResource("6_ypq80")
-FirstLevel = ExtResource("7_3gs2s")

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="1_b3oru"]
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_ua5ty"]
-[ext_resource type="PackedScene" uid="uid://dhqqyn6rmp2rk" path="res://levels/level2.tscn" id="2_omn1t"]
+[ext_resource type="PackedScene" uid="uid://dhqqyn6rmp2rk" path="res://levels/level2.tscn" id="2_yydhl"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="4_ua5ty"]
 [ext_resource type="PackedScene" uid="uid://d01caaj6mstmd" path="res://crate.tscn" id="5_61w3m"]
 [ext_resource type="PackedScene" uid="uid://cm6dmsfr1kg5i" path="res://goal.tscn" id="6_8hd6v"]
@@ -22,7 +22,7 @@ shader_parameter/line_thickness = 0
 
 [node name="Door" parent="." instance=ExtResource("1_ua5ty")]
 position = Vector2(-30, 162)
-NextLevel = ExtResource("2_omn1t")
+NextLevel = ExtResource("2_yydhl")
 LifeTime = 99999
 
 [node name="LevelTiles" parent="." instance=ExtResource("1_b3oru")]
