@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=4 uid="uid://bmyrdffkesr5w"]
+[gd_scene load_steps=9 format=4 uid="uid://bmyrdffkesr5w"]
 
 [ext_resource type="PackedScene" uid="uid://c31c45atmsj6b" path="res://door.tscn" id="1_xv7ha"]
 [ext_resource type="PackedScene" uid="uid://b3gapqcjoivkn" path="res://level_tiles.tscn" id="2_2m85t"]
+[ext_resource type="PackedScene" uid="uid://ehagfhqxs18" path="res://levels/level8b.tscn" id="2_taafh"]
 [ext_resource type="PackedScene" uid="uid://bfj45ghbmpx4l" path="res://control_ui.tscn" id="3_3emuh"]
 [ext_resource type="PackedScene" uid="uid://bjvah6ejy62ee" path="res://background.tscn" id="4_gv1aa"]
 [ext_resource type="PackedScene" uid="uid://inpxx0ab8od2" path="res://spike.tscn" id="5_2m85t"]
@@ -12,6 +13,7 @@
 
 [node name="Door" parent="." instance=ExtResource("1_xv7ha")]
 position = Vector2(-30, 216)
+NextLevel = ExtResource("2_taafh")
 LifeTime = 360
 
 [node name="LevelTiles" parent="." instance=ExtResource("2_2m85t")]
