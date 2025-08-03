@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://oq2530uxky7i" path="res://assets/robo/robo_transform.png" id="4_45lv5"]
 [ext_resource type="AudioStream" uid="uid://x1veg17f6kmw" path="res://assets/sound/rocket.ogg" id="5_cs0dw"]
 [ext_resource type="Texture2D" uid="uid://fggw5muefdpd" path="res://assets/robo/face_normal.png" id="5_s7t8c"]
-[ext_resource type="AudioStream" uid="uid://87skgjq3f54h" path="res://assets/sound/winner.wav" id="6_08be0"]
+[ext_resource type="AudioStream" uid="uid://qgrup7wk4xxd" path="res://assets/sound/winner.ogg" id="6_08be0"]
 [ext_resource type="Texture2D" uid="uid://usoqllgfs8hl" path="res://assets/robo/face_right.png" id="6_aevwq"]
 [ext_resource type="Texture2D" uid="uid://csdnjwwlklt2w" path="res://assets/robo/face_left.png" id="7_k142k"]
 [ext_resource type="Texture2D" uid="uid://cycdmfbysn1jr" path="res://assets/robo/face_hurt.png" id="8_fb6yg"]
@@ -3247,4 +3247,3 @@ width = 3.0
 antialiased = true
 
 [node name="AudioPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -12.0

@@ -447,6 +447,7 @@ offset_bottom = 40.0
 script = ExtResource("29_1q3sf")
 
 [node name="Time2" type="Label" parent="TimeLeft"]
+layout_mode = 0
 offset_left = -3.0
 offset_top = 26.0
 offset_right = 477.0
@@ -458,6 +459,7 @@ text = "Time"
 horizontal_alignment = 1
 
 [node name="Time" type="Label" parent="TimeLeft"]
+layout_mode = 0
 offset_top = 41.0
 offset_right = 480.0
 offset_bottom = 77.0
@@ -475,6 +477,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Label2" type="Label" parent="TimeLeft/MustLoop"]
+layout_mode = 0
 offset_top = 79.0
 offset_right = 480.0
 offset_bottom = 102.0
@@ -483,6 +486,7 @@ text = "your only move is"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="TimeLeft/MustLoop"]
+layout_mode = 0
 offset_top = 93.0
 offset_right = 480.0
 offset_bottom = 129.0

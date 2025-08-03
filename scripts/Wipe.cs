@@ -18,6 +18,8 @@ public partial class Wipe : Node2D
 
     public void DoWipe(Action callback, bool playSound = false)
     {
+        if (GetNode<AnimationPlayer>("AnimationPlayer").IsPlaying()) return;
+        
         if (playSound)
         {
             GetNode<AudioStreamPlayer>("AudioPlayer").Play();

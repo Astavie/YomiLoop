@@ -300,9 +300,12 @@ public partial class Robo : Thing
                     music.Play("FADE");
                     AudioStream victorySound = o.VictorySound;
                     o.PlaySound(victorySound);
+                    
                     var timer = o.GetTree().CreateTimer(victorySound.GetLength() - 0.8);
-                    timer.Timeout += () => {
+                    timer.Timeout += () =>
+                    {
                         music.PlayBackwards("FADE");
+                        if (!IsInstanceValid(o)) return;
                         o.physics.GoalAction(goal, o);
                     };
 
